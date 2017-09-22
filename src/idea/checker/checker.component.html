@@ -1,6 +1,7 @@
 <ion-header>
   <ion-toolbar color="dark">
-    <ion-searchbar (ionInput)="filter($event)" placeholder="{{ title }}" [(ngModel)]="searchQuery"></ion-searchbar>
+    <ion-searchbar (ionInput)="filter($event)" placeholder="{{ title }}" 
+      [(ngModel)]="searchQuery"></ion-searchbar>
     <ion-buttons start>
       <button ion-button icon-only (click)="checkAll(false)">
         <ion-icon name="square-outline"></ion-icon>

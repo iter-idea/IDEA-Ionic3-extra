@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
 
-import { TestComponent } from '../components/test.component';
+import { TestComponent } from '../test.component';
 
 @Component({
   template: `

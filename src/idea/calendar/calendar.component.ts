@@ -4,7 +4,7 @@ import { NavParams, ViewController } from 'ionic-angular';
 
 @Component({
   selector: 'IDEACalendarComponent',
-  templateUrl: 'IDEACalendar.component.html',
+  templateUrl: 'calendar.component.html',
   providers: [ DatePipe ]
 })
 export class IDEACalendarComponent {

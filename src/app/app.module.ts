@@ -3,14 +3,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 
 import { MyApp } from './app.component';
-import { TestComponent } from '../components/test.component';
+import { TestComponent } from '../test.component';
 
-import { IDEAMessageService } from '../services/ideaMessage.service';
-import { IDEALoadingService } from '../services/ideaLoading.service';
+import { IDEAMessageService } from '../idea/message.service';
+import { IDEALoadingService } from '../idea/loading.service';
 
-import { IDEACheckerComponent } from '../components/IDEAChecker/IDEAChecker.component';
-import { IDEACalendarComponent } from '../components/IDEACalendar/IDEACalendar.component';
-import { IDEADateTimeComponent } from '../components/IDEACalendar/IDEADateTime.component';
+import { IDEACheckerComponent } from '../idea/checker/checker.component';
+import { IDEACalendarComponent } from '../idea/calendar/calendar.component';
+import { IDEADateTimeComponent } from '../idea/calendar/dateTime.component';
 
 @NgModule({
   declarations: [

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ModalController } from 'ionic-angular';
 
-import { IDEACalendarComponent } from './IDEACalendar.component'
+import { IDEACalendarComponent } from './calendar.component'
 
 @Component({
   selector: 'idea-datetime',

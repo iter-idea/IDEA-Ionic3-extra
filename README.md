@@ -1,13 +1,7 @@
 # IDEA Ionic extra
-IDEA's extra components and services built on Ionic
+IDEA's extra components and services built on Ionic.
 
-## Installation
-`npm install idea-ionic-extra`
+**To use** by importing the released package in the components folder of the desired project.  
+Since it's (it should be) a read-only folder, you can safely copy/paste **updated versions**.
 
-## Release a new version on npm
-1. Commit the changes on GitHub 
-1. Update the versions (find and replace, e.g. 0.0.1 -> 0.0.2)
-1. Release the new version on npm with `npm publish`
-
-## References
-- https://medium.com/@jdaudier/how-to-create-and-publish-your-first-node-js-module-444e7585b738
+*In the future* it can be thought as an npm package, so far it doesn't look doingable.
