@@ -1,0 +1,41 @@
+IDEACalendarComponent {
+  .cal {
+    background-color: white;
+    ion-col {
+      padding: 0px;
+    }
+    @media only screen and (max-width: 576px) {
+      .calHeader ion-col {
+        font-size: 1.5rem;
+      }
+      .button {
+        padding: 10px;
+        font-size: 1.5rem;
+      }
+    }
+  }
+  .calHeader {
+    font-weight: 600;
+    ion-col {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      font-size: 1.8rem;
+    }
+  }
+  .button {
+    color: #444;
+    font-weight: normal;
+    font-size: 1.8rem;
+  }
+  .notInThisMonth {
+    color: #AAA;
+  }
+  .today {
+    border: 1px solid color($colors, primary);
+    border-radius: 20px;
+  }
+  .selected {
+    background-color: color($colors, primary);
+    color: white;
+  }
+}

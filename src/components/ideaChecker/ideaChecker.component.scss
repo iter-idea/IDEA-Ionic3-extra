@@ -1,0 +1,10 @@
+IDEACheckerComponent {
+  .bar-button-default:hover {
+    color: color($colors, primary) !important;
+  }
+  .elementsList {
+    ion-item {
+      background-color: white;
+    }
+  }
+}
