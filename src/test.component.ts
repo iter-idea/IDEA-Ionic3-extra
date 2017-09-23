@@ -38,12 +38,16 @@ export class TestComponent {
     this.loading.show();
     setTimeout(() => { this.loading.hide() }, 1000);
   // IDEACheckER COMPONENT
-    let IDEAChecks = [
-      { id: 'ITA', value: 'Italian', checked: false },
-      { id: 'ENG', value: 'English', checked: true }
+    let checks = [
+      { id: 'UKR', value: 'Ukrianian', checked: true, hidden: false },
+      { id: 'ITA', value: 'Italian', checked: false, hidden: false },
+      { id: 'ENG', value: 'English', checked: true, hidden: false },
+      { id: 'ESP', value: 'Spanish', checked: false, hidden: true },
+      { id: 'FRA', value: 'French', checked: false, hidden: true },
+      { id: 'GER', value: 'German', checked: false, hidden: false }
     ];
     this.modalCtrl
-    .create(IDEACheckerComponent, { title: 'Languages', IDEAChecks: IDEAChecks })
+    .create(IDEACheckerComponent, { title: 'Languages', checks: checks })
     //.present();
   // IDEACalendar COMPONENT
     let modal = this.modalCtrl.create(IDEACalendarComponent, { refDate: new Date() });

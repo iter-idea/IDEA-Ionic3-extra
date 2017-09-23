@@ -9,8 +9,8 @@ import { IDEACheck } from './check.model';
 })
 export class IDEACheckerComponent {
   private title: string;
-  private IDEAChecks: IDEACheck[];
-  private filteredIDEAChecks: IDEACheck[];
+  private checks: IDEACheck[];
+  private filteredChecks: IDEACheck[];
   private searchQuery: string;
   private N_PER_PAGE: number = 30;
   private page: number;
@@ -19,25 +19,33 @@ export class IDEACheckerComponent {
     private params: NavParams,
     private viewCtrl: ViewController
   ) {
-    this.title = params.get('title') ? params.get('title') : 'Cerca';
-    this.IDEAChecks = <Array<IDEACheck>> params.get('IDEAChecks');
-    this.filteredIDEAChecks = new Array<IDEACheck>();
-    this.searchQuery = '';
+    this.title = this.params.get('title') || 'Search';
+    this.checks = <Array<IDEACheck>> this.params.get('checks');
+    this.filteredChecks = new Array<IDEACheck>();
   }
   ionViewWillEnter() {
+    this.clear();
+  }
+
+  private clear(): void {
     this.searchQuery = '';
     this.page = 1;
     this.search();
   }
-
-  public checkAll(check: boolean): void {
-    this.IDEAChecks.forEach(el => el.checked = check);
-  }
   private search(toSearch?: string): void {
     toSearch = (toSearch) ? toSearch.toLowerCase() : '';
-    this.filteredIDEAChecks = (this.IDEAChecks.filter((el) =>
-      el.value.toLowerCase().indexOf(toSearch) > -1 ))
-    .sort((a, b) => { return (a.checked === b.checked)? 0 : a.checked? -1 : 1 })
+    this.filteredChecks = this.checks
+    .filter(el => el.value.toLowerCase().includes(toSearch))
+    .sort((a, b) => {
+      // order by checked, visible, value
+      if(a.checked && !b.checked) return -1;
+      else if(b.checked && !a.checked) return 1;
+      else {
+        if(a.hidden && !b.hidden) return 1;
+        else if(b.hidden && !a.hidden) return -1;
+        else return a.value.localeCompare(b.value);
+      }
+    })
     .slice(0, this.page * this.N_PER_PAGE);
   }
   public filter(ev?: any): void {
@@ -45,12 +53,15 @@ export class IDEACheckerComponent {
     // take the value of the searchbar (if there's any) and search
     this.search((ev.target.value) ? ev.target.value : '');
   }
-  public doInfinite(infiniteScroll): void {
+  public doInfinite(infiniteScroll: any): void {
     setTimeout(() => {
       this.page += 1;
       this.search(this.searchQuery);
       infiniteScroll.complete();
     }, 500); // the timeout is needed
+  }
+  public checkAll(check: boolean): void {
+    this.checks.forEach(el => el.checked = check);
   }
   public close(): void {
     this.viewCtrl.dismiss();

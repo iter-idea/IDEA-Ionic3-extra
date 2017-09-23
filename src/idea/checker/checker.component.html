@@ -19,7 +19,7 @@
 </ion-header>
 <ion-content>
   <ion-list class="elementsList">
-    <ion-item *ngFor="let el of filteredIDEAChecks">
+    <ion-item *ngFor="let el of filteredChecks" [class.hidden]="el.hidden">
       <ion-label>{{ el.value }}</ion-label>
       <ion-checkbox [(ngModel)]="el.checked"></ion-checkbox>
     </ion-item>
