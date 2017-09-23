@@ -10,13 +10,13 @@ import { IDEALoadingService } from '../idea/loading.service';
 
 import { IDEACheckerComponent } from '../idea/checker/checker.component';
 import { IDEACalendarComponent } from '../idea/calendar/calendar.component';
-import { IDEADateTimeComponent } from '../idea/calendar/dateTime.component';
+import { IDEADatetimeComponent } from '../idea/calendar/datetime.component';
 
 @NgModule({
   declarations: [
     MyApp, TestComponent,
     IDEACheckerComponent,
-    IDEACalendarComponent, IDEADateTimeComponent
+    IDEACalendarComponent, IDEADatetimeComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +26,7 @@ import { IDEADateTimeComponent } from '../idea/calendar/dateTime.component';
   entryComponents: [
     MyApp, TestComponent,
     IDEACheckerComponent,
-    IDEACalendarComponent, IDEADateTimeComponent
+    IDEACalendarComponent, IDEADatetimeComponent
   ],
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler },

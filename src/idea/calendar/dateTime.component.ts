@@ -25,7 +25,7 @@ import { IDEACalendarComponent } from './calendar.component'
 /**
  * Note: two modes; contributor (single, userView); administrator (multiple views)
  */
-export class IDEADateTimeComponent {
+export class IDEADatetimeComponent {
   @Input() label: String;
   @Input() labelType: String;
   @Input() date: Date;

@@ -6,7 +6,7 @@ import { IDEALoadingService } from './idea/loading.service';
 
 import { IDEACheckerComponent } from './idea/checker/checker.component';
 import { IDEACalendarComponent } from './idea/calendar/calendar.component';
-import { IDEADateTimeComponent } from './idea/calendar/dateTime.component';
+import { IDEADatetimeComponent } from './idea/calendar/datetime.component';
 
 @Component({
   template: `
@@ -17,7 +17,7 @@ import { IDEADateTimeComponent } from './idea/calendar/dateTime.component';
       </p>
     </ion-content>
   `,
-  entryComponents: [ IDEADateTimeComponent ]
+  entryComponents: [ IDEADatetimeComponent ]
 })
 export class TestComponent {
   private aDate: Date;
