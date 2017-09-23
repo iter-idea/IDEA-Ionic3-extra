@@ -1,0 +1,70 @@
+<ion-content>
+  <div *ngIf="mode=='R'">
+    <form (ngSubmit)="forgotPassword()">
+      <ion-card class="theCard">
+        <div class="theTitle">
+          <span ion-text color="primary">Password reset</span>
+        </div>
+        <div class="theText">
+          Type in your email to request a password reset
+        </div>
+        <ion-list>
+          <ion-item>
+            <ion-label inline>Email</ion-label>
+            <ion-input type="text" autocorrect="off" autocapitalize="none" 
+              [(ngModel)]="email" [ngModelOptions]="{standalone: true}"></ion-input>
+          </ion-item>
+          <ion-item>
+            <button ion-button default full>Reset my password</button>
+          </ion-item>
+        </ion-list>
+         <div class="theInfo">
+           <a ion-text href="#" (click)="mode = 'C'" color="primary">I already have a reset code</a>
+        </div>
+        <div class="theInfo">
+          <a ion-text href="#" (click)="goToLogin()" color="primary">Back to sign in</a>
+        </div>
+      </ion-card>
+    </form>
+  </div>
+  <div *ngIf="mode=='C'">
+    <form (ngSubmit)="confirmPassword()">
+      <ion-card class="theCard">
+        <div class="theTitle">
+          <span ion-text color="primary">Change the password</span>
+        </div>
+        <div class="theText">
+          <i>Note: the password should consist of 8 characters or more</i>
+        </div>
+        <ion-list>
+          <ion-item>
+            <ion-label inline>Email</ion-label>
+            <ion-input type="text" autocorrect="off" autocapitalize="none" 
+              [(ngModel)]="email" [ngModelOptions]="{standalone: true}"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label inline>Reset code</ion-label>
+            <ion-input type="text" [(ngModel)]="code" 
+              [ngModelOptions]="{standalone: true}"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label inline>New password</ion-label>
+            <ion-input type="password" [(ngModel)]="newPassword" 
+              [ngModelOptions]="{standalone: true}"></ion-input>
+          </ion-item>
+          <ion-item>
+            <button ion-button default full>Change my password</button>
+          </ion-item>
+        </ion-list>
+        <div class="theInfo">
+          <a ion-text href="#" (click)="mode = 'R'" color="primary">
+            I haven't received a reset code
+          </a>
+        </div>
+        <div class="theInfo">
+          <a ion-text href="#" (click)="goToLogin()" color="primary">Back to sign in</a>
+        </div>
+      </ion-card>
+    </form>
+  </div>
+</ion-content>

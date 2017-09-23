@@ -1,0 +1,45 @@
+<ion-content>
+  <form (ngSubmit)="login()">
+    <ion-card class="theCard">
+      <img src="assets/icons/icon.png" class="theLogo">
+      <div class="theTitle">
+        <span ion-text color="primary">{{ IDEA_APP_TITLE }}</span>
+      </div>
+      <div class="theText">
+        {{ IDEA_APP_TAGLINE }}
+      </div>
+      <ion-list>
+        <ion-item>
+          <ion-label inline>Username</ion-label>
+          <ion-input type="text" autocorrect="off" autocapitalize="none"
+            [(ngModel)]="username" [ngModelOptions]="{standalone: true}"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label inline>Password</ion-label>
+          <ion-input type="password"
+            [(ngModel)]="password" [ngModelOptions]="{standalone: true}"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <button ion-button default full>Sign in</button>
+        </ion-item>
+      </ion-list>
+      <div class="theInfo">
+        <a ion-text href="#" (click)="goToForgotPassword()" color="primary">
+          Did you forget your password?
+        </a>
+      </div>
+      <div class="theInfo">
+        <a ion-text href="{{ IDEA_APP_WEBSITE }}" target="_blank" color="secondary">
+          Discover more
+        </a>
+      </div>
+      <div class="theInfo">
+        <a href="https://www.iter-idea.com" target="_blank">
+          <img src="/assets/icons/idea.png" class="logoIdea">
+        </a>
+      </div>
+    </ion-card>
+  </form>
+</ion-content>
