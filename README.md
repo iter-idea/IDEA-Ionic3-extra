@@ -1,6 +1,13 @@
 # IDEA Ionic extra
 IDEA's extra components and services built on Ionic.
 
+## Includes
+
+- Loading service
+- Message service
+- Checker component
+- Calendar component (w/ datetime component)
+
 ## How to use
 
 **To use** by importing the released package in the components folder of the desired project.  
