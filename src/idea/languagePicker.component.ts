@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { TranslateService } from 'ng2-translate/ng2-translate';
 
-// from idea-config.js
-declare var IDEA_LANGUAGES: Array<string>;
 // requires two assets folders:
 //   1. flags, containing the pngs of each country's flags
 //   2. i18n, containing the json of each country's translation
@@ -39,7 +37,7 @@ export class IDEALanguagePickerComponent {
   private languages: Array<string>;
 
   constructor(private t: TranslateService, private storage: Storage) {
-    this.languages = IDEA_LANGUAGES;
+    this.languages = t.getLangs();
   }
 
   public changeLanguage(lang: string, fab: any): void {
