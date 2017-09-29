@@ -20,7 +20,7 @@ export class IDEAMessageService {
     switch(type) {
       case this.TYPE_SUCCESS: bgColor = '#4caf50'; break;
       case this.TYPE_WARNING: bgColor = '#FF5722'; break;
-      case this.TYPE_ERROR: bgColor = '#FF5722'; break;
+      case this.TYPE_ERROR: bgColor = '#F44336'; break;
       default: bgColor = '#2e2e2e';
     }
     this.toastCtrl.create({ message: message,

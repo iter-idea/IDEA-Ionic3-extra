@@ -3,26 +3,30 @@
     <form (ngSubmit)="forgotPassword()">
       <ion-card class="theCard">
         <div class="theTitle">
-          <span ion-text color="primary">Password reset</span>
+          <span ion-text color="primary">{{ 'IDEA.AUTH.PASSWORD_RESET' | translate }}</span>
         </div>
         <div class="theText">
-          Type in your email to request a password reset
+          {{ 'IDEA.AUTH.PASSWORD_RESET_HINT' | translate }}
         </div>
         <ion-list>
           <ion-item>
-            <ion-label inline>Email</ion-label>
-            <ion-input type="text" autocorrect="off" autocapitalize="none" 
-              [(ngModel)]="email" [ngModelOptions]="{standalone: true}"></ion-input>
+            <ion-label inline>{{ 'IDEA.AUTH.USERNAME' | translate }}</ion-label>
+            <ion-input type="text" autocorrect="off" autocapitalize="none"
+              [(ngModel)]="username" [ngModelOptions]="{standalone: true}"></ion-input>
           </ion-item>
           <ion-item>
-            <button ion-button default full>Reset my password</button>
+            <button ion-button default full>{{ 'IDEA.AUTH.RESET_MY_PASSWORD' | translate }}</button>
           </ion-item>
         </ion-list>
          <div class="theInfo">
-           <a ion-text href="#" (click)="mode = 'C'" color="primary">I already have a reset code</a>
+           <a ion-text href="#" (click)="mode = 'C'" color="primary">
+            {{ 'IDEA.AUTH.I_ALREADY_HAVE_A_RESET_CODE' | translate }}
+          </a>
         </div>
         <div class="theInfo">
-          <a ion-text href="#" (click)="goToLogin()" color="primary">Back to sign in</a>
+          <a ion-text href="#" (click)="goToLogin()" color="primary">
+            {{ 'IDEA.AUTH.BACK_TO_SIGN_IN' | translate }}
+          </a>
         </div>
       </ion-card>
     </form>
@@ -31,38 +35,42 @@
     <form (ngSubmit)="confirmPassword()">
       <ion-card class="theCard">
         <div class="theTitle">
-          <span ion-text color="primary">Change the password</span>
+          <span ion-text color="primary">{{ 'IDEA.AUTH.CHANGE_THE_PASSWORD' | translate }}</span>
         </div>
         <div class="theText">
-          <i>Note: the password should consist of 8 characters or more</i>
+          <i>{{ 'IDEA.AUTH.CHANGE_THE_PASSWORD_HINT' | translate:{ 'n':8 } }}</i>
         </div>
         <ion-list>
           <ion-item>
-            <ion-label inline>Email</ion-label>
-            <ion-input type="text" autocorrect="off" autocapitalize="none" 
-              [(ngModel)]="email" [ngModelOptions]="{standalone: true}"></ion-input>
+            <ion-label inline>{{ 'IDEA.AUTH.USERNAME' | translate }}</ion-label>
+            <ion-input type="text" autocorrect="off" autocapitalize="none"
+              [(ngModel)]="username" [ngModelOptions]="{standalone: true}"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-label inline>Reset code</ion-label>
-            <ion-input type="text" [(ngModel)]="code" 
+            <ion-label inline>{{ 'IDEA.AUTH.RESET_CODE' | translate }}</ion-label>
+            <ion-input type="text" [(ngModel)]="code"
               [ngModelOptions]="{standalone: true}"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-label inline>New password</ion-label>
-            <ion-input type="password" [(ngModel)]="newPassword" 
+            <ion-label inline>{{ 'IDEA.AUTH.NEW_PASSWORD' | translate }}</ion-label>
+            <ion-input type="password" [(ngModel)]="newPassword"
               [ngModelOptions]="{standalone: true}"></ion-input>
           </ion-item>
           <ion-item>
-            <button ion-button default full>Change my password</button>
+            <button ion-button default full>
+              {{ 'IDEA.AUTH.CHANGE_MY_PASSWORD' | translate }}
+            </button>
           </ion-item>
         </ion-list>
         <div class="theInfo">
           <a ion-text href="#" (click)="mode = 'R'" color="primary">
-            I haven't received a reset code
+            {{ 'IDEA.AUTH.I_HAVEN_T_RECEIVED_A_RESET_CODE' | translate }}
           </a>
         </div>
         <div class="theInfo">
-          <a ion-text href="#" (click)="goToLogin()" color="primary">Back to sign in</a>
+          <a ion-text href="#" (click)="goToLogin()" color="primary">
+            {{ 'IDEA.AUTH.BACK_TO_SIGN_IN' | translate }}
+          </a>
         </div>
       </ion-card>
     </form>

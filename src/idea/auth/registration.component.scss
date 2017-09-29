@@ -1,4 +1,4 @@
-IDEAAuthComponent {
+IDEARegistrationComponent {
   ion-content {
     background-color: white !important;
   }
@@ -12,21 +12,22 @@ IDEAAuthComponent {
       background-color: white;
     }
   }
-  .theLogo {
-    width: 100px;
-    margin: 0 auto;
-    padding: 20px 0;
-  }
   .theTitle {
     text-align: center;
-    margin-bottom: 10px;
+    margin-top: 10px;
     font-size: 2em;
   }
   .theText {
     font-size: 1.1em;
     text-align: center;
-    margin-bottom: 50px;
+    margin: 25px 0;
     color: #777;
+  }
+  .errorMsg {
+    border-radius: 15px;
+    padding: 10px;
+    background-color: #F44336;
+    color: white;
   }
   ion-label {
     text-transform: uppercase;
@@ -35,14 +36,10 @@ IDEAAuthComponent {
     letter-spacing: 1px;
   }
   button {
-    margin-top: 20px !important;
+    margin-top: 40px !important;
   }
   .theInfo {
     margin-top: 20px;
     text-align: center;
-  }
-  .logoIdea {
-    width: 35px;
-    margin: 0 auto;
   }
 }

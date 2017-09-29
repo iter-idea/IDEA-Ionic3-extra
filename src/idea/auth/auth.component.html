@@ -3,39 +3,44 @@
     <ion-card class="theCard">
       <img src="assets/icons/icon.png" class="theLogo">
       <div class="theTitle">
-        <span ion-text color="primary">{{ IDEA_APP_TITLE }}</span>
+        <span ion-text color="primary">{{ title }}</span>
       </div>
-      <div class="theText">
-        {{ IDEA_APP_TAGLINE }}
+      <div class="theText" *ngIf="t.instant('TAGLINE')">
+        {{ 'IDEA.TAGLINE' | translate }}
       </div>
       <ion-list>
         <ion-item>
-          <ion-label inline>Username</ion-label>
+          <ion-label inline>{{ 'IDEA.AUTH.USERNAME' | translate }}</ion-label>
           <ion-input type="text" autocorrect="off" autocapitalize="none"
             [(ngModel)]="username" [ngModelOptions]="{standalone: true}"
           ></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label inline>Password</ion-label>
+          <ion-label inline>{{ 'IDEA.AUTH.PASSWORD' | translate }}</ion-label>
           <ion-input type="password"
             [(ngModel)]="password" [ngModelOptions]="{standalone: true}"
           ></ion-input>
         </ion-item>
         <ion-item>
-          <button ion-button default full>Sign in</button>
+          <button ion-button default full>{{ 'IDEA.AUTH.SIGN_IN' | translate }}</button>
         </ion-item>
       </ion-list>
+      <div class="theInfo" *ngIf="registrationPossible">
+        <a ion-text href="#" (click)="goToRegistration()" color="primary">
+          {{ 'IDEA.AUTH.I_DON_T_HAVE_AN_ACCOUNT' | translate }}
+        </a>
+      </div>
       <div class="theInfo">
         <a ion-text href="#" (click)="goToForgotPassword()" color="primary">
-          Did you forget your password?
+          {{ 'IDEA.AUTH.I_FORGOT_MY_PASSWORD' | translate }}
         </a>
       </div>
-      <div class="theInfo">
-        <a ion-text href="{{ IDEA_APP_WEBSITE }}" target="_blank" color="secondary">
-          Discover more
+      <div class="theInfo" *ngIf="website">
+        <a ion-text href="{{ website }}" target="_blank" color="secondary">
+          {{ 'IDEA.AUTH.DISCOVER_MORE' | translate }}
         </a>
       </div>
-      <div class="theInfo">
+      <div class="theInfo" *ngIf="showIDEALogo">
         <a href="https://www.iter-idea.com" target="_blank">
           <img src="/assets/icons/idea.png" class="logoIdea">
         </a>

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavParams, ViewController } from 'ionic-angular';
+import { TranslateService } from 'ng2-translate/ng2-translate';
 
 import { IDEACheck } from './check.model';
 
@@ -17,7 +18,8 @@ export class IDEACheckerComponent {
 
   constructor(
     private params: NavParams,
-    private viewCtrl: ViewController
+    private viewCtrl: ViewController,
+    private t: TranslateService
   ) {
     this.title = this.params.get('title') || 'Search';
     this.checks = <Array<IDEACheck>> this.params.get('checks');

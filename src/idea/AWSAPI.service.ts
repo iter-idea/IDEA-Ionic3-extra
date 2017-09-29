@@ -3,8 +3,10 @@ import { Http, Headers, URLSearchParams } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Config } from 'ionic-angular';
 
+// from idea-config.js
 declare const IDEA_API_ID;
 declare const IDEA_API_VERSION;
+
 const API_URL = `https://${IDEA_API_ID}.execute-api.eu-west-2.amazonaws.com/${IDEA_API_VERSION}`;
 
 /**

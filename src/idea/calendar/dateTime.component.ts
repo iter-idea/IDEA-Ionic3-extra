@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ModalController } from 'ionic-angular';
+import { TranslateService } from 'ng2-translate/ng2-translate';
 
 import { IDEACalendarComponent } from './calendar.component'
 
@@ -14,7 +15,9 @@ import { IDEACalendarComponent } from './calendar.component'
     <ion-input
       value="{{ date | date }}" type="text" readonly tappable (click)="openCalendarPicker()"
     ></ion-input>
-    <button ion-button item-end clear (click)="date=null">Reset</button>
+    <button ion-button item-end clear (click)="date=null">
+      {{ 'IDEA.CALENDAR.RESET' | translate }}
+    </button>
   </ion-item>
   `,
   styles: [
@@ -30,7 +33,7 @@ export class IDEADatetimeComponent {
   @Input() labelType: String;
   @Input() date: Date;
 
-  constructor(private modalCtrl: ModalController) {}
+  constructor(private modalCtrl: ModalController, private t: TranslateService) {}
 
   public openCalendarPicker(event: any): void {
     let modal = this.modalCtrl.create(IDEACalendarComponent, { refDate: this.date });

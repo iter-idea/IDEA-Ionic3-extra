@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { NavParams, ViewController } from 'ionic-angular';
+import { TranslateService } from 'ng2-translate/ng2-translate';
 
 @Component({
   selector: 'IDEACalendarComponent',
@@ -16,7 +17,8 @@ export class IDEACalendarComponent {
   constructor(
     private viewCtrl: ViewController,
     private navParams: NavParams,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private t: TranslateService
   ) {
     this.today = new Date();
     this.selectedDate = new Date(this.navParams.get('refDate') || this.today);

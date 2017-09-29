@@ -19,13 +19,13 @@
 <ion-content>
   <ion-grid class="cal">
     <ion-row class="calHeader">
-      <ion-col text-center>Mon</ion-col>
-      <ion-col text-center>Tue</ion-col>
-      <ion-col text-center>Wed</ion-col>
-      <ion-col text-center>Thu</ion-col>
-      <ion-col text-center>Fri</ion-col>
-      <ion-col text-center>Sat</ion-col>
-      <ion-col text-center>Sun</ion-col>
+      <ion-col text-center>{{ 'IDEA.CALENDAR.MONDAY_SHORT' | translate }}</ion-col>
+      <ion-col text-center>{{ 'IDEA.CALENDAR.TUESDAY_SHORT' | translate }}</ion-col>
+      <ion-col text-center>{{ 'IDEA.CALENDAR.WEDNESDAY_SHORT' | translate }}</ion-col>
+      <ion-col text-center>{{ 'IDEA.CALENDAR.THURSDAY_SHORT' | translate }}</ion-col>
+      <ion-col text-center>{{ 'IDEA.CALENDAR.FRIDAY_SHORT' | translate }}</ion-col>
+      <ion-col text-center>{{ 'IDEA.CALENDAR.SATURDAY_SHORT' | translate }}</ion-col>
+      <ion-col text-center>{{ 'IDEA.CALENDAR.SUNDAY_SHORT' | translate }}</ion-col>
     </ion-row>
     <ion-row *ngFor="let row of calendarGrid; let i = index" align-items-center>
       <ion-col *ngFor="let col of row; let j = index" text-center>

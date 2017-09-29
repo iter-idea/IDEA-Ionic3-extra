@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="dark">
-    <ion-searchbar (ionInput)="filter($event)" placeholder="{{ title }}" 
+    <ion-searchbar (ionInput)="filter($event)" placeholder="{{ title }}"
       [(ngModel)]="searchQuery"></ion-searchbar>
     <ion-buttons start>
       <button ion-button icon-only (click)="checkAll(false)">
@@ -12,7 +12,7 @@
     </ion-buttons>
     <ion-buttons end>
       <button ion-button clear color="primary" (click)="close()">
-        Done
+        {{ 'IDEA.CHECKER.DONE' | translate }}
       </button>
     </ion-buttons>
   </ion-toolbar>

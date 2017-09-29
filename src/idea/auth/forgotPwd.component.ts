@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { TranslateService } from 'ng2-translate/ng2-translate';
 
 import { IDEAAuthService } from './auth.service';
 import { IDEAMessageService } from '../message.service';
@@ -13,7 +14,7 @@ import { IDEAAuthComponent } from './auth.component';
 })
 export class IDEAForgotPwdComponent {
   private mode: string; // 'R' recover, 'C' confirm
-  private email: string;
+  private username: string;
   private code: string;
   private newPassword: string;
 
@@ -21,35 +22,39 @@ export class IDEAForgotPwdComponent {
     private navCtrl: NavController,
     private message: IDEAMessageService,
     private loading: IDEALoadingService,
-    private auth: IDEAAuthService
+    private auth: IDEAAuthService,
+    private t: TranslateService
   ) {
     this.mode = 'R';
   }
 
   public forgotPassword(): void {
     this.loading.show();
-    this.auth.forgotPassword(this.email)
+    this.auth.forgotPassword(this.username)
     .then(result => {
       this.loading.hide();
-      this.message.show(`The code to reset the password has been sent via email`);
+      this.message.show(this.t.instant('IDEA.AUTH.PASSWORD_RESET_CODE_SENT'),
+        this.message.TYPE_SUCCESS);
       this.mode = 'C';
     })
     .catch(() => {
       this.loading.hide();
-      this.message.show('User not found', this.message.TYPE_ERROR);
+      this.message.show(this.t.instant('IDEA.AUTH.USER_NOT_FOUND'),
+        this.message.TYPE_ERROR);
     });
   }
   public confirmPassword(): void {
     this.loading.show();
-    this.auth.confirmPassword(this.email, this.code, this.newPassword)
+    this.auth.confirmPassword(this.username, this.code, this.newPassword)
     .then(result => {
       this.loading.hide();
-      this.message.show('Password changed! Now you can sign in again', this.message.TYPE_SUCCESS);
+      this.message.show(this.t.instant('IDEA.AUTH.PASSWORD_CHANGED'),
+        this.message.TYPE_SUCCESS);
       this.navCtrl.setRoot(IDEAAuthComponent);
     })
     .catch(() => {
       this.loading.hide();
-      this.message.show('User not found, code not correct or password too easy',
+      this.message.show(this.t.instant('IDEA.AUTH.CONFIRM_PASSWORD_ERROR'),
          this.message.TYPE_ERROR);
     });
   }

@@ -10,10 +10,10 @@ export class IDEAAuthService {
     this.cognito = new Cognito();
   }
 
-  public getUsername() {
+  public getUsername(): any {
     return this.cognito.getCurrentUser().getUsername();
   }
-  public login(username, password) {
+  public login(username: string, password: string): Promise<any> {
     // note: the email is an alias of the username
     return new Promise((resolve, reject) => {
       // find the user and its authentication details...
@@ -33,7 +33,42 @@ export class IDEAAuthService {
       });
     });
   }
-  public logout() {
+  public register(username: string, password: string, attributes: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      // add attributes like the email address and the fullname
+      let attributeList = [];
+      for(let prop in attributes)
+        attributeList.push(this.cognito.makeAttribute(prop, attributes[prop]))
+      // register the new user
+      this.cognito.getUserPool().signUp(username, password, attributeList, null, (err, res) => {
+        if(err) reject(err);
+        else resolve(res.user);
+      });
+    });
+  }
+  public confirmRegistration(username: string, code: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      // find the user
+      let user = this.cognito.makeUser(username);
+      // confirm the registration of the user with the code provided
+      user.confirmRegistration(code, true, (err, res) => {
+        if(err) reject(err);
+        else resolve();
+      });
+    });
+  }
+  public resendConfirmationCode(username: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      // find the user
+      let user = this.cognito.makeUser(username);
+      // resend the confirmation code
+      user.resendConfirmationCode((err, res) => {
+        if(err) reject(err);
+        else resolve();
+      });
+    });
+  }
+  public logout(): void {
     this.isAuthenticated()
     .then(() => {
       this.cognito.getCurrentUser().signOut();
@@ -41,7 +76,7 @@ export class IDEAAuthService {
     })
     .catch(() => { location.reload() });
   }
-  public forgotPassword(email: string) {
+  public forgotPassword(email: string): Promise<any> {
     return new Promise((resolve, reject) => {
       // find the user and request a password reset
       this.cognito.makeUser(email)
@@ -51,7 +86,7 @@ export class IDEAAuthService {
       });
     });
   }
-  public confirmPassword(email: string, code: string, newPassword: string) {
+  public confirmPassword(email: string, code: string, newPassword: string): Promise<any> {
      return new Promise((resolve, reject) => {
       // get the user and confirm a new password
       this.cognito.makeUser(email)

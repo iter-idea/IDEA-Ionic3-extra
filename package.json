@@ -1,6 +1,6 @@
 {
   "name": "idea-ionic-extra",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "IDEA's extra components and services built on Ionic",
   "author": "iter IDEA <info@iter-idea.com> (https://www.iter-idea.com)",
   "scripts": {
