@@ -29,4 +29,5 @@ Since it's (it should be) a read-only folder, you can safely copy/paste **update
 
 ## How to release
 
-Take the latest version of the `idea` folder, zip it and upload it on GitHub.
+- Update the version and commit.
+- Take the latest version of the `idea` folder, zip it and upload it on GitHub.

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ModalController } from 'ionic-angular';
 import { TranslateService } from 'ng2-translate/ng2-translate';
 
@@ -29,15 +29,18 @@ import { IDEACalendarComponent } from './calendar.component'
  * Note: two modes; contributor (single, userView); administrator (multiple views)
  */
 export class IDEADatetimeComponent {
-  @Input() label: String;
-  @Input() labelType: String;
-  @Input() date: Date;
+  @Input() protected label: string;
+  @Input() protected labelType: string;
+  @Input() protected date: Date;
+  @Output() public onDateSelected = new EventEmitter<Date>();
 
   constructor(private modalCtrl: ModalController, private t: TranslateService) {}
 
   public openCalendarPicker(event: any): void {
     let modal = this.modalCtrl.create(IDEACalendarComponent, { refDate: this.date });
-    modal.onDidDismiss(date => { if(date) this.date = date });
+    modal.onDidDismiss(date => {
+      if(date) this.onDateSelected.emit(date);
+    });
     modal.present();
   }
 }
