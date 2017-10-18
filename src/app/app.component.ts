@@ -11,7 +11,7 @@ import { TestComponent } from '../test.component';
   `
 })
 export class MyApp {
-  private rootPage: any;
+  protected rootPage: any;
 
   constructor(
     private platform: Platform,

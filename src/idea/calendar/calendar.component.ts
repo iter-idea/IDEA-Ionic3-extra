@@ -9,16 +9,16 @@ import { TranslateService } from 'ng2-translate/ng2-translate';
   providers: [ DatePipe ]
 })
 export class IDEACalendarComponent {
-  private selectedDate: Date;
-  private refDate: Date; // date used to center the calendar on the right month
-  private today: Date;
-  private calendarGrid: Array<Array<Date>>;
-  private monthToShow: String; // to show, cause Date doesn't fire change events
+  protected selectedDate: Date;
+  protected refDate: Date; // date used to center the calendar on the right month
+  protected today: Date;
+  protected calendarGrid: Array<Array<Date>>;
+  protected monthToShow: String; // to show, cause Date doesn't fire change events
   constructor(
-    private viewCtrl: ViewController,
-    private navParams: NavParams,
-    private datePipe: DatePipe,
-    private t: TranslateService
+    protected viewCtrl: ViewController,
+    protected navParams: NavParams,
+    protected datePipe: DatePipe,
+    protected t: TranslateService
   ) {
     this.today = new Date();
     this.selectedDate = new Date(this.navParams.get('refDate') || this.today);

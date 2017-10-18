@@ -15,6 +15,13 @@ import { IDEACheckerComponent } from '../idea/checker/checker.component';
 import { IDEACalendarComponent } from '../idea/calendar/calendar.component';
 import { IDEADatetimeComponent } from '../idea/calendar/datetime.component';
 
+import { IDEAAuthComponent } from '../idea/auth/auth.component';
+import { IDEAForgotPwdComponent } from '../idea/auth/forgotPwd.component';
+import { IDEARegistrationComponent } from '../idea/auth/registration.component';
+import { IDEAAuthService } from '../idea/auth/auth.service';
+
+import { IDEALanguagePickerComponent } from '../idea/languagePicker.component';
+
 // the translate loader needs to know where to load i18n files in Ionic's static asset pipeline
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -24,7 +31,9 @@ export function createTranslateLoader(http: Http) {
   declarations: [
     MyApp, TestComponent,
     IDEACheckerComponent,
-    IDEACalendarComponent, IDEADatetimeComponent
+    IDEACalendarComponent, IDEADatetimeComponent,
+    IDEAAuthComponent, IDEAForgotPwdComponent, IDEARegistrationComponent,
+    IDEALanguagePickerComponent
   ],
   imports: [
     BrowserModule,
@@ -40,12 +49,15 @@ export function createTranslateLoader(http: Http) {
   entryComponents: [
     MyApp, TestComponent,
     IDEACheckerComponent,
-    IDEACalendarComponent, IDEADatetimeComponent
+    IDEACalendarComponent, IDEADatetimeComponent,
+    IDEAAuthComponent, IDEAForgotPwdComponent, IDEARegistrationComponent,
+    IDEALanguagePickerComponent
   ],
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     IDEAMessageService,
-    IDEALoadingService
+    IDEALoadingService,
+    IDEAAuthService
   ]
 })
 export class AppModule {}

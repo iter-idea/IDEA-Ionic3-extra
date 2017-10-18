@@ -20,20 +20,20 @@ declare const IDEA_SHOW_LOGO;
   templateUrl: 'auth.component.html'
 })
 export class IDEAAuthComponent {
-  private title: string;
-  private website: string;
-  private registrationPossible: boolean;
-  private showIDEALogo: boolean;
+  protected title: string;
+  protected website: string;
+  protected registrationPossible: boolean;
+  protected showIDEALogo: boolean;
   //
-  private username: string;
-  private password: string;
+  protected username: string;
+  protected password: string;
 
   constructor(
-    private navCtrl: NavController,
-    private message: IDEAMessageService,
-    private loading: IDEALoadingService,
-    private auth: IDEAAuthService,
-    private t: TranslateService
+    protected navCtrl: NavController,
+    protected message: IDEAMessageService,
+    protected loading: IDEALoadingService,
+    protected auth: IDEAAuthService,
+    protected t: TranslateService
   ) {
     this.title = IDEA_APP_TITLE;
     this.website = IDEA_APP_WEBSITE;

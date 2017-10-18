@@ -13,17 +13,17 @@ import { IDEAAuthComponent } from './auth.component';
   templateUrl: 'forgotPwd.component.html'
 })
 export class IDEAForgotPwdComponent {
-  private mode: string; // 'R' recover, 'C' confirm
-  private username: string;
-  private code: string;
-  private newPassword: string;
+  protected mode: string; // 'R' recover, 'C' confirm
+  protected username: string;
+  protected code: string;
+  protected newPassword: string;
 
   constructor(
-    private navCtrl: NavController,
-    private message: IDEAMessageService,
-    private loading: IDEALoadingService,
-    private auth: IDEAAuthService,
-    private t: TranslateService
+    protected navCtrl: NavController,
+    protected message: IDEAMessageService,
+    protected loading: IDEALoadingService,
+    protected auth: IDEAAuthService,
+    protected t: TranslateService
   ) {
     this.mode = 'R';
   }

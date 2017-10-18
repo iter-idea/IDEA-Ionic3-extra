@@ -34,9 +34,9 @@ import { TranslateService } from 'ng2-translate/ng2-translate';
   `]
 })
 export class IDEALanguagePickerComponent {
-  private languages: Array<string>;
+  protected languages: Array<string>;
 
-  constructor(private t: TranslateService, private storage: Storage) {
+  constructor(protected t: TranslateService, protected storage: Storage) {
     this.languages = t.getLangs();
   }
 

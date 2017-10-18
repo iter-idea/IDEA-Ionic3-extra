@@ -9,17 +9,17 @@ import { IDEACheck } from './check.model';
   templateUrl: 'checker.component.html'
 })
 export class IDEACheckerComponent {
-  private title: string;
-  private checks: IDEACheck[];
-  private filteredChecks: IDEACheck[];
-  private searchQuery: string;
-  private N_PER_PAGE: number = 30;
-  private page: number;
+  protected title: string;
+  protected checks: IDEACheck[];
+  protected filteredChecks: IDEACheck[];
+  protected searchQuery: string;
+  protected N_PER_PAGE: number = 30;
+  protected page: number;
 
   constructor(
-    private params: NavParams,
-    private viewCtrl: ViewController,
-    private t: TranslateService
+    protected params: NavParams,
+    protected viewCtrl: ViewController,
+    protected t: TranslateService
   ) {
     this.title = this.params.get('title') || 'Search';
     this.checks = <Array<IDEACheck>> this.params.get('checks');

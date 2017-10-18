@@ -34,7 +34,7 @@ export class IDEADatetimeComponent {
   @Input() protected date: Date;
   @Output() public onDateSelected = new EventEmitter<Date>();
 
-  constructor(private modalCtrl: ModalController, private t: TranslateService) {}
+  constructor(protected modalCtrl: ModalController, protected t: TranslateService) {}
 
   public openCalendarPicker(event: any): void {
     let modal = this.modalCtrl.create(IDEACalendarComponent, { refDate: this.date });
