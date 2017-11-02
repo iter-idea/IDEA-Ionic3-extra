@@ -5,7 +5,6 @@ declare var AWS: any;
 declare var AWSCognito: any;
 // from aws-config.js
 declare const aws_project_region;
-declare const aws_cognito_identity_pool_id;
 declare const aws_user_pools_id;
 declare const aws_user_pools_web_client_id;
 

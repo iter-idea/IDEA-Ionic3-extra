@@ -8,30 +8,25 @@ import { IDEALoadingService } from '../loading.service';
 
 import { IDEAAuthComponent } from './auth.component';
 
-// from idea-config.js
-declare const IDEA_APP_TITLE;
-declare const IDEA_APP_TAGLINE;
-declare const IDEA_APP_WEBSITE;
-
 @Component({
   selector: 'IDEARegistrationComponent',
   templateUrl: 'registration.component.html'
 })
 export class IDEARegistrationComponent {
-  private mode: string; // 'R' register, 'C' confirm registration, 'S' send again the code
-  private username: string;
-  private password: string;
-  private email: string;
-  private name: string;
-  private code: string;
-  private errorMsg: string;
+  protected mode: string; // 'R' register, 'C' confirm registration, 'S' send again the code
+  protected username: string;
+  protected password: string;
+  protected email: string;
+  protected name: string;
+  protected code: string;
+  protected errorMsg: string;
 
   constructor(
-    private navCtrl: NavController,
-    private message: IDEAMessageService,
-    private loading: IDEALoadingService,
-    private auth: IDEAAuthService,
-    private t: TranslateService
+    protected navCtrl: NavController,
+    protected message: IDEAMessageService,
+    protected loading: IDEALoadingService,
+    protected auth: IDEAAuthService,
+    protected t: TranslateService
   ) {
     this.mode = 'R';
     this.username = '';
