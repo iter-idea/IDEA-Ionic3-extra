@@ -14,7 +14,7 @@ IDEA's extra components and services built on Ionic.
 
 ## Requirements
 
-Every component requires the `ng2-translate` module and the `i18n` translation folder, with at least 
+Every component requires the `ngx-translate` module and the `i18n` translation folder, with at least 
 the `en.json` translation; a sample of the latter is stored in the `assets/i18n` folder.
 
 Each component may **require** one or more folders of the `assets` directory, 
@@ -30,4 +30,4 @@ Since it's (it should be) a read-only folder, you can safely copy/paste **update
 ## How to release
 
 - Update the version and commit.
-- Take the latest version of the `idea` folder, zip it and upload it on GitHub.
+- Take the latest version of the `./idea` folder, zip it and upload it on GitHub.

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Loading, LoadingController } from 'ionic-angular';
-import { TranslateService } from 'ng2-translate/ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class IDEALoadingService {
@@ -14,7 +14,8 @@ export class IDEALoadingService {
    */
   public show(content?: string): void {
     this.l = this.loadingCtrl.create({
-      content: content || this.t.instant('IDEA.LOADING.PLEASE_WAIT') });
+      content: content === null || content === undefined
+        ? this.t.instant('IDEA.LOADING.PLEASE_WAIT') : content });
     this.l.present();
   }
   /**

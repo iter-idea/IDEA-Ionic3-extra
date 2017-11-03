@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { TranslateService } from 'ng2-translate/ng2-translate';
+import { IonicPage, NavController } from 'ionic-angular';
+import { TranslateService } from '@ngx-translate/core';
 
 import { IDEAAuthService } from './auth.service';
 import { IDEAMessageService } from '../message.service';
 import { IDEALoadingService } from '../loading.service';
-
-import { IDEAForgotPwdComponent } from './forgotPwd.component';
-import { IDEARegistrationComponent } from './registration.component';
 
 // from idea-config.js
 declare const IDEA_APP_TITLE;
@@ -15,6 +12,10 @@ declare const IDEA_APP_WEBSITE;
 declare const IDEA_APP_REGISTRATION_POSSIBLE;
 declare const IDEA_SHOW_LOGO;
 
+@IonicPage({
+  name: 'sign-in',
+  segment: 'sign-in'
+})
 @Component({
   selector: 'IDEAAuthComponent',
   templateUrl: 'auth.component.html'
@@ -46,7 +47,7 @@ export class IDEAAuthComponent {
     this.auth.login(this.username, this.password)
     .then(() => {
       this.loading.hide();
-      window.location.reload(); // required
+      window.location.assign('');
     })
     .catch((err) => {
       this.loading.hide();
@@ -55,9 +56,9 @@ export class IDEAAuthComponent {
     });
   }
   public goToRegistration(): void {
-    this.navCtrl.setRoot(IDEARegistrationComponent);
+    this.navCtrl.setRoot('sign-up');
   }
   public goToForgotPassword(): void {
-    this.navCtrl.setRoot(IDEAForgotPwdComponent);
+    this.navCtrl.setRoot('forgot-password');
   }
 }

@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { TranslateService } from 'ng2-translate/ng2-translate';
+import { IonicPage, NavController } from 'ionic-angular';
+import { TranslateService } from '@ngx-translate/core';
 
 import { IDEAAuthService } from './auth.service';
 import { IDEAMessageService } from '../message.service';
 import { IDEALoadingService } from '../loading.service';
 
-import { IDEAAuthComponent } from './auth.component';
-
+@IonicPage({
+  name: 'sign-up',
+  segment: 'sign-up',
+  defaultHistory: ['sign-in']
+})
 @Component({
   selector: 'IDEARegistrationComponent',
   templateUrl: 'registration.component.html'
@@ -82,7 +85,7 @@ export class IDEARegistrationComponent {
     this.auth.confirmRegistration(this.username, this.code)
     .then(() => {
       this.loading.hide();
-      this.message.show(this.t.instant('IDEA.AUTH.CONFIRMATION_CODE_SENT'), this.message.TYPE_SUCCESS);
+      this.message.show(this.t.instant('IDEA.AUTH.REGISTRATION_COMPLETED'), this.message.TYPE_SUCCESS);
       this.goToLogin();
     })
     .catch(err => {
@@ -115,6 +118,6 @@ export class IDEARegistrationComponent {
     });
   }
   public goToLogin(): void {
-    this.navCtrl.setRoot(IDEAAuthComponent);
+    this.navCtrl.setRoot('sign-in');
   }
 }

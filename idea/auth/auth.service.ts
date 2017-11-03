@@ -72,9 +72,9 @@ export class IDEAAuthService {
     this.isAuthenticated()
     .then(() => {
       this.cognito.getCurrentUser().signOut();
-      location.reload();
+      window.location.assign('');
     })
-    .catch(() => { location.reload() });
+    .catch(() => { window.location.assign('') });
   }
   public forgotPassword(email: string): Promise<any> {
     return new Promise((resolve, reject) => {

@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { NavParams, ViewController } from 'ionic-angular';
-import { TranslateService } from 'ng2-translate/ng2-translate';
+import { IonicPage, NavParams, ViewController } from 'ionic-angular';
+import { TranslateService } from '@ngx-translate/core';
 
+@IonicPage({
+  name: 'idea-calendar'
+})
 @Component({
   selector: 'IDEACalendarComponent',
   templateUrl: 'calendar.component.html',

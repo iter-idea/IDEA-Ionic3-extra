@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, URLSearchParams } from '@angular/http';
-import 'rxjs/add/operator/map';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Config } from 'ionic-angular';
 
 // from idea-config.js
@@ -15,26 +14,25 @@ const API_URL = `https://${IDEA_API_ID}.execute-api.eu-west-2.amazonaws.com/${ID
  */
 @Injectable()
 export class IDEAAWSAPIService {
-  constructor(protected http: Http, protected ionConfig: Config) {}
+  constructor(protected http: HttpClient, protected ionConfig: Config) {}
 
   protected request(
     resource: string, method: string, body?: any,
-    searchParams?: URLSearchParams, additionalHeaders?: Headers
+    searchParams?: HttpParams, additionalHeaders?: HttpHeaders
   ) {
     let url = `${API_URL}/${resource}`;
     console.debug(method, url, body,
       searchParams ? searchParams.toString() : null, additionalHeaders);
-    let headers = additionalHeaders || new Headers();
+    let headers = additionalHeaders || new HttpHeaders(); // note: HttpHeaders is immutable!
     if(!headers.get('Authorization')) // ovverride the default authorization
-      headers.append('Authorization', this.ionConfig.get('AWSAPIAuthToken'));
+      headers = new HttpHeaders({ 'Authorization': this.ionConfig.get('AWSAPIAuthToken')});
     switch(method) {
       case 'HEAD': return this.http.head(url, { headers: headers }); // no body, no mapping
-      case 'POST': return this.http.post(url, body, { headers: headers }).map(res => res.json());
-      case 'PUT': return this.http.put(url, body, { headers: headers }).map(res => res.json());
-      case 'PATCH': return this.http.patch(url, body, { headers: headers }).map(res => res.json());
-      case 'DELETE': return this.http.delete(url, { headers: headers }).map(res => res.json());
-      default: /* GET */ return this.http.get(url, { headers: headers, search: searchParams })
-        .map(res => res.json());
+      case 'POST': return this.http.post(url, body, { headers: headers });
+      case 'PUT': return this.http.put(url, body, { headers: headers });
+      case 'PATCH': return this.http.patch(url, body, { headers: headers });
+      case 'DELETE': return this.http.delete(url, { headers: headers });
+      default: /* GET */ return this.http.get(url, { headers: headers, params: searchParams });
     }
   }
   public rawRequest() {
@@ -56,12 +54,12 @@ export class IDEAAWSAPIService {
     // map the options
     const resourceId = options ? options.resourceId : null;
     const params = options ? options.params : null;
-    const additionalHeaders = options && options.headers ? new Headers(options.headers) : null;
+    const additionalHeaders = options && options.headers ? new HttpHeaders(options.headers) : null;
     return new Promise((resolve, reject) => {
       // prepare a single resource request (by id) o a normal one
       let req = resourceId ? `${resource}/${resourceId}` : resource;
       // optionally set search params
-      let searchParams = new URLSearchParams();
+      let searchParams = new HttpParams();
       if(params) for(let prop in params) searchParams.set(prop, params[prop]);
       // try to get from the API
       this.request(req, 'GET', null, searchParams, additionalHeaders)
@@ -112,7 +110,7 @@ export class IDEAAWSAPIService {
       // prepare a single resource request (by id) o a normal one
       let req = resourceId ? `${resource}/${resourceId}` : resource;
       // optionally set search params
-      let searchParams = new URLSearchParams();
+      let searchParams = new HttpParams();
       if(params) for(let prop in params) searchParams.set(prop, params[prop]);
       // delete from the API
       this.request(req, 'DELETE', null, searchParams)

@@ -26,12 +26,12 @@
         </ion-item>
       </ion-list>
       <div class="theInfo" *ngIf="registrationPossible">
-        <a ion-text href="#" (click)="goToRegistration()" color="primary">
+        <a ion-text (click)="goToRegistration()" color="primary">
           {{ 'IDEA.AUTH.I_DON_T_HAVE_AN_ACCOUNT' | translate }}
         </a>
       </div>
       <div class="theInfo">
-        <a ion-text href="#" (click)="goToForgotPassword()" color="primary">
+        <a ion-text (click)="goToForgotPassword()" color="primary">
           {{ 'IDEA.AUTH.I_FORGOT_MY_PASSWORD' | translate }}
         </a>
       </div>

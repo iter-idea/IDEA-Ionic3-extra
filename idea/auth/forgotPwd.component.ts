@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { TranslateService } from 'ng2-translate/ng2-translate';
+import { IonicPage, NavController } from 'ionic-angular';
+import { TranslateService } from '@ngx-translate/core';
 
 import { IDEAAuthService } from './auth.service';
 import { IDEAMessageService } from '../message.service';
 import { IDEALoadingService } from '../loading.service';
 
-import { IDEAAuthComponent } from './auth.component';
-
+@IonicPage({
+  name: 'forgot-password',
+  segment: 'forgot-password',
+  defaultHistory: ['sign-in']
+})
 @Component({
   selector: 'IDEAForgotPwdComponent',
   templateUrl: 'forgotPwd.component.html'
@@ -50,7 +53,7 @@ export class IDEAForgotPwdComponent {
       this.loading.hide();
       this.message.show(this.t.instant('IDEA.AUTH.PASSWORD_CHANGED'),
         this.message.TYPE_SUCCESS);
-      this.navCtrl.setRoot(IDEAAuthComponent);
+      this.navCtrl.setRoot('sign-in');
     })
     .catch(() => {
       this.loading.hide();
@@ -59,6 +62,6 @@ export class IDEAForgotPwdComponent {
     });
   }
   public goToLogin(): void {
-    this.navCtrl.setRoot(IDEAAuthComponent);
+    this.navCtrl.setRoot('sign-in');
   }
 }

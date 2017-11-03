@@ -1,0 +1,13 @@
+<ion-fab top right edge #languagePicker id="IDEALanguagePicker">
+  <button ion-fab mini color="light" class="flagBtn">
+    <img src="assets/flags/{{ t.currentLang }}.png" />
+  </button>
+  <ion-fab-list>
+    <button ion-fab mini color="light" class="flagBtn"
+      *ngFor="let l of languages"
+      (click)="changeLanguage(l, languagePicker)"
+    >
+      <img src="assets/flags/{{ l }}.png" />
+    </button>
+  </ion-fab-list>
+</ion-fab>

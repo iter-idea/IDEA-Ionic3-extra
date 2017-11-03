@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
-import { NavParams, ViewController } from 'ionic-angular';
-import { TranslateService } from 'ng2-translate/ng2-translate';
+import { IonicPage, NavParams, ViewController } from 'ionic-angular';
+import { TranslateService } from '@ngx-translate/core';
 
 import { IDEACheck } from './check.model';
 
+@IonicPage({
+  name: 'idea-checker'
+})
 @Component({
   selector: 'IDEACheckerComponent',
   templateUrl: 'checker.component.html'
