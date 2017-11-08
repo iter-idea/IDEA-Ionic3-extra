@@ -63,7 +63,7 @@ export class IDEAAWSAPIService {
       if(params) for(let prop in params) searchParams.set(prop, params[prop]);
       // try to get from the API
       this.request(req, 'GET', null, searchParams, additionalHeaders)
-      .subscribe(res => resolve(res), err => reject(Error()));
+      .subscribe(res => resolve(res), err => reject(err));
     });
   }
   public postResource(resource: string, options?: APIRequestOption): Promise<any> {

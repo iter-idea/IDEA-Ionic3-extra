@@ -14,3 +14,4 @@ export { IDEALanguagePickerComponentModule } from './languagePicker/languagePick
 export { IDEAAWSAPIService } from './AWSAPI.service';
 export { IDEALoadingService } from './loading.service';
 export { IDEAMessageService } from './message.service';
+export { IDEAExtBrowserService } from './extBrowser.service';
