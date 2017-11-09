@@ -18,21 +18,23 @@ export class IDEAAWSAPIService {
 
   protected request(
     resource: string, method: string, body?: any,
-    searchParams?: HttpParams, additionalHeaders?: HttpHeaders
+    searchParams?: HttpParams, additionalHeaders?: HttpHeaders, responseType?: any
   ) {
     let url = `${API_URL}/${resource}`;
     console.debug(method, url, body,
       searchParams ? searchParams.toString() : null, additionalHeaders);
     let headers = additionalHeaders || new HttpHeaders(); // note: HttpHeaders is immutable!
     if(!headers.get('Authorization')) // ovverride the default authorization
-      headers = new HttpHeaders({ 'Authorization': this.ionConfig.get('AWSAPIAuthToken')});
+      headers = headers.append('Authorization', this.ionConfig.get('AWSAPIAuthToken'));
     switch(method) {
       case 'HEAD': return this.http.head(url, { headers: headers }); // no body, no mapping
       case 'POST': return this.http.post(url, body, { headers: headers });
       case 'PUT': return this.http.put(url, body, { headers: headers });
       case 'PATCH': return this.http.patch(url, body, { headers: headers });
       case 'DELETE': return this.http.delete(url, { headers: headers });
-      default: /* GET */ return this.http.get(url, { headers: headers, params: searchParams });
+      default: /* GET */ return this.http.get(url, {
+        headers: headers, params: searchParams, responseType: responseType || 'json'
+      });
     }
   }
   public rawRequest() {
@@ -55,14 +57,17 @@ export class IDEAAWSAPIService {
     const resourceId = options ? options.resourceId : null;
     const params = options ? options.params : null;
     const additionalHeaders = options && options.headers ? new HttpHeaders(options.headers) : null;
+    var responseType = 'json';
+    if(additionalHeaders && additionalHeaders.get('accept') == 'application/pdf')
+      responseType = 'blob';
     return new Promise((resolve, reject) => {
       // prepare a single resource request (by id) o a normal one
       let req = resourceId ? `${resource}/${resourceId}` : resource;
       // optionally set search params
       let searchParams = new HttpParams();
-      if(params) for(let prop in params) searchParams.set(prop, params[prop]);
+      if(params) for(let prop in params) searchParams = searchParams.set(prop, params[prop]);
       // try to get from the API
-      this.request(req, 'GET', null, searchParams, additionalHeaders)
+      this.request(req, 'GET', null, searchParams, additionalHeaders, responseType)
       .subscribe(res => resolve(res), err => reject(err));
     });
   }
@@ -111,7 +116,7 @@ export class IDEAAWSAPIService {
       let req = resourceId ? `${resource}/${resourceId}` : resource;
       // optionally set search params
       let searchParams = new HttpParams();
-      if(params) for(let prop in params) searchParams.set(prop, params[prop]);
+      if(params) for(let prop in params) searchParams = searchParams.set(prop, params[prop]);
       // delete from the API
       this.request(req, 'DELETE', null, searchParams)
       .subscribe(() => resolve(), err => reject(err));
