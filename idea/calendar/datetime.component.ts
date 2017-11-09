@@ -32,12 +32,15 @@ export class IDEADatetimeComponent {
   @Input() protected label: string;
   @Input() protected labelType: string;
   @Input() protected date: Date;
+  @Input() protected toolbarColor: string;
   @Output() public onDateSelected = new EventEmitter<Date>();
 
   constructor(protected modalCtrl: ModalController, protected t: TranslateService) {}
 
   public openCalendarPicker(event: any): void {
-    let modal = this.modalCtrl.create(IDEACalendarComponent, { refDate: this.date });
+    let modal = this.modalCtrl.create(IDEACalendarComponent, {
+      refDate: this.date, toolbarColor: this.toolbarColor
+    });
     modal.onDidDismiss(date => {
       if(date) this.onDateSelected.emit(date);
     });

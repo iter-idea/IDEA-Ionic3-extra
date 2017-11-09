@@ -16,7 +16,8 @@ export class IDEACalendarComponent {
   protected refDate: Date; // date used to center the calendar on the right month
   protected today: Date;
   protected calendarGrid: Array<Array<Date>>;
-  protected monthToShow: String; // to show, cause Date doesn't fire change events
+  protected monthToShow: string; // to show, cause Date doesn't fire change events
+  protected toolbarColor: string;
   constructor(
     protected viewCtrl: ViewController,
     protected navParams: NavParams,
@@ -27,6 +28,7 @@ export class IDEACalendarComponent {
     this.selectedDate = new Date(this.navParams.get('refDate') || this.today);
     this.refDate = new Date(this.selectedDate);
     this.monthToShow = this.datePipe.transform(this.refDate, 'MMMM y');
+    this.toolbarColor = this.navParams.get('toolbarColor') || 'dark';
     this.buildCalendarGrid(this.refDate);
   }
 
