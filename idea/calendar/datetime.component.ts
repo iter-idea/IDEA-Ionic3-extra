@@ -15,7 +15,7 @@ import { IDEACalendarComponent } from './calendar.component'
     <ion-input
       value="{{ date | date }}" type="text" readonly tappable (click)="openCalendarPicker()"
     ></ion-input>
-    <button ion-button item-end clear (click)="date=null">
+    <button ion-button item-end clear (click)="onDateSelected.emit(null)">
       {{ 'IDEA.CALENDAR.RESET' | translate }}
     </button>
   </ion-item>
