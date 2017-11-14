@@ -69,12 +69,12 @@ export class IDEAAuthService {
     });
   }
   public logout(): void {
-    this.isAuthenticated()
+    this.isAuthenticated(false)
     .then(() => {
       this.cognito.getCurrentUser().signOut();
       window.location.assign('');
     })
-    .catch(() => { window.location.assign('') });
+    .catch(() => window.location.assign(''));
   }
   public forgotPassword(email: string): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -96,24 +96,49 @@ export class IDEAAuthService {
       });
     });
   }
-  public isAuthenticated(offlineCountsAsLogged?: boolean): Promise<any> {
+  public isAuthenticated(
+    offlineCountsAsLogged: boolean, getFreshIdTokenOnExpiration?: (freshIdToken) => void
+  ): Promise<any> {
     return new Promise((resolve, reject) => {
       // offlineCountsAsLogged -> to avoid auth checks if online
       if(offlineCountsAsLogged && !navigator.onLine) resolve();
-      let user = this.cognito.getCurrentUser();
+      var user = this.cognito.getCurrentUser();
       if(user != null) {
         user.getSession((err, session) => {
           if(err) reject(err);
           else {
             // get user attributes
             this.cognito.getUserDetails(session.getAccessToken().getJwtToken())
-            .then(userDetails => resolve({
-              accessToken: session.getIdToken().getJwtToken(), userDetails: userDetails
-            }))
+            .then(userDetails => {
+              // set a timer to manage the autorefresh of the idToken (through the refreshToken)
+              setTimeout(() => {
+                this.refreshSession(user, session.refreshToken, getFreshIdTokenOnExpiration);
+              }, 28*60*1000); // 28 minutes (30 is the expiration time)
+              // return the idToken (to use with API)
+              resolve({
+                idToken: session.getIdToken().getJwtToken(), userDetails: userDetails
+              });
+          })
             .catch(err => reject(err));
           }
         });
       } else reject();
     });
   }
+  private refreshSession(user: any, refreshToken: string, callback: (freshIdToken) => void): void {
+    user.refreshSession(refreshToken, (err, session) => {
+      if(err)
+        setTimeout(() => {
+          this.refreshSession(user, session.refreshToken, callback);
+        }, 1*60*1000); // try again in 1 minute
+      else {
+        setTimeout(() => {
+          this.refreshSession(user, session.refreshToken, callback);
+        }, 28*60*1000); // 28 minutes (30 is the expiration time)
+        console.debug('Token refreshed');
+        callback(session.getIdToken().getJwtToken());
+      }
+    });
+  }
 }
+
