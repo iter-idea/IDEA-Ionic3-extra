@@ -14,6 +14,9 @@ import { IDEALanguagePickerComponent } from './languagePicker.component';
   ],
   entryComponents: [
     IDEALanguagePickerComponent
+  ],
+  exports: [
+    IDEALanguagePickerComponent
   ]
 })
 export class IDEALanguagePickerComponentModule {}
