@@ -24,7 +24,8 @@ export class IDEAAWSAPIService {
     console.debug(method, url, body,
       searchParams ? searchParams.toString() : null, additionalHeaders);
     let headers = additionalHeaders || new HttpHeaders(); // note: HttpHeaders is immutable!
-    if(!headers.get('Authorization')) // ovverride the default authorization
+    if(!headers.get('Authorization') && this.ionConfig.get('AWSAPIAuthToken'))
+      // ovverride the default authorization
       headers = headers.append('Authorization', this.ionConfig.get('AWSAPIAuthToken'));
     switch(method) {
       case 'HEAD': return this.http.head(url, { headers: headers }); // no body, no mapping
