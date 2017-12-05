@@ -123,6 +123,12 @@ export class IDEAAWSAPIService {
       .subscribe(() => resolve(), err => reject(err));
     });
   }
+  /**
+   * Execute the code to initialize the app, try to authenticate and decide what to do afterwards.
+   * Act as a guard function for Ionic components (to call inside `ionViewCanEnter`).
+   * @return a promise; resolve => you can enter, reject => fallback to auth or else.
+   */
+  public initAndAuth: (authNeeded: boolean) => Promise<void>;
 }
 
  export class APIRequestOption {
