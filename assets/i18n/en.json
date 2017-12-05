@@ -69,6 +69,9 @@
     },
     "LOADING": {
       "PLEASE_WAIT": "Please wait..."
+    },
+    "LANGUAGE_PICKER": {
+      "APP_WILL_RESTART": "The app will restart"
     }
   }
 }

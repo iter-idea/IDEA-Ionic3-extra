@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -13,13 +14,25 @@ import { TranslateService } from '@ngx-translate/core';
 export class IDEALanguagePickerComponent {
   protected languages: Array<string>;
 
-  constructor(protected t: TranslateService, protected storage: Storage) {
+  constructor(
+    protected t: TranslateService, protected storage: Storage, protected alertCtrl: AlertController
+  ) {
     this.languages = t.getLangs();
   }
 
   public changeLanguage(lang: string, fab: any): void {
-    fab.close();
-    this.t.use(lang);
-    this.storage.set('language', lang);
+    console.debug('langage change requested:', lang);
+    this.alertCtrl.create({
+      title: this.t.instant('IDEA.APP_WILL_RESTART'),
+      buttons: [
+        { text: this.t.instant('COMMON.CANCEL'), handler: () => { fab.close(); } },
+        { text: this.t.instant('COMMON.CONFIRM'), handler: () =>
+          {
+            this.storage.set('language', lang).then(() => window.location.assign(''));
+            // needed cause sometimes the language isn't update in the interface (random)
+          }
+        }
+      ]
+    }).present();
   }
 }
