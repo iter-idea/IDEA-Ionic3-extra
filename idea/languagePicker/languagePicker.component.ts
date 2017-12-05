@@ -23,7 +23,7 @@ export class IDEALanguagePickerComponent {
   public changeLanguage(lang: string, fab: any): void {
     console.debug('langage change requested:', lang);
     this.alertCtrl.create({
-      title: this.t.instant('IDEA.APP_WILL_RESTART'),
+      title: this.t.instant('IDEA.LANGUAGE_PICKER.APP_WILL_RESTART'),
       buttons: [
         { text: this.t.instant('COMMON.CANCEL'), handler: () => { fab.close(); } },
         { text: this.t.instant('COMMON.CONFIRM'), handler: () =>
