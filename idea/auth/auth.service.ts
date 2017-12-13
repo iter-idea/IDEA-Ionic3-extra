@@ -140,5 +140,22 @@ export class IDEAAuthService {
       }
     });
   }
+  public updateUserAttributes(attributes: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      // prepare the attributes we want to change
+      let attributeList = [];
+      for(let prop in attributes)
+        attributeList.push(this.cognito.makeAttribute(prop, attributes[prop]));
+      let user = this.cognito.getCurrentUser();
+      if(!user) reject();
+      else user.getSession((err, session) => { // we need to get the session before to make changes
+        if(err) reject(err);
+        else user.updateAttributes(attributeList, (err, res) => {
+          if(err) reject(err);
+          else resolve();
+        });
+      });
+    });
+  }
 }
 
