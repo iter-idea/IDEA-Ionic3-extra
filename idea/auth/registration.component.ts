@@ -56,9 +56,7 @@ export class IDEARegistrationComponent {
     }
     // start the registration
     this.loading.show();
-    this.auth.register(this.username, this.password, {
-      email: this.email, name: this.name.trim().length > 0 ? this.name : this.email
-    })
+    this.auth.register(this.username, this.password, { email: this.email, name: this.name.trim() })
     .then(user => {
       this.loading.hide();
       this.mode = 'C'; // confirm the account with the code
