@@ -25,9 +25,6 @@ import { IDEACalendarComponent } from './calendar.component'
     `.label[stacked] { margin-top: 0 !important; }`
   ]
 })
-/**
- * Note: two modes; contributor (single, userView); administrator (multiple views)
- */
 export class IDEADatetimeComponent {
   @Input() protected label: string;
   @Input() protected labelType: string;
