@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { IDEAAuthService } from './auth.service';
 import { IDEAMessageService } from '../message.service';
 import { IDEALoadingService } from '../loading.service';
+import { IDEAAWSAPIService } from '../AWSAPI.service';
 
 @IonicPage({
   name: 'sign-up',
@@ -29,6 +30,7 @@ export class IDEARegistrationComponent {
     protected message: IDEAMessageService,
     protected loading: IDEALoadingService,
     protected auth: IDEAAuthService,
+    protected API: IDEAAWSAPIService,
     protected t: TranslateService
   ) {
     this.mode = 'R';
@@ -39,6 +41,7 @@ export class IDEARegistrationComponent {
     this.code = '';
     this.errorMsg = '';
   }
+  protected ionViewCanEnter(): Promise<void> { return this.API.initAndAuth(false); }
 
   public register(): void {
     this.errorMsg = '';

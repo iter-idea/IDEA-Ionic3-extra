@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
+import { IDEAAWSAPIService } from '../AWSAPI.service';
 
 // requires two assets folders:
 //   1. flags, containing the pngs of each country's flags
@@ -15,10 +16,14 @@ export class IDEALanguagePickerComponent {
   protected languages: Array<string>;
 
   constructor(
-    protected t: TranslateService, protected storage: Storage, protected alertCtrl: AlertController
+    protected t: TranslateService,
+    protected storage: Storage,
+    protected alertCtrl: AlertController,
+    protected API: IDEAAWSAPIService
   ) {
     this.languages = t.getLangs();
   }
+  protected ionViewCanEnter(): Promise<void> { return this.API.initAndAuth(false); }
 
   public changeLanguage(lang: string, fab: any): void {
     console.debug('langage change requested:', lang);

@@ -3,6 +3,7 @@ import { IonicPage, NavParams, ViewController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 
 import { IDEACheck } from './check.model';
+import { IDEAAWSAPIService } from '../AWSAPI.service';
 
 @IonicPage({
   name: 'idea-checker'
@@ -22,15 +23,15 @@ export class IDEACheckerComponent {
   constructor(
     protected params: NavParams,
     protected viewCtrl: ViewController,
+    protected API: IDEAAWSAPIService,
     protected t: TranslateService
   ) {
     this.title = this.params.get('title') || 'Search';
     this.checks = <Array<IDEACheck>> this.params.get('checks');
     this.filteredChecks = new Array<IDEACheck>();
   }
-  ionViewWillEnter() {
-    this.clear();
-  }
+  protected ionViewCanEnter(): Promise<void> { return this.API.initAndAuth(false); }
+  protected ionViewWillEnter() { this.clear(); }
 
   private clear(): void {
     this.searchQuery = '';

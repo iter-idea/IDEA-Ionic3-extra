@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { IDEAAuthService } from './auth.service';
 import { IDEAMessageService } from '../message.service';
 import { IDEALoadingService } from '../loading.service';
+import { IDEAAWSAPIService } from '../AWSAPI.service';
 
 @IonicPage({
   name: 'forgot-password',
@@ -26,10 +27,12 @@ export class IDEAForgotPwdComponent {
     protected message: IDEAMessageService,
     protected loading: IDEALoadingService,
     protected auth: IDEAAuthService,
+    protected API: IDEAAWSAPIService,
     protected t: TranslateService
   ) {
     this.mode = 'R';
   }
+  protected ionViewCanEnter(): Promise<void> { return this.API.initAndAuth(false); }
 
   public forgotPassword(): void {
     this.loading.show();

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { IonicPage, NavParams, ViewController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
+import { IDEAAWSAPIService } from '../AWSAPI.service';
 
 @IonicPage({
   name: 'idea-calendar'
@@ -22,6 +23,7 @@ export class IDEACalendarComponent {
     protected viewCtrl: ViewController,
     protected navParams: NavParams,
     protected datePipe: DatePipe,
+    protected API: IDEAAWSAPIService,
     protected t: TranslateService
   ) {
     this.today = new Date();
@@ -31,6 +33,7 @@ export class IDEACalendarComponent {
     this.toolbarColor = this.navParams.get('toolbarColor') || 'dark';
     this.buildCalendarGrid(this.refDate);
   }
+  protected ionViewCanEnter(): Promise<void> { return this.API.initAndAuth(false); }
 
   /**
    * Build the calendar grid based on the month of the *refDate*.

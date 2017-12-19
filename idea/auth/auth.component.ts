@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { IDEAAuthService } from './auth.service';
 import { IDEAMessageService } from '../message.service';
 import { IDEALoadingService } from '../loading.service';
+import { IDEAAWSAPIService } from '../AWSAPI.service';
 
 // from idea-config.js
 declare const IDEA_APP_TITLE;
@@ -34,6 +35,7 @@ export class IDEAAuthComponent {
     protected message: IDEAMessageService,
     protected loading: IDEALoadingService,
     protected auth: IDEAAuthService,
+    protected API: IDEAAWSAPIService,
     protected t: TranslateService
   ) {
     this.title = IDEA_APP_TITLE;
@@ -41,6 +43,7 @@ export class IDEAAuthComponent {
     this.registrationPossible = IDEA_APP_REGISTRATION_POSSIBLE;
     this.showIDEALogo = IDEA_SHOW_LOGO;
   }
+  protected ionViewCanEnter(): Promise<void> { return this.API.initAndAuth(false); }
 
   public login(): void {
     this.loading.show();
