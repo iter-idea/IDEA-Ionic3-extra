@@ -39,7 +39,7 @@ export class IDEACalendarComponent {
    * Build the calendar grid based on the month of the *refDate*.
    * 6 rows and 7 columns (the days, from Monday to Sunday).
    */
-  private buildCalendarGrid(refDate: Date): void {
+  protected buildCalendarGrid(refDate: Date): void {
     // find the first day in the month: the important data here is the day of the week
     let firstDateOfMonth = new Date(`${refDate.getFullYear()}-${refDate.getMonth()+1}-01`);
     // the following flag is used to divide the logic so I can fill the calendar
@@ -67,10 +67,10 @@ export class IDEACalendarComponent {
       }
     }
   }
-  private addDays(date: Date, days: number): Date {
+  protected addDays(date: Date, days: number): Date {
     return new Date(date.getTime() + 86400000 * days); // ms in a day
   }
-  private getWDay(date: Date, fromSunday?: boolean): number {
+  protected getWDay(date: Date, fromSunday?: boolean): number {
     if(fromSunday) return date.getDay();
     else return (date.getDay() || 7) - 1;
   }

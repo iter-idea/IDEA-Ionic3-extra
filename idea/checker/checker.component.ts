@@ -33,12 +33,12 @@ export class IDEACheckerComponent {
   protected ionViewCanEnter(): Promise<void> { return this.API.initAndAuth(false); }
   protected ionViewWillEnter() { this.clear(); }
 
-  private clear(): void {
+  protected clear(): void {
     this.searchQuery = '';
     this.page = 1;
     this.search();
   }
-  private search(toSearch?: string): void {
+  protected search(toSearch?: string): void {
     toSearch = (toSearch) ? toSearch.toLowerCase() : '';
     this.filteredChecks = this.checks
     .filter(el => el.value.toLowerCase().includes(toSearch))

@@ -101,7 +101,7 @@ export class IDEAAuthService {
   ): Promise<any> {
     return new Promise((resolve, reject) => {
       // offlineCountsAsLogged -> to avoid auth checks if online
-      if(offlineCountsAsLogged && !navigator.onLine) resolve();
+      if(offlineCountsAsLogged && !navigator.onLine) return resolve();
       var user = this.cognito.getCurrentUser();
       if(user != null) {
         user.getSession((err, session) => {
@@ -118,18 +118,18 @@ export class IDEAAuthService {
               resolve({
                 idToken: session.getIdToken().getJwtToken(), userDetails: userDetails
               });
-          })
+            })
             .catch(err => reject(err));
           }
         });
       } else reject();
     });
   }
-  private refreshSession(user: any, refreshToken: string, callback: (freshIdToken) => void): void {
+  protected refreshSession(user: any, refreshToken: string, callback:(freshIdToken) => void): void {
     user.refreshSession(refreshToken, (err, session) => {
       if(err)
         setTimeout(() => {
-          this.refreshSession(user, session.refreshToken, callback);
+          this.refreshSession(user, refreshToken, callback);
         }, 1*60*1000); // try again in 1 minute
       else {
         setTimeout(() => {
