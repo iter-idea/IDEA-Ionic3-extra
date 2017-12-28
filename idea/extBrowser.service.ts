@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeUrl, SafeResourceUrl } from '@angular/platform-browser';
 
 @Injectable()
 export class IDEAExtBrowserService {
@@ -16,5 +16,15 @@ export class IDEAExtBrowserService {
   }
   public sanitizeUrl(url: string): SafeUrl {
     return this.sanitizer.bypassSecurityTrustUrl(url)
+  }
+  public sanitizeResourceUrl(resourceUrl: string): SafeResourceUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(resourceUrl);
+  }
+  public arrayBufferToBase64(buffer: ArrayBuffer): string {
+    let binary = '';
+    let bytes = new Uint8Array(buffer);
+    let len = bytes.byteLength;
+    for(let i=0; i<len; i++) binary += String.fromCharCode(bytes[i]);
+    return window.btoa(binary);
   }
 }
