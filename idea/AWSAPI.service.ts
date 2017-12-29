@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Config } from 'ionic-angular';
 
 // from idea-config.js
@@ -50,7 +50,7 @@ export class IDEAAWSAPIService {
       let req = resourceId ? `${resource}/${resourceId}` : resource;
       // get from the API
       this.request(req, 'HEAD')
-      .subscribe(res => resolve(res), err => reject(err));
+      .subscribe(res => resolve(res), err => this.fixErrMessageBeforeReject(err, reject));
     });
   }
   public getResource(resource: string, options?: APIRequestOption): Promise<any> {
@@ -69,7 +69,7 @@ export class IDEAAWSAPIService {
       if(params) for(let prop in params) searchParams = searchParams.set(prop, params[prop]);
       // try to get from the API
       this.request(req, 'GET', null, searchParams, additionalHeaders, responseType)
-      .subscribe(res => resolve(res), err => reject(err));
+      .subscribe(res => resolve(res), err => this.fixErrMessageBeforeReject(err, reject));
     });
   }
   public postResource(resource: string, options?: APIRequestOption): Promise<any> {
@@ -81,7 +81,7 @@ export class IDEAAWSAPIService {
       let req = resourceId ? `${resource}/${resourceId}` : resource;
       // save in the API
       this.request(req, 'POST', body)
-      .subscribe(res => resolve(res), err => reject(err));
+      .subscribe(res => resolve(res), err => this.fixErrMessageBeforeReject(err, reject));
     });
   }
   public putResource(resource: string, options?: APIRequestOption): Promise<any> {
@@ -93,7 +93,7 @@ export class IDEAAWSAPIService {
       let req = resourceId ? `${resource}/${resourceId}` : resource;
       // save in the API
       this.request(req, 'PUT', body)
-      .subscribe(res => resolve(res), err => reject(err));
+      .subscribe(res => resolve(res), err => this.fixErrMessageBeforeReject(err, reject));
     });
   }
   public patchResource(resource: string, options?: APIRequestOption): Promise<any> {
@@ -105,7 +105,7 @@ export class IDEAAWSAPIService {
       let req = resourceId ? `${resource}/${resourceId}` : resource;
       // save in the API
       this.request(req, 'PATCH', body)
-      .subscribe(res => resolve(res), err => reject(err));
+      .subscribe(res => resolve(res), err => this.fixErrMessageBeforeReject(err, reject));
     });
   }
   public deleteResource(resource: string, options?: APIRequestOption): Promise<any> {
@@ -120,8 +120,15 @@ export class IDEAAWSAPIService {
       if(params) for(let prop in params) searchParams = searchParams.set(prop, params[prop]);
       // delete from the API
       this.request(req, 'DELETE', null, searchParams)
-      .subscribe(() => resolve(), err => reject(err));
+      .subscribe(() => resolve(), err => this.fixErrMessageBeforeReject(err, reject));
     });
+  }
+  /**
+   * Converts the error message to be readable.
+   */
+  public fixErrMessageBeforeReject(err: HttpErrorResponse, rejectCB: any): void {
+    console.debug(err); // to see the original one
+    rejectCB(new Error(JSON.parse(err.error) || 'Unknown error!'));
   }
   /**
    * Execute the code to initialize the app, try to authenticate and decide what to do afterwards.
