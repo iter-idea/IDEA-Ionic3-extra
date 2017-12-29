@@ -128,7 +128,9 @@ export class IDEAAWSAPIService {
    */
   public fixErrMessageBeforeReject(err: HttpErrorResponse, rejectCB: any): void {
     console.debug(err); // to see the original one
-    rejectCB(new Error(JSON.parse(err.error) || 'Unknown error!'));
+    let e;
+    try { e = JSON.parse(err.error) } catch(nope) { e = 'Unknown error!'; }
+    rejectCB(new Error(e));
   }
   /**
    * Execute the code to initialize the app, try to authenticate and decide what to do afterwards.
