@@ -7,6 +7,7 @@ IDEA's extra components and services built on Ionic.
 - Calendar component (w/ datetime component)
 - Checker component
 - Language picker component
+- Generic list component
 - External browser service
 - AWSAPI service
 - Loading service

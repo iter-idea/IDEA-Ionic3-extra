@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar color="{{ toolbarColor }}">
+    <ion-title>{{ title }}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="primary" (click)="addElement()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list class="theList">
+    <ion-item-sliding *ngFor="let element of list">
+      <ion-item>{{ element }}</ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="danger" (click)="removeElement(element)">
+          <ion-icon name="trash"></ion-icon> {{ 'IDEA.LIST.DELETE' | translate }}
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>
+<ion-fab left bottom>
+  <button ion-fab mini color="danger" (click)="close()">
+    <ion-icon name="close"></ion-icon>
+  </button>
+</ion-fab>
+<ion-fab right bottom>
+  <button ion-fab color="primary" (click)="close(true)">
+    <ion-icon name="checkmark"></ion-icon>
+  </button>
+</ion-fab>

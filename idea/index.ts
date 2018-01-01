@@ -11,6 +11,8 @@ export { IDEACheck } from './checker/check.model';
 
 export { IDEALanguagePickerComponentModule } from './languagePicker/languagePicker.component.module';
 
+export { IDEAListComponentModule } from './list/list.component.module';
+
 export { IDEAAWSAPIService } from './AWSAPI.service';
 export { IDEALoadingService } from './loading.service';
 export { IDEAMessageService } from './message.service';

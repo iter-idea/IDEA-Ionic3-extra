@@ -72,6 +72,12 @@
     },
     "LANGUAGE_PICKER": {
       "APP_WILL_RESTART": "The app will restart"
+    },
+    "LIST": {
+      "LIST": "List",
+      "NEW_ELEMENT": "New element",
+      "ELEMENT": "Element",
+      "DELETE": "Delete"
     }
   }
 }

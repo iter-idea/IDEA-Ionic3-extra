@@ -72,6 +72,12 @@
     },
     "LANGUAGE_PICKER": {
       "APP_WILL_RESTART": "L'app verrà riavviata"
+    },
+    "LIST": {
+      "LIST": "Lista",
+      "NEW_ELEMENT": "Nuovo elemento",
+      "ELEMENT": "Elemento",
+      "DELETE": "Rimuovi"
     }
   }
 }
