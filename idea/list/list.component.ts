@@ -44,7 +44,12 @@ export class IDEAListComponent {
         }
       ]
     })
-    .present();
+    .present()
+    .then(() => {
+      const firstInput: any = document.querySelector('ion-alert input');
+      firstInput.focus();
+      return;
+    });
   }
   protected removeElement(element: any) {
     var index = -1;

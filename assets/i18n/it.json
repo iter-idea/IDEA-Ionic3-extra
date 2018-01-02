@@ -77,7 +77,8 @@
       "LIST": "Lista",
       "NEW_ELEMENT": "Nuovo elemento",
       "ELEMENT": "Elemento",
-      "DELETE": "Rimuovi"
+      "DELETE": "Rimuovi",
+      "NO_ELEMENTS_HINT": "La lista è vuota; tocca l'icona '+' per aggiungere il primo elemento"
     }
   }
 }
