@@ -59,7 +59,12 @@ export class IDEAAWSAPIService {
     const params = options ? options.params : null;
     const additionalHeaders = options && options.headers ? new HttpHeaders(options.headers) : null;
     var responseType = 'json';
-    if(additionalHeaders && additionalHeaders.get('accept') == 'application/pdf')
+    if(additionalHeaders &&
+      [
+        'application/pdf',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      ].some(h => h == additionalHeaders.get('Accept'))
+    )
       responseType = 'blob';
     return new Promise((resolve, reject) => {
       // prepare a single resource request (by id) o a normal one
