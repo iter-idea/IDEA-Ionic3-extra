@@ -22,7 +22,7 @@
       "I_HAVEN_T_RECEIVED_CONFIRMATION_CODE": "Non ho ricevuto il codice di conferma",
       "I_HAVE_A_CONFIRMATION_CODE": "Ho già il codice di conferma",
       "CONFIRM_A_REGISTRATION": "Conferma una registrazione",
-      "CONFIRM_A_REGISTRATION_HINT": "Abbiamo mandato un codice di verifica all'indirizzo email che ci hai fornito: per favore, inserisci il codice qui sott per confermare la registrazione",
+      "CONFIRM_A_REGISTRATION_HINT": "Abbiamo mandato un codice di verifica all'indirizzo email che ci hai fornito: per favore, inserisci il codice qui sotto per confermare la registrazione",
       "CONFIRMATION_CODE": "Codice di conferma",
       "CONFIRM_REGISTRATION": "Conferma la registrazione",
       "BACK_TO_REGISTRATION": "Torna alla registrazione",
