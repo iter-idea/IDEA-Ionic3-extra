@@ -26,6 +26,7 @@ export class IDEAAuthComponent {
   protected website: string;
   protected registrationPossible: boolean;
   protected showIDEALogo: boolean;
+  protected extraInfo: string; // to show dev important info
   //
   protected username: string;
   protected password: string;
@@ -42,6 +43,7 @@ export class IDEAAuthComponent {
     this.website = IDEA_APP_WEBSITE;
     this.registrationPossible = IDEA_APP_REGISTRATION_POSSIBLE;
     this.showIDEALogo = IDEA_SHOW_LOGO;
+    this.extraInfo = null;
   }
   protected ionViewCanEnter(): Promise<void> { return this.API.initAndAuth(false); }
 
