@@ -79,6 +79,10 @@
       "ELEMENT": "Element",
       "DELETE": "Delete",
       "NO_ELEMENTS_HINT": "The list is empty; tap on the '+' icon to add the first element"
+    },
+    "MDE": {
+      "TITLE": "Markdown editor",
+      "VARIABLES": "Available variables"
     }
   }
 }

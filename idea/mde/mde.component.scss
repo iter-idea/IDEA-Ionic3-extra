@@ -1,0 +1,18 @@
+IDEAMarkdownEditorComponent {
+  .header {
+    font-size: 1.1em;
+    margin-bottom: 0;
+  }
+  .description {
+    padding: 10px;
+    margin: 10px 0 20px 0;
+    background-color: white;
+    border-radius: 5px;
+  }
+  .variable {
+    word-break: keep-all;
+    span {
+      font-style: italic;
+    }
+  }
+}

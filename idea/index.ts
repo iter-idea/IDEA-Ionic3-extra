@@ -9,6 +9,8 @@ export { IDEACalendarComponentModule } from './calendar/calendar.component.modul
 export { IDEACheckerComponentModule } from './checker/checker.component.module';
 export { IDEACheck } from './checker/check.model';
 
+export { IDEAMarkdownEditorComponentModule } from './mde/mde.component.module';
+
 export { IDEALanguagePickerComponentModule } from './languagePicker/languagePicker.component.module';
 
 export { IDEAListComponentModule } from './list/list.component.module';
