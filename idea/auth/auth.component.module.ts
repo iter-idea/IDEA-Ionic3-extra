@@ -4,10 +4,6 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { IDEAAuthComponent } from './auth.component';
 
-import { IDEAAuthService } from './auth.service';
-import { IDEAMessageService } from '../message.service';
-import { IDEALoadingService } from '../loading.service';
-
 @NgModule({
   declarations: [
     IDEAAuthComponent
@@ -15,11 +11,6 @@ import { IDEALoadingService } from '../loading.service';
   imports: [
     IonicPageModule.forChild(IDEAAuthComponent),
     TranslateModule.forChild()
-  ],
-  providers: [
-    IDEAAuthService,
-    IDEAMessageService,
-    IDEALoadingService
   ]
 })
 export class IDEAAuthComponentModule { }
