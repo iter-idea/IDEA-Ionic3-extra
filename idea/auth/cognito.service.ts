@@ -11,9 +11,11 @@ declare const aws_user_pools_web_client_id;
 @Injectable()
 export class Cognito {
   constructor() {
-    AWSCognito.config.region = aws_project_region;
-    AWSCognito.config.credentials = AWS.config.credentials;
-    AWSCognito.config.update({ customUserAgent: AWS.config.customUserAgent });
+    if(AWSCognito) {
+      AWSCognito.config.region = aws_project_region;
+      AWSCognito.config.credentials = AWS.config.credentials;
+      AWSCognito.config.update({ customUserAgent: AWS.config.customUserAgent });
+    }
   }
   public getUserPool() {
     return new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool({

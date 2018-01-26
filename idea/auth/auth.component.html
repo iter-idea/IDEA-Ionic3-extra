@@ -36,16 +36,15 @@
         </a>
       </div>
       <div class="theInfo" *ngIf="website">
-        <a ion-text href="{{ website }}" target="_blank" color="secondary">
+        <a ion-text color="secondary" href="{{ website }}" target="_blank" rel="noopener">
           {{ 'IDEA.AUTH.DISCOVER_MORE' | translate }}
         </a>
       </div>
       <div class="theInfo" *ngIf="showIDEALogo">
-        <a href="https://www.iter-idea.com" target="_blank">
+        <a ion-text href="https://www.iter-idea.com" target="_blank" rel="noopener">
           <img src="/assets/icons/idea.png" class="logoIdea">
         </a>
       </div>
-      <div class="theInfo" *ngIf="extraInfo">{{ extraInfo }}</div>
     </ion-card>
   </form>
 </ion-content>
