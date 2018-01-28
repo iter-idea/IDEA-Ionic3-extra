@@ -18,7 +18,7 @@
   <p *ngIf="description" class="description">{{ description }}</p>
   <p *ngIf="variables?.length" class="variables">
     <b>{{ 'IDEA.MDE.VARIABLES' | translate }}:</b>
-    <span *ngFor="let v of variables">{{ v }}</span>&nbsp;&nbsp;
+    <span *ngFor="let v of variables">{{ v+' ' }}</span>
   </p>
   <textarea [id]="id"></textarea>
 </ion-content>
