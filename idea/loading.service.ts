@@ -19,6 +19,13 @@ export class IDEALoadingService {
     this.l.present();
   }
   /**
+   * Change the content of the loading animation, while it's already on.
+   * @param content new loading message
+   */
+  public setContent(content: string): void {
+    if(this.l) this.l.setContent(content);
+  }
+  /**
    * Hide a previous loading animation.
    */
   public hide(): void {
