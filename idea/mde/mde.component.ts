@@ -46,9 +46,9 @@ export class IDEAMarkdownEditorComponent {
       initialValue: this.navParams.get('initialValue'),
       placeholder: this.navParams.get('placeholder'),
       showIcons: this.navParams.get('showIcons'),
-      spellChecker: this.navParams.get('spellChecker') === false,
+      spellChecker: this.navParams.get('spellChecker') === false ? false : true,
       status: this.navParams.get('status'),
-      toolbarTips: this.navParams.get('spellChecker') === false
+      toolbarTips: this.navParams.get('toolbarTips') === false ? false : true,
     });
   }
 
