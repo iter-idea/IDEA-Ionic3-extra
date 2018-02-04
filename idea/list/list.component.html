@@ -13,14 +13,15 @@
     <ion-item *ngIf="!list.length">
       <i>{{ 'IDEA.LIST.NO_ELEMENTS_HINT' | translate }}</i>
     </ion-item>
-    <ion-item-sliding *ngFor="let element of list">
-      <ion-item>{{ element }}</ion-item>
-      <ion-item-options side="right">
-        <button ion-button color="danger" (click)="removeElement(element)">
-          <ion-icon name="trash"></ion-icon> {{ 'IDEA.LIST.DELETE' | translate }}
-        </button>
-      </ion-item-options>
-    </ion-item-sliding>
+    <ion-item *ngFor="let element of list">
+      {{ element }}
+      <button item-right ion-button clear icon-only color="danger"
+        title="{{ 'IDEA.LIST.DELETE' | translate }}"
+        (click)="removeElement(element)"
+      >
+        <ion-icon name="trash"></ion-icon>
+      </button>
+    </ion-item>
   </ion-list>
 </ion-content>
 <ion-fab left bottom>
