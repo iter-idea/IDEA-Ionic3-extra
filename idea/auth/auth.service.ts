@@ -113,7 +113,7 @@ export class IDEAAuthService {
               // set a timer to manage the autorefresh of the idToken (through the refreshToken)
               setTimeout(() => {
                 this.refreshSession(user, session.refreshToken, getFreshIdTokenOnExpiration);
-              }, 28*60*1000); // 28 minutes (30 is the expiration time)
+              }, 5*60*1000); // every 5 minutes
               // return the idToken (to use with API)
               resolve({
                 idToken: session.getIdToken().getJwtToken(), userDetails: userDetails
@@ -134,7 +134,7 @@ export class IDEAAuthService {
       else {
         setTimeout(() => {
           this.refreshSession(user, session.refreshToken, callback);
-        }, 28*60*1000); // 28 minutes (30 is the expiration time)
+        }, 5*60*1000); // every 5 minutes
         console.debug('Token refreshed');
         callback(session.getIdToken().getJwtToken());
       }
