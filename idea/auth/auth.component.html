@@ -5,7 +5,7 @@
   <form (ngSubmit)="login()">
     <ion-card class="aCard">
       <img src="assets/icons/icon.png" class="theLogo">
-      <h1 class="theTitle">{{ title }}</h1>
+      <h1 class="theTitle" *ngIf="title">{{ title }}</h1>
       <h2 class="theTagline" *ngIf="t.instant('TAGLINE')">{{ 'IDEA.TAGLINE' | translate }}</h2>
       <ion-list>
         <ion-item class="anInput">
