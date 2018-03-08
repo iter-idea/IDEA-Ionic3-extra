@@ -1,31 +1,36 @@
+<video playsinline autoplay muted loop id="authVideo" poster="assets/videos/auth.png">
+  <source src="assets/videos/auth.mov" type="video/mp4">
+</video>
 <ion-content>
+  <br /><br /><br />
   <div *ngIf="mode=='R'">
     <form (ngSubmit)="forgotPassword()">
-      <ion-card class="theCard">
-        <div class="theTitle">
-          <span ion-text color="primary">{{ 'IDEA.AUTH.PASSWORD_RESET' | translate }}</span>
-        </div>
-        <div class="theText">
+      <ion-card class="aCard">
+        <h1 class="theTitle">{{ 'IDEA.AUTH.PASSWORD_RESET' | translate }}</h1>
+        <h2 class="theTagline">
           {{ 'IDEA.AUTH.PASSWORD_RESET_HINT' | translate }}
-        </div>
+        </h2>
         <ion-list>
-          <ion-item>
-            <ion-label inline>{{ 'IDEA.AUTH.USERNAME' | translate }}</ion-label>
+          <ion-item class="anInput">
+            <ion-label inline><ion-icon name="mail"></ion-icon></ion-label>
             <ion-input type="text" autocorrect="off" autocapitalize="none"
-              [(ngModel)]="username" [ngModelOptions]="{standalone: true}"></ion-input>
+              [(ngModel)]="username" [ngModelOptions]="{ standalone: true }"
+              placeholder="{{ 'IDEA.AUTH.USERNAME_OR_EMAIL' | translate }}"
+            ></ion-input>
           </ion-item>
-          <ion-item>
-            <button ion-button default full>{{ 'IDEA.AUTH.RESET_MY_PASSWORD' | translate }}</button>
-          </ion-item>
+          <button ion-button outline class="aButton">
+            {{ 'IDEA.AUTH.RESET_MY_PASSWORD' | translate }}
+          </button>
         </ion-list>
-         <div class="theInfo">
-           <a ion-text (click)="mode = 'C'" color="primary">
-            {{ 'IDEA.AUTH.I_ALREADY_HAVE_A_RESET_CODE' | translate }}
+         <div class="someInfo">
+           <a ion-text (click)="mode = 'C'" tappable>
+            {{ 'IDEA.AUTH.ALREADY_HAVE_A_RESET_CODE' | translate }}
+            <b>{{ 'IDEA.AUTH.CLICK_HERE' | translate }}</b>
           </a>
         </div>
-        <div class="theInfo">
-          <a ion-text (click)="goToLogin()" color="primary">
-            {{ 'IDEA.AUTH.BACK_TO_SIGN_IN' | translate }}
+        <div class="someInfo">
+          <a ion-text (click)="goToLogin()" tappable>
+            ≪ {{ 'IDEA.AUTH.BACK_TO_SIGN_IN' | translate }}
           </a>
         </div>
       </ion-card>
@@ -33,43 +38,45 @@
   </div>
   <div *ngIf="mode=='C'">
     <form (ngSubmit)="confirmPassword()">
-      <ion-card class="theCard">
-        <div class="theTitle">
-          <span ion-text color="primary">{{ 'IDEA.AUTH.CHANGE_THE_PASSWORD' | translate }}</span>
-        </div>
-        <div class="theText">
-          <i>{{ 'IDEA.AUTH.CHANGE_THE_PASSWORD_HINT' | translate:{ 'n':8 } }}</i>
-        </div>
+      <ion-card class="aCard">
+        <h1 class="theTitle">{{ 'IDEA.AUTH.CHANGE_THE_PASSWORD' | translate }}</h1>
+        <h2 class="theTagline">
+          {{ 'IDEA.AUTH.CHANGE_THE_PASSWORD_HINT' | translate:{ 'n':8 } }}
+        </h2>
         <ion-list>
-          <ion-item>
-            <ion-label inline>{{ 'IDEA.AUTH.USERNAME' | translate }}</ion-label>
+          <ion-item class="anInput">
+            <ion-label inline><ion-icon name="contact"></ion-icon></ion-label>
             <ion-input type="text" autocorrect="off" autocapitalize="none"
-              [(ngModel)]="username" [ngModelOptions]="{standalone: true}"></ion-input>
+              [(ngModel)]="username" [ngModelOptions]="{ standalone: true }"
+              placeholder="{{ 'IDEA.AUTH.USERNAME_OR_EMAIL' | translate }}"
+            ></ion-input>
           </ion-item>
-          <ion-item>
-            <ion-label inline>{{ 'IDEA.AUTH.RESET_CODE' | translate }}</ion-label>
-            <ion-input type="text" [(ngModel)]="code"
-              [ngModelOptions]="{standalone: true}"></ion-input>
+          <ion-item class="anInput">
+            <ion-label inline><ion-icon name="disc"></ion-icon></ion-label>
+            <ion-input type="text" [(ngModel)]="code" [ngModelOptions]="{ standalone: true }"
+              placeholder="{{ 'IDEA.AUTH.RESET_CODE' | translate }}"
+            ></ion-input>
           </ion-item>
-          <ion-item>
-            <ion-label inline>{{ 'IDEA.AUTH.NEW_PASSWORD' | translate }}</ion-label>
-            <ion-input type="password" [(ngModel)]="newPassword"
-              [ngModelOptions]="{standalone: true}"></ion-input>
+          <ion-item class="anInput">
+            <ion-label inline><ion-icon name="key"></ion-icon></ion-label>
+            <ion-input type="password" [(ngModel)]="newPassword" 
+              [ngModelOptions]="{ standalone: true }"
+              placeholder="{{ 'IDEA.AUTH.NEW_PASSWORD' | translate }}"
+            ></ion-input>
           </ion-item>
-          <ion-item>
-            <button ion-button default full>
-              {{ 'IDEA.AUTH.CHANGE_MY_PASSWORD' | translate }}
-            </button>
-          </ion-item>
+          <button ion-button outline class="aButton">
+            {{ 'IDEA.AUTH.CHANGE_MY_PASSWORD' | translate }}
+          </button>
         </ion-list>
-        <div class="theInfo">
-          <a ion-text (click)="mode = 'R'" color="primary">
-            {{ 'IDEA.AUTH.I_HAVEN_T_RECEIVED_A_RESET_CODE' | translate }}
+        <div class="someInfo">
+          <a ion-text (click)="mode = 'R'" tappable>
+            {{ 'IDEA.AUTH.HAVEN_T_RECEIVED_A_RESET_CODE' | translate }}
+            <b>{{ 'IDEA.AUTH.CLICK_HERE' | translate }}</b>
           </a>
         </div>
-        <div class="theInfo">
-          <a ion-text (click)="goToLogin()" color="primary">
-            {{ 'IDEA.AUTH.BACK_TO_SIGN_IN' | translate }}
+        <div class="someInfo">
+          <a ion-text (click)="goToLogin()" tappable>
+            ≪ {{ 'IDEA.AUTH.BACK_TO_SIGN_IN' | translate }}
           </a>
         </div>
       </ion-card>

@@ -1,12 +1,21 @@
 {
   "IDEA": {
-    "TAGLINE": "The tagline",
+    "TAGLINE": null,
+    "UPDATE": {
+      "UPDATE_AVAILABLE": "An update is available",
+      "DO_YOU_WANT_TO_INSTALL_UPDATES": "Do you want to restart the app to install it?",
+      "NOT_NOW": "Not now",
+      "UPDATE": "Update"
+    },
     "AUTH": {
       "USERNAME": "Username",
+      "USERNAME_OR_EMAIL": "Username or email",
       "PASSWORD": "Password",
       "SIGN_IN": "Sign in",
-      "I_DON_T_HAVE_AN_ACCOUNT": "I don't have an account",
-      "I_FORGOT_MY_PASSWORD": "I forgot my password",
+      "OR": "OR",
+      "CREATE_AN_ACCOUNT": "Create an account",
+      "I_FORGOT_MY_PASSWORD": "Forgot your password?",
+      "CLICK_HERE": "Click here",
       "DISCOVER_MORE": "Discover more",
       "AUTHENTICATION_FAILED": "Authentication failed",
       "NEW_ACCOUNT": "New account",
@@ -14,13 +23,9 @@
       "ERROR_DETAIL": "Error detail",
       "FULL_NAME": "Full name",
       "EMAIL": "Email",
-      "NAME_PLACEHOLDER": "Elon Musk",
-      "USERNAME_PLACEHOLDER": "elon-musk",
-      "EMAIL_PLACEHOLDER": "elon@spacex.com",
-      "PASSWORD_PLACEHOLDER": "At least {{ n }} characters",
       "SIGN_UP": "Sign up",
-      "I_HAVEN_T_RECEIVED_CONFIRMATION_CODE": "I haven't received the confirmation code",
-      "I_HAVE_A_CONFIRMATION_CODE": "I have a confirmation code",
+      "HAVEN_T_RECEIVED_CONFIRMATION_CODE": "Haven't received the confirmation code yet?",
+      "ALREADY_HAVE_A_CONFIRMATION_CODE": "Already have a confirmation code?",
       "CONFIRM_A_REGISTRATION": "Confirm a registration",
       "CONFIRM_A_REGISTRATION_HINT": "We've sent you a verification code at the email address you provided us: please insert the code here to confirm your registration",
       "CONFIRMATION_CODE": "Confirmation code",
@@ -32,6 +37,7 @@
       "USERNAME_OBLIGATORY": "The username is obligatory",
       "EMAIL_OBLIGATORY": "The email address is obligatory",
       "PASSWORD_POLICY_VIOLATION": "The password must be at least {{ n }} characters long",
+      "REGISTRATION_COMPLETED": "Registration completed: you can proceed to sign in",
       "REGISTRATION_FAILED": "Registration failed",
       "CONFIRMATION_CODE_OBLIGATORY": "The confirmation code is obligatory",
       "SENDING_FAILED": "Sending failed",
@@ -41,14 +47,14 @@
       "PASSWORD_RESET": "Password reset",
       "PASSWORD_RESET_HINT": "Type in your username or your email to request a password reset",
       "RESET_MY_PASSWORD": "Reset my password",
-      "I_ALREADY_HAVE_A_RESET_CODE": "I already have a reset code",
+      "ALREADY_HAVE_A_RESET_CODE": "Already have a reset code?",
       "BACK_TO_SIGN_IN": "Back to sign in",
       "CHANGE_THE_PASSWORD": "Change the password",
       "CHANGE_THE_PASSWORD_HINT": "Note: the password should consist of {{ n }} characters or more",
       "RESET_CODE": "Reset code",
       "NEW_PASSWORD": "New password",
       "CHANGE_MY_PASSWORD": "Change my password",
-      "I_HAVEN_T_RECEIVED_A_RESET_CODE": "I haven't received a reset code",
+      "HAVEN_T_RECEIVED_A_RESET_CODE": "Haven't received the reset code yet?",
       "PASSWORD_RESET_CODE_SENT": "The code to reset the password has been sent via email",
       "USER_NOT_FOUND": "User not found",
       "PASSWORD_CHANGED": "Password changed! Now you can sign in again",
@@ -69,20 +75,6 @@
     },
     "LOADING": {
       "PLEASE_WAIT": "Please wait..."
-    },
-    "LANGUAGE_PICKER": {
-      "APP_WILL_RESTART": "The app will restart"
-    },
-    "LIST": {
-      "LIST": "List",
-      "NEW_ELEMENT": "New element",
-      "ELEMENT": "Element",
-      "DELETE": "Delete",
-      "NO_ELEMENTS_HINT": "The list is empty; tap on the '+' icon to add the first element"
-    },
-    "MDE": {
-      "TITLE": "Markdown editor",
-      "VARIABLES": "Available variables"
     }
   }
 }

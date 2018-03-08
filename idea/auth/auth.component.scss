@@ -1,48 +1,86 @@
 IDEAAuthComponent {
-  ion-content {
-    background-color: white !important;
+  #authVideo {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    transform: translateX(-50%) translateY(-50%);
+    background: url('../assets/videos/auth.png') no-repeat;
+    background-size: cover;
+    transition: 1s opacity;
   }
-  .theCard {
-    margin: 20px auto;
-    max-width: 400px;
+  ion-content.content {
+    position: fixed;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+  }
+  .aCard {
+    margin: 0 auto;
+    max-width: 350px;
     box-shadow: none;
-    color: #777;
-    background-color: white;
-    ion-item {
-      background-color: white;
+    background-color: transparent;
+    .theLogo {
+      max-width: 200px;
+      max-height: 200px;
+      margin: 0 auto;
+      padding: 20px 0;
     }
-  }
-  .theLogo {
-    width: 100px;
-    margin: 0 auto;
-    padding: 20px 0;
-  }
-  .theTitle {
-    text-align: center;
-    margin-bottom: 10px;
-    font-size: 2em;
-  }
-  .theText {
-    font-size: 1.1em;
-    text-align: center;
-    margin-bottom: 50px;
-    color: #777;
-  }
-  ion-label {
-    text-transform: uppercase;
-    font-size: 0.8em;
-    font-weight: 500;
-    letter-spacing: 1px;
-  }
-  button {
-    margin-top: 20px !important;
-  }
-  .theInfo {
-    margin-top: 20px;
-    text-align: center;
-  }
-  .logoIdea {
-    width: 35px;
-    margin: 0 auto;
+    .theTitle {
+      color: color($colors, primary);
+      font-family: 'auth-title', 'Roboto';
+      font-weight: 400;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 3.5em;
+    }
+    .theTagline {
+      text-align: center;
+      color: white;
+      margin-bottom: 25px;
+      font-size: 1.1em;
+      font-weight: 100;
+    }
+    .anInput {
+      background: rgba(255, 255, 255, 0.1);
+      margin: 15px 0;
+      ion-label, ion-input {
+        color: white;
+      }
+    }
+    .aButton {
+      color: white;
+      border-color: rgba(255, 255, 255, 0.2);
+      margin: 5px 0;
+      padding: 0;
+      width: 100%;
+    }
+    .someInfo {
+      color: #ddd;
+      margin: 20px 0;
+      text-align: center;
+      a, a:visited, a:hover {
+        text-decoration: none;
+        color: #ddd;
+      }
+    }
+    .theMessage {
+      margin-top: 35px;
+      color: white;
+    }
+    .theMessage.error {
+      padding-left: 10px;
+      border-left: 2px solid red;
+    }
+    .logoIdea {
+      width: 35px;
+      margin: 0 auto;
+    }
   }
 }

@@ -1,50 +1,59 @@
+<video playsinline autoplay muted loop id="authVideo" poster="assets/videos/auth.png">
+  <source src="assets/videos/auth.mov" type="video/mp4">
+</video>
 <ion-content>
   <form (ngSubmit)="login()">
-    <ion-card class="theCard">
+    <ion-card class="aCard">
       <img src="assets/icons/icon.png" class="theLogo">
-      <div class="theTitle">
-        <span ion-text color="primary">{{ title }}</span>
-      </div>
-      <div class="theText" *ngIf="t.instant('TAGLINE')">
-        {{ 'IDEA.TAGLINE' | translate }}
-      </div>
+      <h1 class="theTitle">{{ title }}</h1>
+      <h2 class="theTagline" *ngIf="t.instant('TAGLINE')">{{ 'IDEA.TAGLINE' | translate }}</h2>
       <ion-list>
-        <ion-item>
-          <ion-label inline>{{ 'IDEA.AUTH.USERNAME' | translate }}</ion-label>
+        <ion-item class="anInput">
+          <ion-label inline><ion-icon name="contact"></ion-icon></ion-label>
           <ion-input type="text" autocorrect="off" autocapitalize="none"
-            [(ngModel)]="username" [ngModelOptions]="{standalone: true}"
+            [(ngModel)]="username" [ngModelOptions]="{ standalone: true }"
+            placeholder="{{ 'IDEA.AUTH.USERNAME_OR_EMAIL' | translate }}"
           ></ion-input>
         </ion-item>
-        <ion-item>
-          <ion-label inline>{{ 'IDEA.AUTH.PASSWORD' | translate }}</ion-label>
+        <ion-item class="anInput">
+          <ion-label inline><ion-icon name="key"></ion-icon></ion-label>
           <ion-input type="password"
-            [(ngModel)]="password" [ngModelOptions]="{standalone: true}"
+            [(ngModel)]="password" [ngModelOptions]="{ standalone: true }"
+            placeholder="{{ 'IDEA.AUTH.PASSWORD' | translate }}"
           ></ion-input>
         </ion-item>
-        <ion-item>
-          <button ion-button default full>{{ 'IDEA.AUTH.SIGN_IN' | translate }}</button>
-        </ion-item>
+        <button ion-button outline class="aButton">
+          {{ 'IDEA.AUTH.SIGN_IN' | translate }}
+        </button>
       </ion-list>
-      <div class="theInfo" *ngIf="registrationPossible">
-        <a ion-text (click)="goToRegistration()" color="primary">
-          {{ 'IDEA.AUTH.I_DON_T_HAVE_AN_ACCOUNT' | translate }}
-        </a>
-      </div>
-      <div class="theInfo">
-        <a ion-text (click)="goToForgotPassword()" color="primary">
-          {{ 'IDEA.AUTH.I_FORGOT_MY_PASSWORD' | translate }}
-        </a>
-      </div>
-      <div class="theInfo" *ngIf="website">
-        <a ion-text color="secondary" href="{{ website }}" target="_blank" rel="noopener">
-          {{ 'IDEA.AUTH.DISCOVER_MORE' | translate }}
-        </a>
-      </div>
-      <div class="theInfo" *ngIf="showIDEALogo">
-        <a ion-text href="https://iter-idea.com" target="_blank" rel="noopener">
-          <img src="/assets/icons/idea.png" class="logoIdea">
-        </a>
-      </div>
     </ion-card>
   </form>
+  <form *ngIf="registrationPossible" (ngSubmit)="goToRegistration()">
+    <ion-card class="aCard">
+      <div class="someInfo">
+        {{ 'IDEA.AUTH.OR' | translate }}
+      </div>
+      <button ion-button outline class="aButton">
+        {{ 'IDEA.AUTH.CREATE_AN_ACCOUNT' | translate }}
+      </button>
+    </ion-card>
+  </form>
+  <ion-card class="aCard">
+    <div class="someInfo">
+      <a ion-text (click)="goToForgotPassword()" tappable>
+        {{ 'IDEA.AUTH.I_FORGOT_MY_PASSWORD' | translate }}
+        <b>{{ 'IDEA.AUTH.CLICK_HERE' | translate }}</b>
+      </a>
+    </div>
+    <div class="someInfo" *ngIf="website">
+      <a ion-text href="{{ website }}" tappable target="_blank" rel="noopener">
+        <i>≫ {{ 'IDEA.AUTH.DISCOVER_MORE' | translate }} ≪</i>
+      </a>
+    </div>
+    <div *ngIf="showIDEALogo" class="someInfo">
+      <a ion-text href="https://iter-idea.com" target="_blank" rel="noopener">
+        <img src="/assets/icons/idea.png" class="logoIdea">
+      </a>
+    </div>
+  </ion-card>
 </ion-content>

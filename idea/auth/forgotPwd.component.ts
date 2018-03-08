@@ -13,7 +13,7 @@ import { IDEAAWSAPIService } from '../AWSAPI.service';
   defaultHistory: ['sign-in']
 })
 @Component({
-  selector: 'IDEAForgotPwdComponent',
+  selector: 'IDEAAuthComponent',
   templateUrl: 'forgotPwd.component.html'
 })
 export class IDEAForgotPwdComponent {

@@ -1,62 +1,64 @@
+<video playsinline autoplay muted loop id="authVideo" poster="assets/videos/auth.png">
+  <source src="assets/videos/auth.mov" type="video/mp4">
+</video>
 <ion-content>
+  <br /><br /><br />
   <div *ngIf="mode=='R'">
     <form (ngSubmit)="register()">
-      <ion-card class="theCard">
-        <div class="theTitle">
-          <span ion-text color="primary">{{ 'IDEA.AUTH.NEW_ACCOUNT' | translate }}</span>
-        </div>
-        <div class="theText">
+      <ion-card class="aCard">
+        <h1 class="theTitle">{{ 'IDEA.AUTH.NEW_ACCOUNT' | translate }}</h1>
+        <h2 class="theTagline">
           {{ 'IDEA.AUTH.REGISTER_A_NEW_ACCOUNT_TO_THE_SYSTEM' | translate }}
-        </div>
-        <div class="theText errorMsg" *ngIf="errorMsg">
+        </h2>
+        <p *ngIf="errorMsg" class="theMessage error" >
           <b>{{ 'IDEA.AUTH.ERROR_DETAIL' | translate }}:</b> {{ errorMsg }}
-        </div>
+        </p>
         <ion-list>
-          <ion-item>
-            <ion-label inline>{{ 'IDEA.AUTH.FULL_NAME' | translate }}</ion-label>
+          <ion-item class="anInput">
+            <ion-label inline><ion-icon name="body"></ion-icon></ion-label>
             <ion-input type="text" autocorrect="off" autocapitalize="none"
-              [(ngModel)]="name" [ngModelOptions]="{standalone: true}"
-              placeholder="{{ 'IDEA.AUTH.NAME_PLACEHOLDER' | translate }}"
+              [(ngModel)]="name" [ngModelOptions]="{ standalone: true }"
+              placeholder="{{ 'IDEA.AUTH.FULL_NAME' | translate }}"
             ></ion-input>
           </ion-item>
-          <ion-item>
-            <ion-label inline>{{ 'IDEA.AUTH.USERNAME' | translate }}</ion-label>
+          <ion-item class="anInput">
+            <ion-label inline><ion-icon name="contact"></ion-icon></ion-label>
             <ion-input type="text" autocorrect="off" autocapitalize="none"
-              [(ngModel)]="username" [ngModelOptions]="{standalone: true}"
-              placeholder="{{ 'IDEA.AUTH.USERNAME_PLACEHOLDER' | translate }}"
+              [(ngModel)]="username" [ngModelOptions]="{ standalone: true }"
+              placeholder="{{ 'IDEA.AUTH.USERNAME' | translate }}"
             ></ion-input>
           </ion-item>
-          <ion-item>
-            <ion-label inline>{{ 'IDEA.AUTH.EMAIL' | translate }}</ion-label>
+          <ion-item class="anInput">
+            <ion-label inline><ion-icon name="mail"></ion-icon></ion-label>
             <ion-input type="text" autocorrect="off" autocapitalize="none"
-              [(ngModel)]="email" [ngModelOptions]="{standalone: true}"
-              placeholder="{{ 'IDEA.AUTH.EMAIL_PLACEHOLDER' | translate }}"
+              [(ngModel)]="email" [ngModelOptions]="{ standalone: true }"
+              placeholder="{{ 'IDEA.AUTH.EMAIL' | translate }}"
             ></ion-input>
           </ion-item>
-          <ion-item>
-            <ion-label inline>{{ 'IDEA.AUTH.PASSWORD' | translate }}</ion-label>
+          <ion-item class="anInput">
+            <ion-label inline><ion-icon name="key"></ion-icon></ion-label>
             <ion-input type="password"
-              [(ngModel)]="password" [ngModelOptions]="{standalone: true}"
-              placeholder="{{ 'IDEA.AUTH.PASSWORD_PLACEHOLDER' | translate:{ 'n':8 } }}"
+              [(ngModel)]="password" [ngModelOptions]="{ standalone: true }"
+              placeholder="{{ 'IDEA.AUTH.PASSWORD' | translate }}"
             ></ion-input>
           </ion-item>
-          <ion-item>
-            <button ion-button default full>{{ 'IDEA.AUTH.SIGN_UP' | translate }}</button>
-          </ion-item>
+          <button ion-button outline class="aButton">{{ 'IDEA.AUTH.SIGN_UP' | translate }}</button>
         </ion-list>
-        <div class="theInfo">
-          <a ion-text (click)="mode='S'" color="primary">
-            {{ 'IDEA.AUTH.I_HAVEN_T_RECEIVED_CONFIRMATION_CODE' | translate }}
+        <div class="someInfo">
+          <a ion-text (click)="mode='S'" tappable>
+            {{ 'IDEA.AUTH.HAVEN_T_RECEIVED_CONFIRMATION_CODE' | translate }}
+            <b>{{ 'IDEA.AUTH.CLICK_HERE' | translate }}</b>
           </a>
         </div>
-        <div class="theInfo">
-          <a ion-text (click)="mode='C'" color="primary">
-            {{ 'IDEA.AUTH.I_HAVE_A_CONFIRMATION_CODE' | translate }}
+        <div class="someInfo">
+          <a ion-text (click)="mode='C'" tappable>
+            {{ 'IDEA.AUTH.ALREADY_HAVE_A_CONFIRMATION_CODE' | translate }}
+            <b>{{ 'IDEA.AUTH.CLICK_HERE' | translate }}</b>
           </a>
         </div>
-        <div class="theInfo">
-          <a ion-text (click)="goToLogin()" color="primary">
-            {{ 'IDEA.AUTH.BACK_TO_SIGN_IN' | translate }}
+        <div class="someInfo">
+          <a ion-text (click)="goToLogin()" tappable>
+            ≪ {{ 'IDEA.AUTH.BACK_TO_SIGN_IN' | translate }}
           </a>
         </div>
       </ion-card>
@@ -64,34 +66,35 @@
   </div>
   <div *ngIf="mode=='C'">
     <form (ngSubmit)="confirmRegistration()">
-      <ion-card class="theCard">
-        <div class="theTitle">
-          <span ion-text color="primary">{{ 'IDEA.AUTH.CONFIRM_A_REGISTRATION' | translate }}</span>
-        </div>
-        <div class="theText">
+      <ion-card class="aCard">
+        <h1 class="theTitle">{{ 'IDEA.AUTH.CONFIRM_A_REGISTRATION' | translate }}</h1>
+        <h2 class="theTagline">
           {{ 'IDEA.AUTH.CONFIRM_A_REGISTRATION_HINT' | translate }}
-        </div>
-        <div class="theText errorMsg" *ngIf="errorMsg">
+        </h2>
+        <p *ngIf="errorMsg" class="theMessage error">
           <b>{{ 'IDEA.AUTH.ERROR_DETAIL' | translate }}:</b> {{ errorMsg }}
-        </div>
+        </p>
         <ion-list>
-          <ion-item>
-            <ion-label inline>{{ 'IDEA.AUTH.USERNAME' | translate }}</ion-label>
+          <ion-item class="anInput">
+            <ion-label inline><ion-icon name="contact"></ion-icon></ion-label>
             <ion-input type="text" autocorrect="off" autocapitalize="none"
-              [(ngModel)]="username" [ngModelOptions]="{standalone: true}"></ion-input>
+              [(ngModel)]="username" [ngModelOptions]="{ standalone: true }"
+              placeholder="{{ 'IDEA.AUTH.USERNAME_OR_EMAIL' | translate }}"
+            ></ion-input>
           </ion-item>
-          <ion-item>
-            <ion-label inline>{{ 'IDEA.AUTH.CONFIRMATION_CODE' | translate }}</ion-label>
-            <ion-input type="text" [(ngModel)]="code"
-              [ngModelOptions]="{standalone: true}"></ion-input>
+          <ion-item class="anInput">
+            <ion-label inline><ion-icon name="disc"></ion-icon></ion-label>
+            <ion-input type="text" [(ngModel)]="code" [ngModelOptions]="{ standalone: true }"
+              placeholder="{{ 'IDEA.AUTH.CONFIRMATION_CODE' | translate }}"
+            ></ion-input>
           </ion-item>
-          <ion-item>
-            <button ion-button default full>{{ 'IDEA.AUTH.CONFIRM_REGISTRATION' | translate }}</button>
-          </ion-item>
+          <button ion-button outline class="aButton">
+            {{ 'IDEA.AUTH.CONFIRM_REGISTRATION' | translate }}
+          </button>
         </ion-list>
-        <div class="theInfo">
-          <a ion-text (click)="mode='R'" color="primary">
-            {{ 'IDEA.AUTH.BACK_TO_REGISTRATION' | translate }}
+        <div class="someInfo">
+          <a ion-text (click)="mode='R'" tappable>
+            ≪ {{ 'IDEA.AUTH.BACK_TO_REGISTRATION' | translate }}
           </a>
         </div>
       </ion-card>
@@ -99,29 +102,29 @@
   </div>
   <div *ngIf="mode=='S'">
     <form (ngSubmit)="resendConfirmationCode()">
-      <ion-card class="theCard">
-        <div class="theTitle">
-          <span ion-text color="primary">{{ 'IDEA.AUTH.RESEND_CONFIRMATION_CODE' | translate }}</span>
-        </div>
-        <div class="theText">
+      <ion-card class="aCard">
+        <h1 class="theTitle">{{ 'IDEA.AUTH.RESEND_CONFIRMATION_CODE' | translate }}</h1>
+        <h2 class="theTagline">
           {{ 'IDEA.AUTH.RESEND_CONFIRMATION_CODE_HINT' | translate }}
-        </div>
-        <div class="theText errorMsg" *ngIf="errorMsg">
+        </h2>
+        <p *ngIf="errorMsg" class="theMessage error">
           <b>{{ 'IDEA.AUTH.ERROR_DETAIL' | translate }}:</b> {{ errorMsg }}
-        </div>
+        </p>
         <ion-list>
-          <ion-item>
-            <ion-label inline>{{ 'IDEA.AUTH.USERNAME' | translate }}</ion-label>
+          <ion-item class="anInput">
+            <ion-label inline><ion-icon name="contact"></ion-icon></ion-label>
             <ion-input type="text" autocorrect="off" autocapitalize="none"
-              [(ngModel)]="username" [ngModelOptions]="{standalone: true}"></ion-input>
+              [(ngModel)]="username" [ngModelOptions]="{ standalone: true }"
+              placeholder="{{ 'IDEA.AUTH.USERNAME' | translate }}"
+            ></ion-input>
           </ion-item>
-          <ion-item>
-            <button ion-button default full>{{ 'IDEA.AUTH.RESEND_CODE' | translate }}</button>
-          </ion-item>
+          <button ion-button outline class="aButton">
+            {{ 'IDEA.AUTH.RESEND_CODE' | translate }}
+          </button>
         </ion-list>
-        <div class="theInfo">
-          <a ion-text (click)="mode='R'" color="primary">
-            {{ 'IDEA.AUTH.BACK_TO_REGISTRATION' | translate }}
+        <div class="someInfo">
+          <a ion-text (click)="mode='R'" tappable>
+            ≪ {{ 'IDEA.AUTH.BACK_TO_REGISTRATION' | translate }}
           </a>
         </div>
       </ion-card>
