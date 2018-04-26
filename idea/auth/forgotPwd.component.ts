@@ -7,6 +7,9 @@ import { IDEAMessageService } from '../message.service';
 import { IDEALoadingService } from '../loading.service';
 import { IDEAAWSAPIService } from '../AWSAPI.service';
 
+// from idea-config.js
+declare const IDEA_AUTH_VIDEO;
+
 @IonicPage({
   name: 'forgot-password',
   segment: 'forgot-password',
@@ -17,6 +20,7 @@ import { IDEAAWSAPIService } from '../AWSAPI.service';
   templateUrl: 'forgotPwd.component.html'
 })
 export class IDEAForgotPwdComponent {
+  protected showVideo: boolean;
   protected mode: string; // 'R' recover, 'C' confirm
   protected username: string;
   protected code: string;
@@ -30,6 +34,7 @@ export class IDEAForgotPwdComponent {
     protected API: IDEAAWSAPIService,
     protected t: TranslateService
   ) {
+    this.showVideo = IDEA_AUTH_VIDEO;
     this.mode = 'R';
   }
   protected ionViewCanEnter(): Promise<void> { return this.API.initAndAuth(false); }

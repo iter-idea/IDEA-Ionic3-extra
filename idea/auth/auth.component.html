@@ -1,43 +1,69 @@
-<video playsinline autoplay muted loop id="authVideo">
+<video playsinline autoplay muted loop id="authVideo" *ngIf="showVideo">
   <source src="assets/videos/auth.mov" type="video/mp4">
 </video>
+<img src="assets/imgs/auth.png" id="authImage" *ngIf="!showVideo">
 <ion-content>
-  <form (ngSubmit)="login()">
-    <ion-card class="aCard">
-      <img src="assets/icons/icon.png" class="theLogo">
-      <h1 class="theTitle" *ngIf="title">{{ title }}</h1>
-      <h2 class="theTagline" *ngIf="t.instant('TAGLINE')">{{ 'IDEA.TAGLINE' | translate }}</h2>
-      <ion-list>
-        <ion-item class="anInput">
-          <ion-label inline><ion-icon name="contact"></ion-icon></ion-label>
-          <ion-input type="text" autocorrect="off" autocapitalize="none"
-            [(ngModel)]="username" [ngModelOptions]="{ standalone: true }"
-            placeholder="{{ 'IDEA.AUTH.USERNAME_OR_EMAIL' | translate }}"
-          ></ion-input>
-        </ion-item>
-        <ion-item class="anInput">
-          <ion-label inline><ion-icon name="key"></ion-icon></ion-label>
-          <ion-input type="password"
-            [(ngModel)]="password" [ngModelOptions]="{ standalone: true }"
-            placeholder="{{ 'IDEA.AUTH.PASSWORD' | translate }}"
-          ></ion-input>
-        </ion-item>
+  <div *ngIf="mode=='L'">
+    <form (ngSubmit)="login()">
+      <ion-card class="aCard">
+        <img src="assets/icons/icon.png" class="theLogo">
+        <h1 class="theTitle">{{ title }}</h1>
+        <h2 class="theTagline" *ngIf="t.instant('TAGLINE')">{{ 'IDEA.TAGLINE' | translate }}</h2>
+        <ion-list>
+          <ion-item class="anInput">
+            <ion-label inline><ion-icon name="contact"></ion-icon></ion-label>
+            <ion-input type="text" autocorrect="off" autocapitalize="none"
+              [(ngModel)]="username" [ngModelOptions]="{ standalone: true }"
+              placeholder="{{ 'IDEA.AUTH.USERNAME_OR_EMAIL' | translate }}"
+            ></ion-input>
+          </ion-item>
+          <ion-item class="anInput">
+            <ion-label inline><ion-icon name="key"></ion-icon></ion-label>
+            <ion-input type="password"
+              [(ngModel)]="password" [ngModelOptions]="{ standalone: true }"
+              placeholder="{{ 'IDEA.AUTH.PASSWORD' | translate }}"
+            ></ion-input>
+          </ion-item>
+          <button ion-button outline class="aButton">
+            {{ 'IDEA.AUTH.SIGN_IN' | translate }}
+          </button>
+        </ion-list>
+      </ion-card>
+    </form>
+    <form *ngIf="registrationPossible" (ngSubmit)="goToRegistration()">
+      <ion-card class="aCard">
+        <div class="someInfo">
+          {{ 'IDEA.AUTH.OR' | translate }}
+        </div>
         <button ion-button outline class="aButton">
-          {{ 'IDEA.AUTH.SIGN_IN' | translate }}
+          {{ 'IDEA.AUTH.CREATE_AN_ACCOUNT' | translate }}
         </button>
-      </ion-list>
-    </ion-card>
-  </form>
-  <form *ngIf="registrationPossible" (ngSubmit)="goToRegistration()">
-    <ion-card class="aCard">
-      <div class="someInfo">
-        {{ 'IDEA.AUTH.OR' | translate }}
-      </div>
-      <button ion-button outline class="aButton">
-        {{ 'IDEA.AUTH.CREATE_AN_ACCOUNT' | translate }}
-      </button>
-    </ion-card>
-  </form>
+      </ion-card>
+    </form>
+  </div>
+  <div *ngIf="mode=='P'">
+    <br /><br />
+    <form (ngSubmit)="confirmNewPassword()">
+      <ion-card class="aCard">
+        <h1 class="theTitle">{{ 'IDEA.AUTH.CHOOSE_A_PASSWORD' | translate }}</h1>
+        <h2 class="theTagline">
+          {{ 'IDEA.AUTH.YOU_NEED_TO_CHOOSE_A_NEW_PASSWORD' | translate }}
+        </h2>
+        <ion-list>
+          <ion-item class="anInput">
+            <ion-label inline><ion-icon name="key"></ion-icon></ion-label>
+            <ion-input type="password"
+              [(ngModel)]="newPassword" [ngModelOptions]="{ standalone: true }"
+              placeholder="{{ 'IDEA.AUTH.PASSWORD' | translate }}"
+            ></ion-input>
+          </ion-item>
+          <button ion-button outline class="aButton">
+            {{ 'IDEA.AUTH.CONFIRM_NEW_PASSWORD' | translate }}
+          </button>
+        </ion-list>
+      </ion-card>
+    </form>
+  </div>
   <ion-card class="aCard">
     <div class="someInfo">
       <a ion-text (click)="goToForgotPassword()" tappable>

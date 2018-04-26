@@ -21,11 +21,26 @@ export class IDEAAuthService {
       let authDetails = this.cognito.makeAuthDetails(username, password);
       // ... to perform a login
       user.authenticateUser(authDetails, {
+        onSuccess: () => { resolve(false) },
+        onFailure: (err) => { reject(err) },
+        newPasswordRequired: () => { resolve(true) }
+      });
+    });
+  }
+  public confirmNewPassword(
+    username: string, tempPassword: string, newPassword: string
+  ): Promise<any> {
+    return new Promise((resolve, reject) => {
+      // find the user and its temporary authentication details
+      let user = this.cognito.makeUser(username);
+      let authDetails = this.cognito.makeAuthDetails(username, tempPassword);
+      // login with the old password
+      user.authenticateUser(authDetails, {
         onSuccess: () => { resolve() },
         onFailure: (err) => { reject(err) },
         newPasswordRequired: () => {
-          // confirm the temporary password
-          user.completeNewPasswordChallenge(password, {}, {
+          // complete the new password challenge
+          user.completeNewPasswordChallenge(newPassword, {}, {
             onSuccess: () => { resolve() },
             onFailure: (err) => { reject(err) }
           });

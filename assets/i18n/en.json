@@ -58,7 +58,10 @@
       "PASSWORD_RESET_CODE_SENT": "The code to reset the password has been sent via email",
       "USER_NOT_FOUND": "User not found",
       "PASSWORD_CHANGED": "Password changed! Now you can sign in again",
-      "CONFIRM_PASSWORD_ERROR": "User not found, code not correct or password too easy"
+      "CONFIRM_PASSWORD_ERROR": "User not found, code not correct or password too easy",
+      "CHOOSE_A_PASSWORD": "Choose a password",
+      "YOU_NEED_TO_CHOOSE_A_NEW_PASSWORD": "Choose a new password for your account",
+      "CONFIRM_NEW_PASSWORD": "Confirm the new password"
     },
     "CALENDAR": {
       "MONDAY_SHORT": "Mon",

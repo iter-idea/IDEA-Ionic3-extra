@@ -12,6 +12,7 @@ declare const IDEA_APP_TITLE;
 declare const IDEA_APP_WEBSITE;
 declare const IDEA_APP_REGISTRATION_POSSIBLE;
 declare const IDEA_SHOW_LOGO;
+declare const IDEA_AUTH_VIDEO;
 
 @IonicPage({
   name: 'sign-in',
@@ -26,10 +27,13 @@ export class IDEAAuthComponent {
   protected website: string;
   protected registrationPossible: boolean;
   protected showIDEALogo: boolean;
+  protected showVideo: boolean;
   protected extraInfo: string; // to show dev important info
   //
+  protected mode: string; // 'L' login, 'P' new password challenge
   protected username: string;
   protected password: string;
+  protected newPassword: string;
 
   constructor(
     protected navCtrl: NavController,
@@ -43,20 +47,36 @@ export class IDEAAuthComponent {
     this.website = IDEA_APP_WEBSITE;
     this.registrationPossible = IDEA_APP_REGISTRATION_POSSIBLE;
     this.showIDEALogo = IDEA_SHOW_LOGO;
+    this.showVideo = IDEA_AUTH_VIDEO;
     this.extraInfo = null;
+    this.mode = 'L';
   }
   protected ionViewCanEnter(): Promise<void> { return this.API.initAndAuth(false); }
 
   public login(): void {
     this.loading.show();
     this.auth.login(this.username, this.password)
+    .then(needNewPassword => {
+      this.loading.hide();
+      if(needNewPassword) this.mode = 'P'; // go to new password challenge
+      else window.location.assign('');
+    })
+    .catch((err) => {
+      this.loading.hide();
+      this.message.show(this.t.instant('IDEA.AUTH.AUTHENTICATION_FAILED'),
+        this.message.TYPE_ERROR);
+    });
+  }
+  public confirmNewPassword(): void {
+    this.loading.show();
+    this.auth.confirmNewPassword(this.username, this.password, this.newPassword)
     .then(() => {
       this.loading.hide();
       window.location.assign('');
     })
     .catch((err) => {
       this.loading.hide();
-      this.message.show(this.t.instant('IDEA.AUTH.AUTHENTICATION_FAILED'),
+      this.message.show(this.t.instant('IDEA.AUTH.PASSWORD_POLICY_VIOLATION', { n: 8 }),
         this.message.TYPE_ERROR);
     });
   }

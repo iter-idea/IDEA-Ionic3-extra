@@ -7,6 +7,9 @@ import { IDEAMessageService } from '../message.service';
 import { IDEALoadingService } from '../loading.service';
 import { IDEAAWSAPIService } from '../AWSAPI.service';
 
+// from idea-config.js
+declare const IDEA_AUTH_VIDEO;
+
 @IonicPage({
   name: 'sign-up',
   segment: 'sign-up',
@@ -17,6 +20,7 @@ import { IDEAAWSAPIService } from '../AWSAPI.service';
   templateUrl: 'registration.component.html'
 })
 export class IDEARegistrationComponent {
+  protected showVideo: boolean;
   protected mode: string; // 'R' register, 'C' confirm registration, 'S' send again the code
   protected username: string;
   protected password: string;
@@ -33,6 +37,7 @@ export class IDEARegistrationComponent {
     protected API: IDEAAWSAPIService,
     protected t: TranslateService
   ) {
+    this.showVideo = IDEA_AUTH_VIDEO;
     this.mode = 'R';
     this.username = '';
     this.password = '';

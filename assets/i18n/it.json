@@ -58,7 +58,10 @@
       "PASSWORD_RESET_CODE_SENT": "Il codice di reset della password è stato inviato via email",
       "USER_NOT_FOUND": "Utente non trovato",
       "PASSWORD_CHANGED": "Password cambiata! Puoi effettuare l'accesso ora",
-      "CONFIRM_PASSWORD_ERROR": "Utente non trovato, codice non corretto o password troppo semplice"
+      "CONFIRM_PASSWORD_ERROR": "Utente non trovato, codice non corretto o password troppo semplice",
+      "CHOOSE_A_PASSWORD": "Scegli una password",
+      "YOU_NEED_TO_CHOOSE_A_NEW_PASSWORD": "Scegli una password per il tuo account",
+      "CONFIRM_NEW_PASSWORD": "Conferma la nuova password"
     },
     "CALENDAR": {
       "MONDAY_SHORT": "Lun",
