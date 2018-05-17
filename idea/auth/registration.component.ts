@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
+import { IonicPage, NavController, Platform } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 
 import { IDEAAuthService } from './auth.service';
@@ -30,6 +30,7 @@ export class IDEARegistrationComponent {
   protected errorMsg: string;
 
   constructor(
+    protected platform: Platform,
     protected navCtrl: NavController,
     protected message: IDEAMessageService,
     protected loading: IDEALoadingService,

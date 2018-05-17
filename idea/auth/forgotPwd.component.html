@@ -1,5 +1,5 @@
 <video id="authVideo" *ngIf="showVideo" muted="true" playsinline loop preload="auto" autoplay
-  poster="./assets/imgs/auth.png"
+  [attr.poster]="platform.is('ios') || platform.is('android') ? './assets/imgs/auth.png' : null"
 >
   <source src="./assets/videos/auth.mov" type="video/mp4">
   <img src="./assets/imgs/auth.png">
