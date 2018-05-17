@@ -1,7 +1,10 @@
-<video playsinline autoplay muted loop id="authVideo" *ngIf="showVideo">
-  <source src="assets/videos/auth.mov" type="video/mp4">
+<video id="authVideo" *ngIf="showVideo" muted="true" playsinline loop preload="auto" autoplay
+  poster="./assets/imgs/auth.png"
+>
+  <source src="./assets/videos/auth.mov" type="video/mp4">
+  <img src="./assets/imgs/auth.png">
 </video>
-<img src="assets/imgs/auth.png" id="authImage" *ngIf="!showVideo">
+<img src="./assets/imgs/auth.png" id="authImage" *ngIf="!showVideo">
 <ion-content>
   <br /><br /><br />
   <div *ngIf="mode=='R'">
