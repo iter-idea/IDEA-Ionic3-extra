@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Config } from 'ionic-angular';
+import { IDEAErrorReportingService } from './errorReporting.service';
 
 // from idea-config.js
 declare const IDEA_API_ID;
@@ -14,7 +15,11 @@ const API_URL = `https://${IDEA_API_ID}.execute-api.eu-west-2.amazonaws.com/${ID
  */
 @Injectable()
 export class IDEAAWSAPIService {
-  constructor(protected http: HttpClient, protected ionConfig: Config) {}
+  constructor(
+    protected http: HttpClient,
+    protected ionConfig: Config,
+    protected errorReporting: IDEAErrorReportingService
+  ) {}
 
   protected request(
     resource: string, method: string, body?: any,
@@ -42,7 +47,9 @@ export class IDEAAWSAPIService {
     return this.http;
   }
 
-  public headResource(resource: string, options?: APIRequestOption): Promise<any> {
+  public headResource(
+    resource: string, options?: APIRequestOption, reportError?: boolean
+  ): Promise<any> {
     // map the options
     const resourceId = options ? options.resourceId : null;
     return new Promise((resolve, reject) => {
@@ -50,10 +57,18 @@ export class IDEAAWSAPIService {
       let req = resourceId ? `${resource}/${resourceId}` : resource;
       // get from the API
       this.request(req, 'HEAD')
-      .subscribe(res => resolve(res), err => this.fixErrMessageBeforeReject(err, reject));
+      .subscribe(
+        res => resolve(res),
+        err => {
+          if(reportError) this.errorReporting.sendReport(err);
+          this.fixErrMessageBeforeReject(err, reject);
+        }
+      );
     });
   }
-  public getResource(resource: string, options?: APIRequestOption): Promise<any> {
+  public getResource(
+    resource: string, options?: APIRequestOption, reportError?: boolean
+  ): Promise<any> {
     // map the options
     const resourceId = options ? options.resourceId : null;
     const params = options ? options.params : null;
@@ -74,10 +89,18 @@ export class IDEAAWSAPIService {
       if(params) for(let prop in params) searchParams = searchParams.set(prop, params[prop]);
       // try to get from the API
       this.request(req, 'GET', null, searchParams, additionalHeaders, responseType)
-      .subscribe(res => resolve(res), err => this.fixErrMessageBeforeReject(err, reject));
+      .subscribe(
+        res => resolve(res),
+        err => {
+          if(reportError) this.errorReporting.sendReport(err);
+          this.fixErrMessageBeforeReject(err, reject);
+        }
+      );
     });
   }
-  public postResource(resource: string, options?: APIRequestOption): Promise<any> {
+  public postResource(
+    resource: string, options?: APIRequestOption, reportError?: boolean
+  ): Promise<any> {
     // map the options
     const resourceId = options ? options.resourceId : null;
     const body = options ? options.body : null;
@@ -86,10 +109,18 @@ export class IDEAAWSAPIService {
       let req = resourceId ? `${resource}/${resourceId}` : resource;
       // save in the API
       this.request(req, 'POST', body)
-      .subscribe(res => resolve(res), err => this.fixErrMessageBeforeReject(err, reject));
+      .subscribe(
+        res => resolve(res),
+        err => {
+          if(reportError) this.errorReporting.sendReport(err);
+          this.fixErrMessageBeforeReject(err, reject);
+        }
+      );
     });
   }
-  public putResource(resource: string, options?: APIRequestOption): Promise<any> {
+  public putResource(
+    resource: string, options?: APIRequestOption, reportError?: boolean
+  ): Promise<any> {
     // map the options
     const resourceId = options ? options.resourceId : null;
     const body = options ? options.body : null;
@@ -98,10 +129,17 @@ export class IDEAAWSAPIService {
       let req = resourceId ? `${resource}/${resourceId}` : resource;
       // save in the API
       this.request(req, 'PUT', body)
-      .subscribe(res => resolve(res), err => this.fixErrMessageBeforeReject(err, reject));
+      .subscribe(
+        res => resolve(res),
+        err => {
+          if(reportError) this.errorReporting.sendReport(err);
+          this.fixErrMessageBeforeReject(err, reject)
+        });
     });
   }
-  public patchResource(resource: string, options?: APIRequestOption): Promise<any> {
+  public patchResource(
+    resource: string, options?: APIRequestOption, reportError?: boolean
+  ): Promise<any> {
     // map the options
     const resourceId = options ? options.resourceId : null;
     const body = options ? options.body : null;
@@ -110,10 +148,18 @@ export class IDEAAWSAPIService {
       let req = resourceId ? `${resource}/${resourceId}` : resource;
       // save in the API
       this.request(req, 'PATCH', body)
-      .subscribe(res => resolve(res), err => this.fixErrMessageBeforeReject(err, reject));
+      .subscribe(
+        res => resolve(res),
+        err => {
+          if(reportError) this.errorReporting.sendReport(err);
+          this.fixErrMessageBeforeReject(err, reject);
+        }
+      );
     });
   }
-  public deleteResource(resource: string, options?: APIRequestOption): Promise<any> {
+  public deleteResource(
+    resource: string, options?: APIRequestOption, reportError?: boolean
+  ): Promise<any> {
     // map the options
     const resourceId = options ? options.resourceId : null;
     const params = options ? options.params : null;
@@ -125,7 +171,13 @@ export class IDEAAWSAPIService {
       if(params) for(let prop in params) searchParams = searchParams.set(prop, params[prop]);
       // delete from the API
       this.request(req, 'DELETE', null, searchParams)
-      .subscribe(() => resolve(), err => this.fixErrMessageBeforeReject(err, reject));
+      .subscribe(
+        () => resolve(),
+        err => {
+          if(reportError) this.errorReporting.sendReport(err);
+          this.fixErrMessageBeforeReject(err, reject);
+        }
+      );
     });
   }
   /**
