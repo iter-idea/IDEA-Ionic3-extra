@@ -12,6 +12,7 @@ IDEA's extra components and services built on Ionic.
 - AWSAPI service
 - Loading service
 - Message service
+- Error reporting service
 
 ## Requirements
 
