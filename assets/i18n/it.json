@@ -63,7 +63,8 @@
       "YOU_NEED_TO_CHOOSE_A_NEW_PASSWORD": "Scegli una password per il tuo account",
       "CONFIRM_NEW_PASSWORD": "Conferma la nuova password",
       "PRIVACY_POLICY_CHECK": "Accedendo, dichiari di accettare la seguente",
-      "PRIVACY_POLICY": "Politica sulla Privacy"
+      "PRIVACY_POLICY": "Politica sulla Privacy",
+      "PRIVACY_POLICY_URL": "<link>"
     },
     "CALENDAR": {
       "MONDAY_SHORT": "Lun",

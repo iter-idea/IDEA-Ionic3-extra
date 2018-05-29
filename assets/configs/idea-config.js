@@ -1,6 +1,5 @@
 const IDEA_APP_TITLE = 'App name';
 const IDEA_APP_WEBSITE = null;
-const IDEA_APP_PRIVACY_POLICY = 'https://privacypolicy.url';
 
 const IDEA_API_ID = '123';
 const IDEA_API_VERSION = 'prod';

@@ -17,29 +17,31 @@
             <ion-label inline><ion-icon name="contact"></ion-icon></ion-label>
             <ion-input type="text" autocorrect="off" autocapitalize="none"
               [(ngModel)]="username" [ngModelOptions]="{ standalone: true }"
-              placeholder="{{ 'IDEA.AUTH.USERNAME_OR_EMAIL' | translate }}"
+              [placeholder]="t.instant('IDEA.AUTH.USERNAME_OR_EMAIL')"
             ></ion-input>
           </ion-item>
           <ion-item class="anInput">
             <ion-label inline><ion-icon name="key"></ion-icon></ion-label>
             <ion-input type="password"
               [(ngModel)]="password" [ngModelOptions]="{ standalone: true }"
-              placeholder="{{ 'IDEA.AUTH.PASSWORD' | translate }}"
+              [placeholder]="t.instant('IDEA.AUTH.PASSWORD')"
             ></ion-input>
           </ion-item>
-          <ion-row class="privacyPolicyAcceptanceBox" *ngIf="privacyPolicyURL">
+          <ion-row class="privacyPolicyAcceptanceBox" 
+            *ngIf="t.instant('IDEA.AUTH.PRIVACY_POLICY_URL')"
+          >
             <ion-col text-center>
               <ion-checkbox 
                 [(ngModel)]="privacyPolicyCheck" [ngModelOptions]="{ standalone: true }"
               ></ion-checkbox>
               {{ 'IDEA.AUTH.PRIVACY_POLICY_CHECK' | translate }}
               <a ion-text color="primary"
-                [href]="privacyPolicyURL" target="_blank" rel="noopener"
+                [href]="t.instant('IDEA.AUTH.PRIVACY_POLICY_URL')" target="_blank" rel="noopener"
               >{{ 'IDEA.AUTH.PRIVACY_POLICY' | translate }}</a>
             </ion-col>
           </ion-row>
           <button ion-button outline class="aButton" 
-            [disabled]="privacyPolicyURL && !privacyPolicyCheck"
+            [disabled]="t.instant('IDEA.AUTH.PRIVACY_POLICY_URL') && !privacyPolicyCheck"
           >
             {{ 'IDEA.AUTH.SIGN_IN' | translate }}
           </button>
@@ -70,7 +72,7 @@
             <ion-label inline><ion-icon name="key"></ion-icon></ion-label>
             <ion-input type="password"
               [(ngModel)]="newPassword" [ngModelOptions]="{ standalone: true }"
-              placeholder="{{ 'IDEA.AUTH.PASSWORD' | translate }}"
+              [placeholder]="t.instant('IDEA.AUTH.PASSWORD')"
             ></ion-input>
           </ion-item>
           <button ion-button outline class="aButton">

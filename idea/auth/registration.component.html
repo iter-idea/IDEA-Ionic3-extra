@@ -22,28 +22,28 @@
             <ion-label inline><ion-icon name="body"></ion-icon></ion-label>
             <ion-input type="text" autocorrect="off" autocapitalize="none"
               [(ngModel)]="name" [ngModelOptions]="{ standalone: true }"
-              placeholder="{{ 'IDEA.AUTH.FULL_NAME' | translate }}"
+              [placeholder]="t.instant('IDEA.AUTH.FULL_NAME')"
             ></ion-input>
           </ion-item>
           <ion-item class="anInput">
             <ion-label inline><ion-icon name="contact"></ion-icon></ion-label>
             <ion-input type="text" autocorrect="off" autocapitalize="none"
               [(ngModel)]="username" [ngModelOptions]="{ standalone: true }"
-              placeholder="{{ 'IDEA.AUTH.USERNAME' | translate }}"
+              [placeholder]="t.instant('IDEA.AUTH.USERNAME')"
             ></ion-input>
           </ion-item>
           <ion-item class="anInput">
             <ion-label inline><ion-icon name="mail"></ion-icon></ion-label>
             <ion-input type="text" autocorrect="off" autocapitalize="none"
               [(ngModel)]="email" [ngModelOptions]="{ standalone: true }"
-              placeholder="{{ 'IDEA.AUTH.EMAIL' | translate }}"
+              [placeholder]="t.instant('IDEA.AUTH.EMAIL')"
             ></ion-input>
           </ion-item>
           <ion-item class="anInput">
             <ion-label inline><ion-icon name="key"></ion-icon></ion-label>
             <ion-input type="password"
               [(ngModel)]="password" [ngModelOptions]="{ standalone: true }"
-              placeholder="{{ 'IDEA.AUTH.PASSWORD' | translate }}"
+              [placeholder]="t.instant('IDEA.AUTH.PASSWORD')"
             ></ion-input>
           </ion-item>
           <button ion-button outline class="aButton">{{ 'IDEA.AUTH.SIGN_UP' | translate }}</button>
@@ -83,13 +83,13 @@
             <ion-label inline><ion-icon name="contact"></ion-icon></ion-label>
             <ion-input type="text" autocorrect="off" autocapitalize="none"
               [(ngModel)]="username" [ngModelOptions]="{ standalone: true }"
-              placeholder="{{ 'IDEA.AUTH.USERNAME_OR_EMAIL' | translate }}"
+              [placeholder]="t.instant('IDEA.AUTH.USERNAME_OR_EMAIL')"
             ></ion-input>
           </ion-item>
           <ion-item class="anInput">
             <ion-label inline><ion-icon name="disc"></ion-icon></ion-label>
             <ion-input type="text" [(ngModel)]="code" [ngModelOptions]="{ standalone: true }"
-              placeholder="{{ 'IDEA.AUTH.CONFIRMATION_CODE' | translate }}"
+              [placeholder]="t.instant('IDEA.AUTH.CONFIRMATION_CODE')"
             ></ion-input>
           </ion-item>
           <button ion-button outline class="aButton">
@@ -119,7 +119,7 @@
             <ion-label inline><ion-icon name="contact"></ion-icon></ion-label>
             <ion-input type="text" autocorrect="off" autocapitalize="none"
               [(ngModel)]="username" [ngModelOptions]="{ standalone: true }"
-              placeholder="{{ 'IDEA.AUTH.USERNAME' | translate }}"
+              [placeholder]="t.instant('IDEA.AUTH.USERNAME')"
             ></ion-input>
           </ion-item>
           <button ion-button outline class="aButton">
