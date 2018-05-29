@@ -27,7 +27,20 @@
               placeholder="{{ 'IDEA.AUTH.PASSWORD' | translate }}"
             ></ion-input>
           </ion-item>
-          <button ion-button outline class="aButton">
+          <ion-row class="privacyPolicyAcceptanceBox" *ngIf="privacyPolicyURL">
+            <ion-col text-center>
+              <ion-checkbox 
+                [(ngModel)]="privacyPolicyCheck" [ngModelOptions]="{ standalone: true }"
+              ></ion-checkbox>
+              {{ 'IDEA.AUTH.PRIVACY_POLICY_CHECK' | translate }}
+              <a ion-text color="primary"
+                [href]="privacyPolicyURL" target="_blank" rel="noopener"
+              >{{ 'IDEA.AUTH.PRIVACY_POLICY' | translate }}</a>
+            </ion-col>
+          </ion-row>
+          <button ion-button outline class="aButton" 
+            [disabled]="privacyPolicyURL && !privacyPolicyCheck"
+          >
             {{ 'IDEA.AUTH.SIGN_IN' | translate }}
           </button>
         </ion-list>
@@ -75,12 +88,12 @@
       </a>
     </div>
     <div class="someInfo" *ngIf="website">
-      <a ion-text href="{{ website }}" tappable target="_blank" rel="noopener">
+      <a ion-text [href]="website" tappable target="_blank" rel="noopener">
         <i>≫ {{ 'IDEA.AUTH.DISCOVER_MORE' | translate }} ≪</i>
       </a>
     </div>
     <div *ngIf="showIDEALogo" class="someInfo">
-      <a ion-text href="https://iter-idea.com" target="_blank" rel="noopener">
+      <a ion-text [href]="IDEAWebsite" target="_blank" rel="noopener">
         <img src="./assets/icons/idea.png" class="logoIdea">
       </a>
     </div>

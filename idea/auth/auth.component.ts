@@ -10,9 +10,11 @@ import { IDEAAWSAPIService } from '../AWSAPI.service';
 // from idea-config.js
 declare const IDEA_APP_TITLE;
 declare const IDEA_APP_WEBSITE;
-declare const IDEA_APP_REGISTRATION_POSSIBLE;
-declare const IDEA_SHOW_LOGO;
+declare const IDEA_APP_PRIVACY_POLICY;
+declare const IDEA_AUTH_REGISTRATION_POSSIBLE;
+declare const IDEA_AUTH_SHOW_LOGO;
 declare const IDEA_AUTH_VIDEO;
+declare const IDEA_WEBSITE;
 
 @IonicPage({
   name: 'sign-in',
@@ -25,15 +27,18 @@ declare const IDEA_AUTH_VIDEO;
 export class IDEAAuthComponent {
   protected title: string;
   protected website: string;
+  protected privacyPolicyURL: string;
   protected registrationPossible: boolean;
   protected showIDEALogo: boolean;
   protected showVideo: boolean;
+  protected IDEAWebsite: string;
   protected extraInfo: string; // to show dev important info
   //
   protected mode: string; // 'L' login, 'P' new password challenge
   protected username: string;
   protected password: string;
   protected newPassword: string;
+  protected privacyPolicyCheck: boolean;
 
   constructor(
     protected platform: Platform,
@@ -46,11 +51,14 @@ export class IDEAAuthComponent {
   ) {
     this.title = IDEA_APP_TITLE;
     this.website = IDEA_APP_WEBSITE;
-    this.registrationPossible = IDEA_APP_REGISTRATION_POSSIBLE;
-    this.showIDEALogo = IDEA_SHOW_LOGO;
+    this.privacyPolicyURL = IDEA_APP_PRIVACY_POLICY;
+    this.registrationPossible = IDEA_AUTH_REGISTRATION_POSSIBLE;
+    this.showIDEALogo = IDEA_AUTH_SHOW_LOGO;
     this.showVideo = IDEA_AUTH_VIDEO;
+    this.IDEAWebsite = IDEA_WEBSITE;
     this.extraInfo = null;
     this.mode = 'L';
+    this.privacyPolicyCheck = true;
   }
   protected ionViewCanEnter(): Promise<void> { return this.API.initAndAuth(false); }
 

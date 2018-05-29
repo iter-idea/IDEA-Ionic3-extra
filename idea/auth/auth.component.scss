@@ -54,6 +54,18 @@ IDEAAuthComponent {
         color: white;
       }
     }
+    .privacyPolicyAcceptanceBox {
+      margin-top: 15px;
+      margin-bottom: 10px;
+      color: #ddd;
+      .checkbox {
+        top: 3px;
+        padding-right: 3px;
+      }
+      .checkbox-ios {
+        top: 5px;
+      }
+    }
     .aButton {
       color: white;
       border-color: rgba(255, 255, 255, 0.2);

@@ -61,7 +61,9 @@
       "CONFIRM_PASSWORD_ERROR": "User not found, code not correct or password too easy",
       "CHOOSE_A_PASSWORD": "Choose a password",
       "YOU_NEED_TO_CHOOSE_A_NEW_PASSWORD": "Choose a new password for your account",
-      "CONFIRM_NEW_PASSWORD": "Confirm the new password"
+      "CONFIRM_NEW_PASSWORD": "Confirm the new password",
+      "PRIVACY_POLICY_CHECK": "By logging in, you declare to accept the following",
+      "PRIVACY_POLICY": "Privacy Policy"
     },
     "CALENDAR": {
       "MONDAY_SHORT": "Mon",
