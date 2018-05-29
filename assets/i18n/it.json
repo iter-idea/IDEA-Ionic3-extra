@@ -3,9 +3,8 @@
     "TAGLINE": null,
     "UPDATE": {
       "UPDATE_AVAILABLE": "Un aggiornamento è disponibile",
-      "DO_YOU_WANT_TO_INSTALL_UPDATES": "Riavviare l'app per installarlo?",
-      "NOT_NOW": "Non ora",
-      "UPDATE": "Aggiorna"
+      "CLOSE_THE_APP_TO_UPDATE": "Chiudi completamente l'app o il browser per installare l'aggiornamento",
+      "GOT_IT": "Ho capito"
     },
     "AUTH": {
       "USERNAME": "Username",

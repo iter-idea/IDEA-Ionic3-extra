@@ -3,9 +3,8 @@
     "TAGLINE": null,
     "UPDATE": {
       "UPDATE_AVAILABLE": "An update is available",
-      "DO_YOU_WANT_TO_INSTALL_UPDATES": "Do you want to restart the app to install it?",
-      "NOT_NOW": "Not now",
-      "UPDATE": "Update"
+      "CLOSE_THE_APP_TO_UPDATE": "Close completely the app or the browser to install the update",
+      "GOT_IT": "Got it"
     },
     "AUTH": {
       "USERNAME": "Username",

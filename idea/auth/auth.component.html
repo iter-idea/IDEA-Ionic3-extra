@@ -1,15 +1,15 @@
 <video id="authVideo" *ngIf="showVideo" muted="true" playsinline loop preload="auto" autoplay
-  [attr.poster]="platform.is('android') ? './assets/imgs/auth.png' : null"
+  [attr.poster]="platform.is('android') ? './assets/imgs/auth.jpg' : null"
 >
   <source src="./assets/videos/auth.mov" type="video/mp4">
-  <img src="./assets/imgs/auth.png">
+  <img src="./assets/imgs/auth.jpg">
 </video>
-<img src="./assets/imgs/auth.png" id="authImage" *ngIf="!showVideo">
+<img src="./assets/imgs/auth.jpg" id="authImage" *ngIf="!showVideo">
 <ion-content>
   <div *ngIf="mode=='L'">
     <form (ngSubmit)="login()">
       <ion-card class="aCard">
-        <img src="assets/icons/icon.png" class="theLogo">
+        <img src="assets/icons/icon.jpg" class="theLogo">
         <h1 class="theTitle">{{ title }}</h1>
         <h2 class="theTagline" *ngIf="t.instant('TAGLINE')">{{ 'IDEA.TAGLINE' | translate }}</h2>
         <ion-list>
