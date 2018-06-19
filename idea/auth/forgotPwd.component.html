@@ -1,7 +1,7 @@
 <video id="authVideo" *ngIf="showVideo" muted="true" playsinline loop preload="auto" autoplay
   [attr.poster]="platform.is('android') ? './assets/imgs/auth.jpg' : null"
 >
-  <source src="./assets/videos/auth.mov" type="video/mp4">
+  <source src="./assets/videos/auth.mp4" type="video/mp4">
   <img src="./assets/imgs/auth.jpg">
 </video>
 <img src="./assets/imgs/auth.jpg" id="authImage" *ngIf="!showVideo">
@@ -62,7 +62,7 @@
           </ion-item>
           <ion-item class="anInput">
             <ion-label inline><ion-icon name="key"></ion-icon></ion-label>
-            <ion-input type="password" [(ngModel)]="newPassword" 
+            <ion-input type="password" [(ngModel)]="newPassword"
               [ngModelOptions]="{ standalone: true }"
               [placeholder]="t.instant('IDEA.AUTH.NEW_PASSWORD')"
             ></ion-input>

@@ -1,7 +1,7 @@
 <video id="authVideo" *ngIf="showVideo" muted="true" playsinline loop preload="auto" autoplay
   [attr.poster]="platform.is('android') ? './assets/imgs/auth.jpg' : null"
 >
-  <source src="./assets/videos/auth.mov" type="video/mp4">
+  <source src="./assets/videos/auth.mp4" type="video/mp4">
   <img src="./assets/imgs/auth.jpg">
 </video>
 <img src="./assets/imgs/auth.jpg" id="authImage" *ngIf="!showVideo">
@@ -27,11 +27,11 @@
               [placeholder]="t.instant('IDEA.AUTH.PASSWORD')"
             ></ion-input>
           </ion-item>
-          <ion-row class="privacyPolicyAcceptanceBox" 
+          <ion-row class="privacyPolicyAcceptanceBox"
             *ngIf="t.instant('IDEA.AUTH.PRIVACY_POLICY_URL')"
           >
             <ion-col text-center>
-              <ion-checkbox 
+              <ion-checkbox
                 [(ngModel)]="privacyPolicyCheck" [ngModelOptions]="{ standalone: true }"
               ></ion-checkbox>
               {{ 'IDEA.AUTH.PRIVACY_POLICY_CHECK' | translate }}
@@ -40,7 +40,7 @@
               >{{ 'IDEA.AUTH.PRIVACY_POLICY' | translate }}</a>
             </ion-col>
           </ion-row>
-          <button ion-button outline class="aButton" 
+          <button ion-button outline class="aButton"
             [disabled]="t.instant('IDEA.AUTH.PRIVACY_POLICY_URL') && !privacyPolicyCheck"
           >
             {{ 'IDEA.AUTH.SIGN_IN' | translate }}
