@@ -83,11 +83,11 @@ export class IDEAAuthService {
       });
     });
   }
-  public logout(): void {
+  public logout(dontReload?: boolean): void {
     this.isAuthenticated(false)
     .then(() => {
       this.cognito.getCurrentUser().signOut();
-      window.location.assign('');
+      if(!dontReload) window.location.assign('');
     })
     .catch(() => window.location.assign(''));
   }
