@@ -151,7 +151,7 @@ export class IDEAAuthService {
           this.refreshSession(user, session.refreshToken, callback);
         }, 15*60*1000); // every 15 minutes
         console.debug('Token refreshed');
-        callback(session.getIdToken().getJwtToken());
+        if(callback) callback(session.getIdToken().getJwtToken());
       }
     });
   }
