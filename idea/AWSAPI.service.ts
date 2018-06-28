@@ -5,9 +5,11 @@ import { IDEAErrorReportingService } from './errorReporting.service';
 
 // from idea-config.js
 declare const IDEA_API_ID;
+declare const IDEA_API_REGION;
 declare const IDEA_API_VERSION;
 
-const API_URL = `https://${IDEA_API_ID}.execute-api.eu-west-2.amazonaws.com/${IDEA_API_VERSION}`;
+const API_URL = 
+  `https://${IDEA_API_ID}.execute-api.${IDEA_API_REGION}.amazonaws.com/${IDEA_API_VERSION}`;
 
 /**
  * To communicate with an AWS's API Gateway istance.
