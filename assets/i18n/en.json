@@ -66,14 +66,28 @@
       "PRIVACY_POLICY_URL": "https://www.iubenda.com/privacy-policy/21156025"
     },
     "CALENDAR": {
+      "RESET": "Reset",
+      "MONTH": "Month",
+      "YEAR": "Year",
+      "1": "January",
+      "2": "February",
+      "3": "March",
+      "4": "April",
+      "5": "May",
+      "6": "June",
+      "7": "July",
+      "8": "August",
+      "9": "September",
+      "10": "October",
+      "11": "November",
+      "12": "December",
       "MONDAY_SHORT": "Mon",
       "TUESDAY_SHORT": "Tue",
       "WEDNESDAY_SHORT": "Wed",
       "THURSDAY_SHORT": "Thu",
       "FRIDAY_SHORT": "Fri",
       "SATURDAY_SHORT": "Sat",
-      "SUNDAY_SHORT": "Sun",
-      "RESET": "Reset"
+      "SUNDAY_SHORT": "Sun"
     },
     "CHECKER": {
       "DONE": "Done"

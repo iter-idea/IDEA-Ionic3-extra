@@ -4,38 +4,32 @@ IDEACalendarComponent {
     ion-col {
       padding: 0px;
     }
-    @media only screen and (max-width: 576px) {
-      .calHeader ion-col {
-        font-size: 1.5rem;
-      }
-      .button {
-        padding: 10px;
-        font-size: 1.5rem;
-      }
-    }
   }
-  .calHeader {
-    font-weight: 600;
+  .calRow {
     ion-col {
-      padding-top: 10px;
-      padding-bottom: 10px;
-      font-size: 1.8rem;
+      margin: 5px 0;
+      font-size: 1.2em;
     }
   }
-  .button {
+  .daysRow {
+    margin-top: 20px;
+    font-weight: 600;
+  }
+  .dayButton {
     color: #444;
     font-weight: normal;
     font-size: 1.8rem;
+    height: 35px;
+    width: 35px;
   }
   .notInThisMonth {
     color: #AAA;
   }
   .today {
     border: 1px solid color($colors, primary);
-    border-radius: 20px;
   }
-  .selected {
-    background-color: color($colors, primary);
-    color: white;
+  .selected, .selected:hover {
+    background-color: color($colors, primary) !important;
+    color: white !important;
   }
 }

@@ -19,6 +19,7 @@ import { IDEADatetimeComponent } from './datetime.component';
     IDEADatetimeComponent
   ],
   exports: [
+    IDEACalendarComponent,
     IDEADatetimeComponent
   ]
 })
