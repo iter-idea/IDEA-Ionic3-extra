@@ -11,7 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
     <ion-label *ngIf="labelType=='floating'" floating>{{ label }}</ion-label>
     <ion-label *ngIf="labelType=='inset'" inset>{{ label }}</ion-label>
     <ion-input
-      value="{{ date | date }}" type="text" readonly tappable 
+      value="{{ date | date:format }}" type="text" readonly tappable 
       (click)="openCalendarPicker()"
     ></ion-input>
     <button ion-button item-end clear (click)="onDateSelected.emit(null)">
@@ -27,9 +27,10 @@ export class IDEADatetimeComponent {
   @Input() protected label: string;
   @Input() protected labelType: string;
   @Input() protected date: Date;
+  @Input() protected format: string;
   @Input() protected toolbarBgColor: string;
   @Input() protected toolbarColor: string;
-  @Output() public onDateSelected = new EventEmitter<Date>();
+  @Output() public onDateSelected = new EventEmitter<String>();
 
   constructor(protected modalCtrl: ModalController, protected t: TranslateService) {}
 
@@ -38,7 +39,9 @@ export class IDEADatetimeComponent {
       refDate: this.date, title: this.label,
       toolbarBgColor: this.toolbarBgColor, toolbarColor: this.toolbarColor
     });
-    modal.onDidDismiss(date => this.date = new Date(date)); // to fire the "onChange" event
+    modal.onDidDismiss(date => { 
+      if(date) this.onDateSelected.emit(new Date(date).toISOString()); 
+    }); 
     modal.present();
   }
 }
