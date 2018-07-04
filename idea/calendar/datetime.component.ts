@@ -40,7 +40,12 @@ export class IDEADatetimeComponent {
       toolbarBgColor: this.toolbarBgColor, toolbarColor: this.toolbarColor
     });
     modal.onDidDismiss(date => { 
-      if(date) this.onDateSelected.emit(new Date(date).toISOString()); 
+      if(date) {
+        // get rid of the timezone
+        date = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString();
+        // return the date picked
+        this.onDateSelected.emit(date); 
+      }
     }); 
     modal.present();
   }
