@@ -15,8 +15,11 @@ export { IDEALanguagePickerComponentModule } from './languagePicker/languagePick
 
 export { IDEAListComponentModule } from './list/list.component.module';
 
+export { IDEAAutoCompleteComponentModule } from './autoComplete/autoComplete.component.module';
+
 export { IDEAAWSAPIService } from './AWSAPI.service';
 export { IDEALoadingService } from './loading.service';
 export { IDEAMessageService } from './message.service';
 export { IDEAExtBrowserService } from './extBrowser.service';
 export { IDEAErrorReportingService, IDEAErrorReport } from './errorReporting.service';
+export { IDEAAutoCompleteService } from './autoComplete/autoComplete.service';
