@@ -1,27 +1,9 @@
-import { Component, Input, Output, EventEmitter, TemplateRef, ViewChild, 
-  HostListener } from '@angular/core';
+import { Component, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { noop } from 'rxjs/util/noop';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { fromPromise } from 'rxjs/observable/fromPromise';
-
-// default options
-const defaultOpts = {
-  cancelButtonText: 'Cancel',
-  allowUnlistedValues: false, // @idea
-  showCancelButton: false,
-  debounce: 250,
-  placeholder: '',
-  autocomplete: 'off',
-  autocorrect: 'off',
-  spellcheck: 'off',
-  type: 'search',
-  value: '',
-  noItems: '',
-  clearOnEdit: false,
-  clearInput: false
-};
 
 @Component({
   selector: 'IDEAAutoCompleteComponent',
@@ -29,24 +11,34 @@ const defaultOpts = {
   providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: IDEAAutoCompleteComponent, multi: true }]
 })
 export class IDEAAutoCompleteComponent implements ControlValueAccessor {
+  @Input() public id: string;
   @Input() public dataProvider: any;
   @Input() public label: string;
-  @Input() public options: any;
+  @Input() public allowUnlistedValues: boolean;
+  @Input() public placeholder: string = '';
+  @Input() public autocomplete: string = 'off';
+  @Input() public autocorrect: string = 'off';
+  @Input() public spellcheck: string = 'off';
+  @Input() public type: string = 'search';
+  @Input() public debounce: number = 250;
+  @Input() public showCancelButton: boolean;
+  @Input() public cancelButtonText: string = 'Cancel';
+  @Input() public value: string = '';
+  @Input() public noItemsText: string;
+  @Input() public clearOnEdit: boolean;
+  @Input() public clearInput: boolean;
   @Input() public disabled: any;
   @Input() public keyword: string;
   @Input() public showResultsFirst: boolean;
   @Input() public alwaysShowList: boolean;
   @Input() public hideListOnSelection: boolean = true;
   @Input() public template: TemplateRef<any>;
-  @Input() public useIonInput: boolean;
   @Output() public autoFocus: EventEmitter<any>;
   @Output() public autoBlur: EventEmitter<any>;
   @Output() public itemSelected: EventEmitter<any>;
   @Output() public itemsShown: EventEmitter<any>;
   @Output() public itemsHidden: EventEmitter<any>;
   @Output() public ionAutoInput: EventEmitter<string>;
-  @ViewChild('searchbarElem') searchbarElem;
-  @ViewChild('inputElem') inputElem;
 
   private onTouchedCallback: () => void = noop;
   private onChangeCallback: (_: any) => void = noop;
@@ -73,9 +65,6 @@ export class IDEAAutoCompleteComponent implements ControlValueAccessor {
     this.ionAutoInput = new EventEmitter<string>();
     this.autoFocus = new EventEmitter<any>();
     this.autoBlur = new EventEmitter<any>();
-    this.options = {};
-    // set default options
-    for(let o in defaultOpts) this.options[o] = defaultOpts[o];
   }
 
   public handleTap() {
@@ -129,7 +118,7 @@ export class IDEAAutoCompleteComponent implements ControlValueAccessor {
     if(result instanceof Subject) result = result.asObservable();
     if(result instanceof Promise) result = fromPromise(result);
     // if query is async
-    if(result instanceof Observable) 
+    if(result instanceof Observable)
       result.subscribe(
         (results: any[]) => {
           this.suggestions = results;
@@ -143,8 +132,8 @@ export class IDEAAutoCompleteComponent implements ControlValueAccessor {
     }
     // emit event
     this.ionAutoInput.emit(this.keyword);
-    // @idea if allowed by the `allowUnlistedValues` option, directly set the value in the model
-    if(this.options.allowUnlistedValues) {
+    // if allowed by the `allowUnlistedValues` option, directly set the value in the model
+    if(this.allowUnlistedValues) {
       this.formValue = this.keyword;
       this.updateModel();
     }
@@ -176,9 +165,8 @@ export class IDEAAutoCompleteComponent implements ControlValueAccessor {
   }
   /**
    * Get current input value.
-   * @returns {string}
    */
-  public getValue() {
+  public getValue(): string {
     return this.formValue;
   }
   /**
@@ -204,28 +192,37 @@ export class IDEAAutoCompleteComponent implements ControlValueAccessor {
    * Set focus of the searchbar.
    */
   public setFocus() {
-    if(this.searchbarElem) this.searchbarElem.setFocus();
+    let searchbar = document.getElementById(this.id);
+    if(searchbar) searchbar.focus();
   }
   /**
    * Fired when the input focused.
    */
-  public onFocus() { this.autoFocus.emit(); }
+  public onFocus() {
+    this.autoFocus.emit();
+    this.handleTap(); // make the showResultsFirst working also on mobile (without a double tap)
+  }
   /**
    * Fired when the input blured.
    */
-  public onBlur() { this.autoBlur.emit(); }
-
-  /**
-   * Handle document click (dismiss).
-   * @param event
-   */
-  @HostListener('document:click', ['$event'])
-  protected documentClickHandler(event) {
-    if(
-      (this.searchbarElem && !this.searchbarElem._elementRef.nativeElement.contains(event.target))
-      ||
-      (!this.inputElem && this.inputElem._elementRef.nativeElement.contains(event.target))
-    ) this.hideItemList();
+  public onBlur() {
+    this.autoBlur.emit(); // additional behaviours than the one here below
+    // timeout needed to acquire the possible click event on the list element chosen;
+    // otherwise, the blur runs before the click and the suggestions are already gone
+    setTimeout(() => {
+      // if the values are forced to be in the ones listed (no free entries)
+      if(!this.allowUnlistedValues) {
+        let k = this.keyword.trim().toLowerCase();
+        // check it the keyword matches exactly one of the suggestions;
+        //   - if so, fix the field so it assumes the exact value of the suggestion (w/o lowercase);
+        //   - if not, blank the field (value not allowed)
+        let res = this.suggestions.find(s => s.toLowerCase() == k) || '';
+        this.keyword = res;
+        this.formValue = res
+        this.updateModel();
+      }
+      this.hideItemList();
+    }, 100);
   }
 
   private getFormValue(selection: any): any {

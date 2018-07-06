@@ -1,59 +1,57 @@
-<ion-item *ngIf="options.type != 'search'">
-<ion-label stacked>{{ label }}</ion-label>
-  <ion-input
-    #inputElem
-    (keyup)="getItems($event)"
-    (tap)="handleTap($event)"
+<ion-item *ngIf="type != 'search'">
+  <ion-label *ngIf="label" stacked>{{ label }}</ion-label>
+    <ion-input
+      [attr.id]="id"
+      (keyup)="getItems($event)"
+      [(ngModel)]="keyword"
+      (ngModelChange)="updateModel()"
+      [placeholder]="placeholder"
+      [type]="type"
+      [clearOnEdit]="clearOnEdit"
+      [clearInput]="clearInput"
+      [disabled]="disabled"
+      (ionFocus)="onFocus()"
+      (ionBlur)="onBlur()"
+    >
+    </ion-input>
+  </ion-item>
+  <ion-searchbar
+    [attr.id]="id"
+    *ngIf="type == 'search'"
+    (ionInput)="getItems($event)"
     [(ngModel)]="keyword"
     (ngModelChange)="updateModel()"
-    [placeholder]="options.placeholder"
-    [type]="options.type"
-    [clearOnEdit]="options.clearOnEdit"
-    [clearInput]="options.clearInput"
+    [cancelButtonText]="cancelButtonText"
+    [showCancelButton]="showCancelButton"
+    [debounce]="debounce"
+    [placeholder]="placeholder"
+    [autocomplete]="autocomplete"
+    [autocorrect]="autocorrect"
+    [spellcheck]="spellcheck"
+    [type]="type"
     [disabled]="disabled"
+    (ionClear)="clearValue(true)"
     (ionFocus)="onFocus()"
     (ionBlur)="onBlur()"
   >
-  </ion-input>
-</ion-item>
-<ion-searchbar 
-  #searchbarElem
-  *ngIf="options.type == 'search'"
-  (ionInput)="getItems($event)"
-  (tap)="handleTap($event)"
-  [(ngModel)]="keyword"
-  (ngModelChange)="updateModel()"
-  [cancelButtonText]="options.cancelButtonText"
-  [showCancelButton]="options.showCancelButton"
-  [debounce]="options.debounce"
-  [placeholder]="options.placeholder"
-  [autocomplete]="options.autocomplete"
-  [autocorrect]="options.autocorrect"
-  [spellcheck]="options.spellcheck"
-  [type]="options.type"
-  [disabled]="disabled"
-  (ionClear)="clearValue(true)"
-  (ionFocus)="onFocus()"
-  (ionBlur)="onBlur()"
->
-</ion-searchbar>
-<ng-template #defaultTemplate let-attrs="attrs">
-  <span [innerHTML]='attrs.label | boldprefix:attrs.keyword'></span>
-</ng-template>
-<ul *ngIf="!disabled && suggestions.length > 0 && showList">
-  <li *ngFor="let suggestion of suggestions" (tap)="handleSelectTap($event, suggestion)">
-    <ng-template
-      [ngTemplateOutlet]="template || defaultTemplate"
-      [ngTemplateOutletContext]="{ attrs: { 
-        data: suggestion, 
-        label: getLabel(suggestion),
-        keyword: keyword,
-        formValue: getFormValue(suggestion), 
-        labelAttribute: dataProvider.labelAttribute, 
-        formValueAttribute: dataProvider.formValueAttribute
-      }}"
-    >
-    </ng-template>
-  </li>
-</ul>
-<p *ngIf="suggestions.length == 0 && showList && options.noItems">{{ options.noItems }}</p>
+  </ion-searchbar>
+  <ng-template #defaultTemplate let-attrs="attrs">
+    <span [innerHTML]='attrs.label | boldprefix:attrs.keyword'></span>
+  </ng-template>
+  <ul *ngIf="!disabled && suggestions.length > 0 && showList">
+    <li *ngFor="let suggestion of suggestions" (tap)="handleSelectTap($event, suggestion)">
+      <ng-template
+        [ngTemplateOutlet]="template || defaultTemplate"
+        [ngTemplateOutletContext]="{ attrs: {
+          data: suggestion,
+          label: getLabel(suggestion),
+          keyword: keyword,
+          formValue: getFormValue(suggestion),
+          labelAttribute: dataProvider.labelAttribute,
+          formValueAttribute: dataProvider.formValueAttribute
+        }}"
+      >
+      </ng-template>
+    </li>
+  </ul>
+  <p *ngIf="suggestions.length == 0 && showList && noItemsText">{{ noItemsText }}</p>
