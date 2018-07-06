@@ -26,17 +26,17 @@ IDEAAuthComponent {
     max-width: 350px;
     box-shadow: none;
     background-color: transparent;
-    padding: 20px 15px 10px 15px;
+    padding: 15px 15px 10px 15px;
     .theLogo {
-      max-width: 200px;
+      max-width: 180px;
       margin: 0 auto;
-      padding: 0;
     }
     .theTitle {
       color: color($colors, primary);
       font-family: 'auth-title', 'Roboto';
       font-weight: 400;
       text-align: center;
+      margin-top: 15px;
       margin-bottom: 30px;
       font-size: 3.5em;
     }
@@ -44,7 +44,7 @@ IDEAAuthComponent {
       text-align: center;
       color: white;
       margin-bottom: 25px;
-      font-size: 1.1em;
+      font-size: 1.4em;
       font-weight: 100;
     }
     .anInput {
@@ -55,8 +55,7 @@ IDEAAuthComponent {
       }
     }
     .privacyPolicyAcceptanceBox {
-      margin-top: 15px;
-      margin-bottom: 10px;
+      margin: 15px 0;
       color: #ddd;
       .checkbox {
         top: 3px;
@@ -73,6 +72,9 @@ IDEAAuthComponent {
       padding: 0;
       width: 100%;
     }
+    .aButton.alternative {
+      background-color: color($colors, secondary);
+    }
     .someInfo {
       color: #ddd;
       margin: 20px 0;
@@ -81,6 +83,12 @@ IDEAAuthComponent {
         text-decoration: none;
         color: #ddd;
       }
+    }
+    .someInfo.discoverMore {
+      margin: 30px 0 0 0;
+      text-transform: uppercase;
+      font-weight: 500;
+      font-size: 0.8em;
     }
     .theMessage {
       margin-top: 35px;
@@ -93,6 +101,13 @@ IDEAAuthComponent {
     .logoIdea {
       width: 35px;
       margin: 0 auto;
+      margin-top: 30px;
+    }
+  }
+  .aCard.createAccount {
+    padding: 0 15px;
+    .someInfo {
+      margin: 0 0 12px 0;
     }
   }
 }
