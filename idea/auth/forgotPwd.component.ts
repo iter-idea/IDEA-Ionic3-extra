@@ -8,7 +8,7 @@ import { IDEALoadingService } from '../loading.service';
 import { IDEAAWSAPIService } from '../AWSAPI.service';
 
 // from idea-config.js
-declare const IDEA_AUTH_VIDEO;
+declare const IDEA_AUTH_VIDEO: boolean;
 
 @IonicPage({
   name: 'forgot-password',

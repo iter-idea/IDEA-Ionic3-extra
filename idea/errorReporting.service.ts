@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 // from idea-config.js
-declare const IDEA_PROJECT;
-declare const IDEA_API_VERSION;
-declare const IDEA_ERROR_REPORTING_API_URL;
+declare const IDEA_PROJECT: string;
+declare const IDEA_API_VERSION: string;
+declare const IDEA_ERROR_REPORTING_API_URL: string;
 
 @Injectable()
 export class IDEAErrorReportingService {

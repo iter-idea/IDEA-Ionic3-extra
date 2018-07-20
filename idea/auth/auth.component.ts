@@ -8,12 +8,12 @@ import { IDEALoadingService } from '../loading.service';
 import { IDEAAWSAPIService } from '../AWSAPI.service';
 
 // from idea-config.js
-declare const IDEA_APP_TITLE;
-declare const IDEA_APP_WEBSITE;
-declare const IDEA_AUTH_REGISTRATION_POSSIBLE;
-declare const IDEA_AUTH_SHOW_LOGO;
-declare const IDEA_AUTH_VIDEO;
-declare const IDEA_WEBSITE;
+declare const IDEA_APP_TITLE: string;
+declare const IDEA_APP_WEBSITE: string;
+declare const IDEA_AUTH_REGISTRATION_POSSIBLE: boolean;
+declare const IDEA_AUTH_SHOW_LOGO: boolean;
+declare const IDEA_AUTH_VIDEO: boolean;
+declare const IDEA_WEBSITE: string;
 
 @IonicPage({
   name: 'sign-in',

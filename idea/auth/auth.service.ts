@@ -22,7 +22,7 @@ export class IDEAAuthService {
       // ... to perform a login
       user.authenticateUser(authDetails, {
         onSuccess: () => { resolve(false) },
-        onFailure: (err) => { reject(err) },
+        onFailure: (err: Error) => { reject(err) },
         newPasswordRequired: () => { resolve(true) }
       });
     });
@@ -37,12 +37,12 @@ export class IDEAAuthService {
       // login with the old password
       user.authenticateUser(authDetails, {
         onSuccess: () => { resolve() },
-        onFailure: (err) => { reject(err) },
+        onFailure: (err: Error) => { reject(err) },
         newPasswordRequired: () => {
           // complete the new password challenge
           user.completeNewPasswordChallenge(newPassword, {}, {
             onSuccess: () => { resolve() },
-            onFailure: (err) => { reject(err) }
+            onFailure: (err: Error) => { reject(err) }
           });
         }
       });
@@ -55,7 +55,8 @@ export class IDEAAuthService {
       for(let prop in attributes)
         attributeList.push(this.cognito.makeAttribute(prop, attributes[prop]))
       // register the new user
-      this.cognito.getUserPool().signUp(username, password, attributeList, null, (err, res) => {
+      this.cognito.getUserPool().signUp(username, password, attributeList, null,
+      (err: Error, res: any) => {
         if(err) reject(err);
         else resolve(res.user);
       });
@@ -66,7 +67,7 @@ export class IDEAAuthService {
       // find the user
       let user = this.cognito.makeUser(username);
       // confirm the registration of the user with the code provided
-      user.confirmRegistration(code, true, (err, res) => {
+      user.confirmRegistration(code, true, (err: Error) => {
         if(err) reject(err);
         else resolve();
       });
@@ -77,7 +78,7 @@ export class IDEAAuthService {
       // find the user
       let user = this.cognito.makeUser(username);
       // resend the confirmation code
-      user.resendConfirmationCode((err, res) => {
+      user.resendConfirmationCode((err: Error)  => {
         if(err) reject(err);
         else resolve();
       });
@@ -97,7 +98,7 @@ export class IDEAAuthService {
       this.cognito.makeUser(email)
       .forgotPassword({
         onSuccess: () => { resolve() },
-        onFailure: (err) => { reject(err) }
+        onFailure: (err: Error) => { reject(err) }
       });
     });
   }
@@ -107,19 +108,19 @@ export class IDEAAuthService {
       this.cognito.makeUser(email)
       .confirmPassword(code, newPassword, {
         onSuccess: () => { resolve() },
-        onFailure: (err) => { reject(err) }
+        onFailure: (err: Error) => { reject(err) }
       });
     });
   }
   public isAuthenticated(
-    offlineCountsAsLogged: boolean, getFreshIdTokenOnExpiration?: (freshIdToken) => void
+    offlineCountsAsLogged: boolean, getFreshIdTokenOnExpiration?: (freshIdToken: string) => void
   ): Promise<any> {
     return new Promise((resolve, reject) => {
       // offlineCountsAsLogged -> to avoid auth checks if online
       if(offlineCountsAsLogged && !navigator.onLine) return resolve();
       var user = this.cognito.getCurrentUser();
       if(user != null) {
-        user.getSession((err, session) => {
+        user.getSession((err: Error, session: any) => {
           if(err) reject(err);
           else {
             // get user attributes
@@ -140,8 +141,10 @@ export class IDEAAuthService {
       } else reject();
     });
   }
-  protected refreshSession(user: any, refreshToken: string, callback:(freshIdToken) => void): void {
-    user.refreshSession(refreshToken, (err, session) => {
+  protected refreshSession(user: any, refreshToken: string,
+    callback:(freshIdToken: string) => void
+  ): void {
+    user.refreshSession(refreshToken, (err: Error, session: any) => {
       if(err)
         setTimeout(() => {
           this.refreshSession(user, refreshToken, callback);
@@ -158,14 +161,15 @@ export class IDEAAuthService {
   public updateUserAttributes(attributes: any): Promise<any> {
     return new Promise((resolve, reject) => {
       // prepare the attributes we want to change
-      let attributeList = [];
+      let attributeList = new Array<any>();
       for(let prop in attributes)
         attributeList.push(this.cognito.makeAttribute(prop, attributes[prop]));
       let user = this.cognito.getCurrentUser();
       if(!user) reject();
-      else user.getSession((err, session) => { // we need to get the session before to make changes
+      else user.getSession((err: Error, session: any) => {
+        // we need to get the session before to make changes
         if(err) reject(err);
-        else user.updateAttributes(attributeList, (err, res) => {
+        else user.updateAttributes(attributeList, (err: Error, res: any) => {
           if(err) reject(err);
           else resolve();
         });

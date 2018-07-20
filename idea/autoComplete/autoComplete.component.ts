@@ -70,10 +70,10 @@ export class IDEAAutoCompleteComponent implements ControlValueAccessor {
   public handleTap() {
     if(this.showResultsFirst || this.keyword.length > 0) this.getItems();
   }
-  public handleSelectTap($event, suggestion): boolean {
+  public handleSelectTap(event: any, suggestion: any): boolean {
     this.select(suggestion);
-    $event.srcEvent.stopPropagation();
-    $event.srcEvent.preventDefault();
+    event.srcEvent.stopPropagation();
+    event.srcEvent.preventDefault();
     return false;
   }
 

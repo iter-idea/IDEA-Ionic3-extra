@@ -4,11 +4,11 @@ import { Config } from 'ionic-angular';
 import { IDEAErrorReportingService } from './errorReporting.service';
 
 // from idea-config.js
-declare const IDEA_API_ID;
-declare const IDEA_API_REGION;
-declare const IDEA_API_VERSION;
+declare const IDEA_API_ID: string;
+declare const IDEA_API_REGION: string;
+declare const IDEA_API_VERSION: string;
 
-const API_URL = 
+const API_URL =
   `https://${IDEA_API_ID}.execute-api.${IDEA_API_REGION}.amazonaws.com/${IDEA_API_VERSION}`;
 
 /**
@@ -28,8 +28,6 @@ export class IDEAAWSAPIService {
     searchParams?: HttpParams, additionalHeaders?: HttpHeaders, responseType?: any
   ) {
     let url = `${API_URL}/${resource}`;
-    console.debug(method, url, body,
-      searchParams ? searchParams.toString() : null, additionalHeaders);
     let headers = additionalHeaders || new HttpHeaders(); // note: HttpHeaders is immutable!
     if(!headers.get('Authorization') && this.ionConfig.get('AWSAPIAuthToken'))
       // ovverride the default authorization
