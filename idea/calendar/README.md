@@ -1,0 +1,3 @@
+**Note well**: to correctly work also on mobile devices, it requires the option  `scrollAssist` 
+to be `false` in the _IonicModule_ (`app.module.ts`), e.g.:
+  `IonicModule.forRoot(myApp, { scrollAssist: false });`
