@@ -11,11 +11,11 @@ import { TranslateService } from '@ngx-translate/core';
     <ion-label *ngIf="labelType=='floating'" floating>{{ label }}</ion-label>
     <ion-label *ngIf="labelType=='inset'" inset>{{ label }}</ion-label>
     <ion-input
-      [disabled]=disabled
-      value="{{ date | date:format }}" type="text" readonly tappable
+      value="{{ date | date:format }}" type="text" 
+      readonly [attr.tappable]="disabled ? null : true" [disabled]="disabled"
       (click)="openCalendarPicker()"
     ></ion-input>
-    <button ion-button item-end clear [disabled]=disabled (click)="onDateSelected.emit(null)">
+    <button ion-button item-end clear [disabled]="disabled" (click)="onDateSelected.emit(null)">
       {{ 'IDEA.CALENDAR.RESET' | translate }}
     </button>
   </ion-item>
@@ -31,26 +31,25 @@ export class IDEADatetimeComponent {
   @Input() protected format: string;
   @Input() protected toolbarBgColor: string;
   @Input() protected toolbarColor: string;
-  @Input() public disabled: any;
+  @Input() protected disabled: boolean;
   @Output() public onDateSelected = new EventEmitter<String>();
 
   constructor(protected modalCtrl: ModalController, protected t: TranslateService) {}
 
   public openCalendarPicker(): void {
-    if(!this.disabled) {
-      let modal = this.modalCtrl.create('idea-calendar', {
-        refDate: this.date, title: this.label,
-        toolbarBgColor: this.toolbarBgColor, toolbarColor: this.toolbarColor
-      });
-      modal.onDidDismiss(date => {
-        if(date) {
-          // get rid of the timezone
-          date = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString();
-          // return the date picked
-          this.onDateSelected.emit(date);
-        }
-      });
-      modal.present();
-    }
+    if(this.disabled) return;
+    let modal = this.modalCtrl.create('idea-calendar', {
+      refDate: this.date, title: this.label,
+      toolbarBgColor: this.toolbarBgColor, toolbarColor: this.toolbarColor
+    });
+    modal.onDidDismiss(date => {
+      if(date) {
+        // get rid of the timezone
+        date = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString();
+        // return the date picked
+        this.onDateSelected.emit(date);
+      }
+    });
+    modal.present();
   }
 }
