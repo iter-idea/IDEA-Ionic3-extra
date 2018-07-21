@@ -44,7 +44,10 @@ export class IDEACalendarComponent {
    */
   protected buildCalendarGrid(refDate: Date): void {
     // find the first day in the month: the important data here is the day of the week
-    let firstDateOfMonth = new Date(`${refDate.getFullYear()}-${refDate.getMonth()+1}-01`);
+    let firstDateOfMonth = new Date();
+    firstDateOfMonth.setDate(1);
+    firstDateOfMonth.setMonth(refDate.getMonth());
+    firstDateOfMonth.setFullYear(refDate.getFullYear());
     // the following flag is used to divide the logic so I can fill the calendar
     // also with the dates from the previous month, until there's space in the grid
     let haventFoundFirstDay = true;
