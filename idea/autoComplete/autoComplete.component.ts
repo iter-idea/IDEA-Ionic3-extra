@@ -113,7 +113,10 @@ export class IDEAAutoCompleteComponent implements ControlValueAccessor {
       this.suggestions = [];
       return;
     }
-    if(typeof this.dataProvider === 'function') result = this.dataProvider(this.keyword);
+    if(Array.isArray(this.dataProvider))
+      result = this.dataProvider.filter(x =>
+        x.toLowerCase().indexOf(this.keyword.toLowerCase()) >= 0);
+    else if(typeof this.dataProvider === 'function') result = this.dataProvider(this.keyword);
     else result = this.dataProvider.getResults(this.keyword);
     if(result instanceof Subject) result = result.asObservable();
     if(result instanceof Promise) result = fromPromise(result);
