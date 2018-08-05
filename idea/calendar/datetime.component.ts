@@ -11,11 +11,11 @@ import { TranslateService } from '@ngx-translate/core';
     <ion-label *ngIf="labelType=='floating'" floating>{{ label }}</ion-label>
     <ion-label *ngIf="labelType=='inset'" inset>{{ label }}</ion-label>
     <ion-input
-      value="{{ date | date:format }}" type="text" 
+      value="{{ date | date:format }}" type="text"
       readonly [attr.tappable]="disabled ? null : true" [disabled]="disabled"
       (click)="openCalendarPicker()"
     ></ion-input>
-    <button ion-button item-end clear [disabled]="disabled" (click)="onDateSelected.emit(null)">
+    <button ion-button item-end clear *ngIf="!disabled" (click)="onDateSelected.emit(null)">
       {{ 'IDEA.CALENDAR.RESET' | translate }}
     </button>
   </ion-item>
