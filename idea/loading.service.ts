@@ -13,6 +13,7 @@ export class IDEALoadingService {
    * @param content loading message
    */
   public show(content?: string): void {
+    if(this.l) this.hide(); // clean possible errors
     this.l = this.loadingCtrl.create({
       content: content === null || content === undefined
         ? this.t.instant('IDEA.LOADING.PLEASE_WAIT') : content });
@@ -29,7 +30,7 @@ export class IDEALoadingService {
    * Hide a previous loading animation.
    */
   public hide(): void {
-    this.l.dismiss();
+    if(this.l) this.l.dismiss();
     this.l = null;
   }
 }
