@@ -10,7 +10,7 @@
 </ion-header>
 <ion-content>
   <ion-grid class="cal">
-    <ion-row class="calRow" align-items-center>
+    <ion-row class="calRow" align-items-center justify-content-center>
       <ion-col col-5 text-right>
         <button ion-button icon-only clear color="dark" (click)="addYears(-1)">
           <ion-icon name="ios-arrow-back"></ion-icon>
@@ -53,9 +53,9 @@
       <ion-col *ngFor="let col of row; let j = index" text-center>
         <button ion-button clear class="dayButton"
           [class.notInThisMonth]="refDate.getMonth() != calendarGrid[i][j].getMonth()"
-          [class.today]="today.toISOString().slice(0,10) == 
+          [class.today]="today.toISOString().slice(0,10) ==
             calendarGrid[i][j].toISOString().slice(0,10)"
-          [class.selected]="selectedDate.toISOString().slice(0,10) == 
+          [class.selected]="selectedDate.toISOString().slice(0,10) ==
             calendarGrid[i][j].toISOString().slice(0,10)"
           (click)="selectDate(calendarGrid[i][j])"
         >{{ calendarGrid[i][j] | date:'d' }}</button>
