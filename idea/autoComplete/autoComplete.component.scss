@@ -1,7 +1,7 @@
 IDEAAutoCompleteComponent {
   overflow: hidden !important;
   display: block;
-  width: 90vw;
+  width: 100%;
   display: inline-block;
   ion-searchbar {
     padding: 1px !important;
@@ -10,15 +10,17 @@ IDEAAutoCompleteComponent {
     display: none;
   }
   ul {
-    position: absolute;
-    left: 16px;
+    position: relative;
+    margin-top: 4px;
+    left: 5px;
+    width: 96%; // fallback
+    width: calc(100% - 10px);
+    color: white;
+    background-color: #AAA;
     z-index: 999;
     padding: 0px;
-    margin-top: 0px;
-    width: inherit;
-    background: #FFF;
     list-style-type: none;
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2),
       0 1px 5px 0 rgba(0, 0, 0, 0.12);
     li {
       padding: 15px;
@@ -29,7 +31,7 @@ IDEAAutoCompleteComponent {
     }
     li:hover {
       cursor: pointer;
-      background: #f1f1f1
+      background: #7b7e7f;
     }
   }
 }
