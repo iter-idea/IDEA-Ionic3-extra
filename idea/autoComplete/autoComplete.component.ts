@@ -5,7 +5,7 @@ import { IDEASuggestionsComponent } from './suggestions.component';
 
 /**
  * Useful configurations
- *    1. Picker:                            (onSelect)
+ *    1. Picker:                            (onSelect), [clearValueAfterSelection]
  *    2. Autocomplete strict:               (onSelect), [value]
  *    3. Autocomplete  allow loose values:  (onSelect), [value], [allowUnlistedValues]
  */
@@ -41,6 +41,7 @@ export class IDEAAutoCompleteComponent {
   @Input() protected noSuggestionsText: string;
   @Input() protected disabled: boolean;
   @Input() protected allowUnlistedValues: boolean;
+  @Input() protected clearValueAfterSelection: boolean;
   @Input() protected toolbarBgColor: string;
   @Input() protected toolbarColor: string;
   @Output() protected onSelect: EventEmitter<any>;
@@ -54,6 +55,7 @@ export class IDEAAutoCompleteComponent {
     this.noSuggestionsText = null;
     this.disabled = false;
     this.allowUnlistedValues = false;
+    this.clearValueAfterSelection = false;
     this.toolbarBgColor = null;
     this.toolbarColor = null;
     this.onSelect = new EventEmitter<any>();
@@ -67,12 +69,14 @@ export class IDEAAutoCompleteComponent {
     let modal = this.modalCtrl.create(IDEASuggestionsComponent, {
       data: this.data, value: this.value, searchPlaceholder: this.searchPlaceholder,
       noSuggestionsText: this.noSuggestionsText, allowUnlistedValues: this.allowUnlistedValues,
+      clearValueAfterSelection: this.clearValueAfterSelection,
       toolbarBgColor: this.toolbarBgColor, toolbarColor: this.toolbarColor
     });
     modal.onDidDismiss((selection: any) => {
       let selected = selection !== undefined;
       this.value = selected ? selection : this.value;
       if(selected) this.onSelect.emit(selection);
+      if(this.clearValueAfterSelection) this.value = '';
     });
     modal.present();
   }
