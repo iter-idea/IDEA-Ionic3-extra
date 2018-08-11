@@ -1,0 +1,17 @@
+IDEASuggestionsComponent {
+  .searchbar-clear-icon {
+    display: none !important;
+  }
+  .suggestionsList {
+    .suggestion {
+      background-color: white;
+      padding: 0 20px 0 50px;
+    }
+    .suggestion.selected {
+      background-color: #eee;
+    }
+  }
+  .noSuggestionsFound, .looseValue {
+    font-style: italic;
+  }
+}

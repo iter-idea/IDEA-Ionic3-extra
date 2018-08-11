@@ -3,12 +3,13 @@ import { IonicPageModule } from 'ionic-angular';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { IDEAAutoCompleteComponent } from './autoComplete.component';
-
+import { IDEASuggestionsComponent } from './suggestions.component';
 import { IDEABoldPrefix } from './boldPrefix.pipe';
 
 @NgModule({
   declarations: [
     IDEAAutoCompleteComponent,
+    IDEASuggestionsComponent,
     IDEABoldPrefix
   ],
   imports: [
@@ -16,10 +17,12 @@ import { IDEABoldPrefix } from './boldPrefix.pipe';
     TranslateModule.forChild()
   ],
   entryComponents: [
-    IDEAAutoCompleteComponent
+    IDEAAutoCompleteComponent,
+    IDEASuggestionsComponent
   ],
   exports: [
     IDEAAutoCompleteComponent,
+    IDEASuggestionsComponent,
     IDEABoldPrefix
   ]
 })
