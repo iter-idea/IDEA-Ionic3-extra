@@ -42,8 +42,10 @@
       {{ noSuggestionsText }}
     </ion-item>
     <ion-item
+      tappable
       *ngIf="allowUnlistedValues && searchbar.value"
       class="suggestion looseValue"
+      (click)="select(searchbar.value)"
     >
       {{ searchbar.value }}
     </ion-item>
