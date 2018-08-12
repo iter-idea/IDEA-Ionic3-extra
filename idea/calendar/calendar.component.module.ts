@@ -4,6 +4,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { IDEACalendarComponent } from './calendar.component';
 import { IDEADatetimeComponent } from './datetime.component';
+import { DateUtils } from './dateUtils.service';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,9 @@ import { IDEADatetimeComponent } from './datetime.component';
   exports: [
     IDEACalendarComponent,
     IDEADatetimeComponent
+  ],
+  providers: [
+    DateUtils
   ]
 })
 export class IDEACalendarComponentModule {}

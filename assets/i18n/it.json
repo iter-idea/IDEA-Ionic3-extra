@@ -69,18 +69,6 @@
       "RESET": "Reset",
       "MONTH": "Mese",
       "YEAR": "Anno",
-      "1": "Gennaio",
-      "2": "Febbraio",
-      "3": "Marzo",
-      "4": "Aprile",
-      "5": "Maggio",
-      "6": "Giugno",
-      "7": "Luglio",
-      "8": "Agosto",
-      "9": "Settembre",
-      "10": "Ottobre",
-      "11": "Novembre",
-      "12": "Dicembre",
       "MONDAY_SHORT": "Lun",
       "TUESDAY_SHORT": "Mar",
       "WEDNESDAY_SHORT": "Mer",
@@ -94,6 +82,9 @@
     },
     "LOADING": {
       "PLEASE_WAIT": "Attendere prego..."
+    },
+    "LANGUAGE_PICKER": {
+      "APP_WILL_RESTART": "L'app verrà riavviata"
     }
   }
 }

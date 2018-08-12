@@ -1,64 +1,160 @@
 <ion-header>
-  <ion-toolbar [color]="toolbarBgColor">
-    <ion-title>{{ title }}</ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only (click)="selectDate()" [color]="toolbarColor">
-        <ion-icon name="close"></ion-icon>
+  <ion-toolbar
+    [color]="toolbarBgColor"
+  >
+    <ion-title>
+      {{ title }}
+    </ion-title>
+    <ion-buttons
+      end
+    >
+      <button
+        ion-button icon-only
+        [color]="toolbarColor"
+        (click)="selectDate()"
+      >
+        <ion-icon
+          name="close"
+        ></ion-icon>
       </button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-grid class="cal">
-    <ion-row class="calRow" align-items-center justify-content-center>
-      <ion-col col-5 text-right>
-        <button ion-button icon-only clear color="dark" (click)="addYears(-1)">
-          <ion-icon name="ios-arrow-back"></ion-icon>
+  <ion-grid
+    class="cal"
+  >
+    <ion-row
+      align-items-center justify-content-center
+      class="calRow"
+    >
+      <ion-col
+        col-5 text-right
+      >
+        <button
+          ion-button icon-only clear
+          color="dark"
+          (click)="addYears(-1)"
+        >
+          <ion-icon
+            name="ios-arrow-back"
+          ></ion-icon>
         </button>
       </ion-col>
-      <ion-col col-2 text-center tappable (click)="showYears()">
+      <ion-col
+        col-2 text-center tappable
+        (click)="showYears()"
+      >
         {{ refDate | date:'yyyy' }}
       </ion-col>
-      <ion-col col-5 text-left>
-        <button ion-button icon-only clear color="dark" (click)="addYears(+1)">
-          <ion-icon name="ios-arrow-forward"></ion-icon>
+      <ion-col
+        col-5 text-left
+      >
+        <button
+          ion-button icon-only clear
+          color="dark"
+          (click)="addYears(+1)"
+        >
+          <ion-icon
+            name="ios-arrow-forward"
+          ></ion-icon>
         </button>
       </ion-col>
     </ion-row>
-    <ion-row class="calRow" align-items-center>
-      <ion-col text-right>
-        <button ion-button icon-only clear color="dark" (click)="addMonths(-1)">
-          <ion-icon name="ios-arrow-back"></ion-icon>
+    <ion-row
+      align-items-center
+      class="calRow"
+    >
+      <ion-col
+        text-right
+      >
+        <button
+          ion-button icon-only clear
+          color="dark"
+          (click)="addMonths(-1)"
+        >
+          <ion-icon
+            name="ios-arrow-back"
+          ></ion-icon>
         </button>
       </ion-col>
-      <ion-col text-center tappable (click)="showMonths()">
-        {{ refDate | date:'MMMM' }}
+      <ion-col
+        text-center tappable
+        (click)="showMonths()"
+      >
+        {{ d.d2lm(refDate) }}
       </ion-col>
-      <ion-col text-left>
-        <button ion-button icon-only clear color="dark" (click)="addMonths(+1)">
-          <ion-icon name="ios-arrow-forward"></ion-icon>
+      <ion-col
+        text-left
+      >
+        <button
+          ion-button icon-only clear
+          color="dark"
+          (click)="addMonths(+1)"
+        >
+          <ion-icon
+            name="ios-arrow-forward"
+          ></ion-icon>
         </button>
       </ion-col>
     </ion-row>
-    <ion-row class="calRow daysRow">
-      <ion-col text-center>{{ 'IDEA.CALENDAR.MONDAY_SHORT' | translate }}</ion-col>
-      <ion-col text-center>{{ 'IDEA.CALENDAR.TUESDAY_SHORT' | translate }}</ion-col>
-      <ion-col text-center>{{ 'IDEA.CALENDAR.WEDNESDAY_SHORT' | translate }}</ion-col>
-      <ion-col text-center>{{ 'IDEA.CALENDAR.THURSDAY_SHORT' | translate }}</ion-col>
-      <ion-col text-center>{{ 'IDEA.CALENDAR.FRIDAY_SHORT' | translate }}</ion-col>
-      <ion-col text-center>{{ 'IDEA.CALENDAR.SATURDAY_SHORT' | translate }}</ion-col>
-      <ion-col text-center>{{ 'IDEA.CALENDAR.SUNDAY_SHORT' | translate }}</ion-col>
+    <ion-row
+      class="calRow daysRow"
+    >
+      <ion-col
+        text-center
+      >
+        {{ 'IDEA.CALENDAR.MONDAY_SHORT' | translate }}
+      </ion-col>
+      <ion-col
+      text-center
+      >
+        {{ 'IDEA.CALENDAR.TUESDAY_SHORT' | translate }}
+      </ion-col>
+      <ion-col
+        text-center
+      >
+        {{ 'IDEA.CALENDAR.WEDNESDAY_SHORT' | translate }}
+      </ion-col>
+      <ion-col
+        text-center
+      >
+        {{ 'IDEA.CALENDAR.THURSDAY_SHORT' | translate }}
+      </ion-col>
+      <ion-col
+        text-center
+      >
+        {{ 'IDEA.CALENDAR.FRIDAY_SHORT' | translate }}
+      </ion-col>
+      <ion-col
+        text-center
+      >
+        {{ 'IDEA.CALENDAR.SATURDAY_SHORT' | translate }}
+      </ion-col>
+      <ion-col
+        text-center
+      >
+        {{ 'IDEA.CALENDAR.SUNDAY_SHORT' | translate }}
+      </ion-col>
     </ion-row>
-    <ion-row *ngFor="let row of calendarGrid; let i = index" align-items-center>
-      <ion-col *ngFor="let col of row; let j = index" text-center>
-        <button ion-button clear class="dayButton"
+    <ion-row
+      align-items-center
+      *ngFor="let row of calendarGrid; let i = index"
+    >
+      <ion-col
+        text-center
+        *ngFor="let col of row; let j = index"
+      >
+        <button
+          ion-button clear
+          class="dayButton"
           [class.notInThisMonth]="refDate.getMonth() != calendarGrid[i][j].getMonth()"
-          [class.today]="today.toISOString().slice(0,10) ==
-            calendarGrid[i][j].toISOString().slice(0,10)"
-          [class.selected]="selectedDate.toISOString().slice(0,10) ==
-            calendarGrid[i][j].toISOString().slice(0,10)"
+          [class.today]="d.isSameDay(calendarGrid[i][j])"
+          [class.selected]="d.isSameDay(selectedDate, calendarGrid[i][j])"
           (click)="selectDate(calendarGrid[i][j])"
-        >{{ calendarGrid[i][j] | date:'d' }}</button>
+        >
+          {{ calendarGrid[i][j] | date:'d' }}
+        </button>
       </ion-col>
     </ion-row>
   </ion-grid>

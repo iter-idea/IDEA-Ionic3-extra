@@ -12,7 +12,11 @@ import { IDEASuggestionsComponent } from './suggestions.component';
 @Component({
   selector: 'IDEAAutoCompleteComponent',
   template: `
-    <ion-item>
+    <ion-item
+      [attr.tappable]="disabled ? null : true"
+      [class.selectable]="!disabled"
+      (click)="openSuggestions()"
+    >
       <ion-label
         stacked
         *ngIf="label"
@@ -25,11 +29,13 @@ import { IDEASuggestionsComponent } from './suggestions.component';
         [type]="type"
         [readonly]="true"
         [disabled]="disabled"
-        (ionFocus)="openSuggestions()"
       >
       </ion-input>
     </ion-item>
-  `
+  `,
+  styles:[
+    `.selectable input { cursor: pointer }`
+  ]
 })
 export class IDEAAutoCompleteComponent {
   @Input() protected data: Array<any>;
@@ -73,9 +79,9 @@ export class IDEAAutoCompleteComponent {
       toolbarBgColor: this.toolbarBgColor, toolbarColor: this.toolbarColor
     });
     modal.onDidDismiss((selection: any) => {
-      let selected = selection !== undefined;
-      this.value = selected ? selection : this.value;
-      if(selected) this.onSelect.emit(this.value);
+      this.value = selection === undefined || selection === null ? this.value :
+        selection == '' ? '' : selection;
+      this.onSelect.emit(this.value);
       if(this.clearValueAfterSelection) this.value = '';
     });
     modal.present();

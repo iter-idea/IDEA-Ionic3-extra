@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { IonicPage, NavParams, ViewController, AlertController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
+
 import { IDEAAWSAPIService } from '../AWSAPI.service';
+import { DateUtils } from './dateUtils.service';
 
 @IonicPage({
   name: 'idea-calendar'
@@ -20,11 +22,13 @@ export class IDEACalendarComponent {
   protected title: string;
   protected toolbarBgColor: string;
   protected toolbarColor: string;
+
   constructor(
     protected viewCtrl: ViewController,
     protected navParams: NavParams,
     protected datePipe: DatePipe,
     protected alertCtrl: AlertController,
+    protected d: DateUtils,
     protected API: IDEAAWSAPIService,
     protected t: TranslateService
   ) {
@@ -32,8 +36,8 @@ export class IDEACalendarComponent {
     this.selectedDate = new Date(this.navParams.get('refDate') || this.today);
     this.refDate = new Date(this.selectedDate);
     this.title = this.navParams.get('title');
-    this.toolbarBgColor = this.navParams.get('toolbarBgColor') || 'dark';
-    this.toolbarColor = this.navParams.get('toolbaColor') || 'light';
+    this.toolbarBgColor = this.navParams.get('toolbarBgColor');
+    this.toolbarColor = this.navParams.get('toolbaColor');
     this.buildCalendarGrid(this.refDate);
   }
   protected ionViewCanEnter(): Promise<void> { return this.API.initAndAuth(false); }
@@ -81,16 +85,22 @@ export class IDEACalendarComponent {
     return new Date(date.getTime() + 86400000 * days); // ms in a day
   }
 
+  /**
+   * +- num years to the current one.
+   */
   protected addYears(offset: number): void {
     this.refDate.setFullYear(this.refDate.getFullYear() + offset);
     this.buildCalendarGrid(this.refDate);
     this.refDate = new Date(this.refDate);  // to fire the "onChange" event
   }
+  /**
+   * Manual selection of the year.
+   */
   public showYears(): void {
     let alert = this.alertCtrl.create();
     alert.setTitle(this.t.instant('IDEA.CALENDAR.YEAR'));
-    for(let i = 1900; i < 2100; i++) alert.addInput({
-      type: 'radio', label: i.toString(), value: i.toString(), 
+    for(let i = 1970; i < 2040; i++) alert.addInput({
+      type: 'radio', label: i.toString(), value: i.toString(),
       checked: (i == this.refDate.getFullYear()+1)
     });
     alert.addButton(this.t.instant('COMMON.CANCEL'));
@@ -101,27 +111,36 @@ export class IDEACalendarComponent {
     }});
     alert.present();
   }
-  public showMonths(): void {
-    let alert = this.alertCtrl.create();
-    alert.setTitle(this.t.instant('IDEA.CALENDAR.MONTH'));
-    for(let i = 1; i <= 12; i++) alert.addInput({
-      type: 'radio', label: this.t.instant('IDEA.CALENDAR.'+i.toString()), value: i.toString(), 
-      checked: (i == this.refDate.getMonth()+1)
-    });
-    alert.addButton(this.t.instant('COMMON.CANCEL'));
-    alert.addButton({ text: this.t.instant('COMMON.SELECT'), handler: month => {
-      this.refDate.setMonth(month);
-      this.buildCalendarGrid(this.refDate);
-      this.refDate = new Date(this.refDate);  // to fire the "onChange" event
-    }});
-    alert.present();
-  }
+  /**
+   * +- num months to the current one.
+   */
   protected addMonths(offset: number): void {
     this.refDate.setMonth(this.refDate.getMonth() + offset);
     this.buildCalendarGrid(this.refDate);
     this.refDate = new Date(this.refDate); // to fire the "onChange" event
   }
-  
+  /**
+   * Manual selection of the month.
+   */
+  public showMonths(): void {
+    let alert = this.alertCtrl.create();
+    alert.setTitle(this.t.instant('IDEA.CALENDAR.MONTH'));
+    for(let i = 1; i <= 12; i++) alert.addInput({
+      type: 'radio', label: this.d.d2lm(`1970-${i}`), value: i.toString(),
+      checked: (i == this.refDate.getMonth()+1)
+    });
+    alert.addButton(this.t.instant('COMMON.CANCEL'));
+    alert.addButton({ text: this.t.instant('COMMON.SELECT'), handler: month => {
+      this.refDate.setMonth(parseInt(month)-1);
+      this.buildCalendarGrid(this.refDate);
+      this.refDate = new Date(this.refDate);  // to fire the "onChange" event
+    }});
+    alert.present();
+  }
+
+  /**
+   * Select a date and close the calendar.
+   */
   protected selectDate(date: Date): void {
     this.viewCtrl.dismiss(date);
   }
