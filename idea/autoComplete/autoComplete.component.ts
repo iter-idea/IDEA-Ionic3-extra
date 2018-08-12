@@ -75,7 +75,7 @@ export class IDEAAutoCompleteComponent {
     modal.onDidDismiss((selection: any) => {
       let selected = selection !== undefined;
       this.value = selected ? selection : this.value;
-      if(selected) this.onSelect.emit(selection);
+      if(selected) this.onSelect.emit(this.value);
       if(this.clearValueAfterSelection) this.value = '';
     });
     modal.present();
