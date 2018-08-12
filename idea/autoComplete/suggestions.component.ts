@@ -63,11 +63,16 @@ export class IDEASuggestionsComponent {
    */
   @HostListener('window:keydown', ['$event'])
   protected navigateComponent(event: KeyboardEvent): void {
+    // identify the suggestions list
+    let suggestionsList;
+    if(document.getElementsByClassName('suggestionsList').length)
+      suggestionsList = document.getElementsByClassName('suggestionsList')[0];
+    // identify the action to execute based on the key pressed
     switch(event.keyCode) {
       case 13:
         // quick confirm of the selection, based on what is on in the component
-        if(document.getElementsByClassName('selected').length)
-          this.select(document.getElementsByClassName('selected')[0]          // selected
+        if(suggestionsList && suggestionsList.getElementsByClassName('selected').length)
+          this.select(suggestionsList.getElementsByClassName('selected')[0]   // selected
             .textContent.trim());
         else if(this.allowUnlistedValues && this.searchbar.value)
           this.select(this.searchbar.value);                                  // loose value
@@ -76,9 +81,10 @@ export class IDEASuggestionsComponent {
       break;
       case 38:
       case 40:
+        if(!suggestionsList) return;
         // identify the currently selected suggestion or select the first one
         let selected = null;
-        let elements = document.getElementsByClassName('selected');
+        let elements = suggestionsList.getElementsByClassName('selected');
         if(elements.length) {
           // a suggestion was already selected: go to the next/previous one
           selected = elements[0];
@@ -90,7 +96,7 @@ export class IDEASuggestionsComponent {
         }
         else {
           // no suggestions selected yet: select the first one
-          elements = document.getElementsByClassName('suggestion');
+          elements = suggestionsList.getElementsByClassName('suggestion');
           if(elements.length) selected = elements[0];
         }
         // execute the selection
