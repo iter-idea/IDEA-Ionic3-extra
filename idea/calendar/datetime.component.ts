@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ModalController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 
-import { DateUtils } from './dateUtils.service';
+import { IDEADateUtils } from './dateUtils.service';
 
 @Component({
   selector: 'idea-datetime',
@@ -68,7 +68,7 @@ export class IDEADatetimeComponent {
 
   constructor(
     protected modalCtrl: ModalController,
-    protected d: DateUtils,
+    protected d: IDEADateUtils,
     protected t: TranslateService
   ) {}
 

@@ -22,3 +22,4 @@ export { IDEALoadingService } from './loading.service';
 export { IDEAMessageService } from './message.service';
 export { IDEAExtBrowserService } from './extBrowser.service';
 export { IDEAErrorReportingService, IDEAErrorReport } from './errorReporting.service';
+export { IDEADateUtils } from './calendar/dateUtils.service';

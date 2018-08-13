@@ -4,7 +4,7 @@ import { IonicPage, NavParams, ViewController, AlertController } from 'ionic-ang
 import { TranslateService } from '@ngx-translate/core';
 
 import { IDEAAWSAPIService } from '../AWSAPI.service';
-import { DateUtils } from './dateUtils.service';
+import { IDEADateUtils } from './dateUtils.service';
 
 @IonicPage({
   name: 'idea-calendar'
@@ -28,7 +28,7 @@ export class IDEACalendarComponent {
     protected navParams: NavParams,
     protected datePipe: DatePipe,
     protected alertCtrl: AlertController,
-    protected d: DateUtils,
+    protected d: IDEADateUtils,
     protected API: IDEAAWSAPIService,
     protected t: TranslateService
   ) {
