@@ -9,6 +9,7 @@ IDEA's extra components and services built on Ionic.
 - Language picker component
 - Generic list component
 - AutoComplete component
+- Signature component
 - External browser service
 - AWSAPI service
 - Loading service

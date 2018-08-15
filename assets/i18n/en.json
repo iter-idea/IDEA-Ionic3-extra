@@ -85,6 +85,16 @@
     },
     "LANGUAGE_PICKER": {
       "APP_WILL_RESTART": "The app will restart"
+    },
+    "SIGNATURE": {
+      "SIGNATURE": "Signature",
+      "SIGNATORY": "Signatory",
+      "NAME_AND_SURNAME": "Name and surname",
+      "SIGNATURE_EXPLANATION": "Draw the signature here below",
+      "VERIFY_SIGNATORY_AND_SIGNATURE": "Verify signatory and signature",
+      "CANCEL": "Cancel",
+      "SAVE_SIGNATURE": "Save the signature",
+      "CLEAR_SIGNATURE": "Clear the signature"
     }
   }
 }

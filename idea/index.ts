@@ -1,25 +1,27 @@
-export { IDEAAuthService } from './auth/auth.service';
-export { Cognito } from './auth/cognito.service';
-export { IDEAAuthComponentModule } from './auth/auth.component.module';
-export { IDEARegistrationComponentModule }  from './auth/registration.component.module';
-export { IDEAForgotPwdComponentModule }  from './auth/forgotPwd.component.module';
+export * from './auth/auth.service';
+export * from './auth/cognito.service';
+export * from './auth/auth.component.module';
+export * from './auth/registration.component.module';
+export *  from './auth/forgotPwd.component.module';
 
-export { IDEACalendarComponentModule } from './calendar/calendar.component.module';
+export * from './calendar/calendar.component.module';
 
-export { IDEACheckerComponentModule } from './checker/checker.component.module';
-export { IDEACheck } from './checker/check.model';
+export * from './checker/checker.component.module';
+export * from './checker/check.model';
 
-export { IDEAMarkdownEditorComponentModule } from './mde/mde.component.module';
+export * from './mde/mde.component.module';
 
-export { IDEALanguagePickerComponentModule } from './languagePicker/languagePicker.component.module';
+export * from './languagePicker/languagePicker.component.module';
 
-export { IDEAListComponentModule } from './list/list.component.module';
+export * from './list/list.component.module';
 
-export { IDEAAutoCompleteComponentModule } from './autoComplete/autoComplete.component.module';
+export * from './autoComplete/autoComplete.component.module';
 
-export { IDEAAWSAPIService } from './AWSAPI.service';
-export { IDEALoadingService } from './loading.service';
-export { IDEAMessageService } from './message.service';
-export { IDEAExtBrowserService } from './extBrowser.service';
-export { IDEAErrorReportingService, IDEAErrorReport } from './errorReporting.service';
-export { IDEADateUtils } from './calendar/dateUtils.service';
+export * from './signature/signature.component.module';
+
+export * from './AWSAPI.service';
+export * from './loading.service';
+export * from './message.service';
+export * from './extBrowser.service';
+export * from './errorReporting.service';
+export * from './calendar/dateUtils.service';

@@ -1,0 +1,85 @@
+<ion-header>
+  <ion-toolbar
+    [color]="toolbarBgColor"
+  >
+    <ion-buttons
+      left
+    >
+      <button
+        ion-button icon-only
+        [color]="toolbarColor"
+        [title]="t.instant('IDEA.SIGNATURE.CANCEL')"
+        navPop
+      >
+        <ion-icon
+          name="close"
+        ></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>
+      {{ 'IDEA.SIGNATURE.SIGNATURE' | translate }}
+    </ion-title>
+    <ion-buttons
+      right
+    >
+      <button
+        ion-button icon-only
+        [color]="toolbarColor"
+        [title]="t.instant('IDEA.SIGNATURE.SAVE_SIGNATURE')"
+        (click)="save()"
+      >
+        <ion-icon
+          name="checkmark"
+        ></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list
+    class="signatureList"
+  >
+    <ion-list-header>
+      {{ 'IDEA.SIGNATURE.SIGNATORY' | translate }}
+    </ion-list-header>
+    <ion-item
+      [class.fieldHasError]="signatoryError"
+    >
+      <ion-input
+        [(ngModel)]="signature.signatory"
+        [placeholder]="t.instant('IDEA.SIGNATURE.NAME_AND_SURNAME')"
+      ></ion-input>
+    </ion-item>
+  </ion-list>
+  <ion-list
+    class="signatureList"
+  >
+    <ion-list-header>
+      {{ 'IDEA.SIGNATURE.SIGNATURE_EXPLANATION' | translate }}
+    </ion-list-header>
+    <div
+      class="canvasContainer"
+      [class.fieldHasError]="signatureError"
+    >
+      <canvas
+        id="signatureCanvas"
+      ></canvas>
+    </div>
+    <ion-row>
+      <ion-col
+        text-right
+      >
+        <button
+          ion-button icon-only clear
+          [color]="toolbarBgColor"
+          [title]="t.instant('IDEA.SIGNATURE.CLEAR_SIGNATURE')"
+          (click)="clear()"
+        >
+          <ion-icon
+            name="trash"
+          ></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-list>
+</ion-content>

@@ -1,0 +1,19 @@
+IDEASignatureComponent {
+  .signatureList {
+    .canvasContainer {
+      margin: 0 auto;
+      text-align: center;
+      background-color: white;
+      #signatureCanvas {
+        width: 100%;
+        height: 250px;
+      }
+    }
+    ion-item {
+      background-color: white;
+    }
+    .fieldHasError {
+      border-bottom: 3px solid $color-error !important;
+    }
+  }
+}
