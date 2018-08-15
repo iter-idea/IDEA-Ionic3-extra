@@ -23,6 +23,7 @@
     "ionic-angular": "3.9.2",
     "ionicons": "3.0.0",
     "rxjs": "5.5.2",
+    "signature_pad": "^3.0.0-beta.3",
     "sw-toolbox": "3.6.0",
     "typescript": "2.4.2",
     "zone.js": "0.8.18"
