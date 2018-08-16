@@ -11,6 +11,16 @@
       <button
         ion-button icon-only
         [color]="toolbarColor"
+        [title]="t.instant('IDEA.CALENDAR.RESET')"
+        (click)="selectDate(null)"
+      >
+        <ion-icon
+          name="undo"
+        ></ion-icon>
+      </button>
+      <button
+        ion-button icon-only
+        [color]="toolbarColor"
         (click)="selectDate()"
       >
         <ion-icon

@@ -7,28 +7,32 @@ import { ViewController, NavParams, Searchbar } from 'ionic-angular';
 })
 export class IDEASuggestionsComponent {
   @ViewChild (Searchbar) protected searchbar: Searchbar;
-  protected data: Array<any>;
+  protected data: Array<Suggestion>;
   protected value: string;
   protected searchPlaceholder: string;
   protected noSuggestionsText: string;
   protected allowUnlistedValues: boolean;
+  protected hideIdFromUI: boolean;
   protected toolbarBgColor: string;
   protected toolbarColor: string;
 
-  protected suggestions: Array<any>;
+  protected suggestions: Array<Suggestion>;
 
   constructor(
     protected viewCtrl: ViewController,
     protected navParams: NavParams
   ) {
-    this.data = this.navParams.get('data') || new Array<any>();
+    this.data = this.navParams.get('data') || new Array<Suggestion>();
     this.value = this.navParams.get('value') || null;
     this.searchPlaceholder = this.value || this.navParams.get('searchPlaceholder') || null;
     this.noSuggestionsText = this.navParams.get('noSuggestionsText') || null;
     this.allowUnlistedValues = this.navParams.get('allowUnlistedValues') || false;
+    this.hideIdFromUI = this.navParams.get('hideIdFromUI') || false;
     this.toolbarBgColor = this.navParams.get('toolbarBgColor') || null;
     this.toolbarColor = this.navParams.get('toolbarColor') || null;
     this.suggestions = new Array<any>();
+    this.data = this.data.sort((a, b) =>
+      a.name && b.name ? a.name.localeCompare(b.name) : a.value.localeCompare(b.value));
     this.getSuggestions();
   }
   protected ionViewDidEnter(): void {
@@ -45,7 +49,8 @@ export class IDEASuggestionsComponent {
     if(searchTerm.trim() === '') searchTerm = '';
     // load the suggestions
     this.suggestions = this.data
-      .filter((x: string) => x.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0);
+      .filter((x: Suggestion) =>
+        x.value.concat(x.name || '').toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0);
   }
 
   /**
@@ -54,7 +59,7 @@ export class IDEASuggestionsComponent {
    *    - selection === null -> clear
    *    - otherwise, a suggestion was selected
    */
-  protected select(selection?: any): void {
+  protected select(selection?: Suggestion): void {
     this.viewCtrl.dismiss(selection);
   }
 
@@ -72,10 +77,12 @@ export class IDEASuggestionsComponent {
       case 13:
         // quick confirm of the selection, based on what is on in the component
         if(suggestionsList && suggestionsList.getElementsByClassName('selected').length)
-          this.select(suggestionsList.getElementsByClassName('selected')[0]   // selected
-            .textContent.trim());
+          this.select(
+            new Suggestion(suggestionsList.getElementsByClassName('selected')[0]
+              .textContent.trim())                                            // selected
+          );
         else if(this.allowUnlistedValues && this.searchbar.value)
-          this.select(this.searchbar.value);                                  // loose value
+          this.select(new Suggestion(this.searchbar.value));                  // loose value
         else if(this.suggestions.length == 0) this.select();                  // cancel
         else this.select(this.suggestions[0]);                                // first element
       break;
@@ -103,5 +110,40 @@ export class IDEASuggestionsComponent {
         if(selected) selected.classList.add('selected');
       break;
     }
+  }
+}
+
+/**
+ * A suggestion made to appear as autocomplete value.
+ */
+export class Suggestion {
+  public value: any;
+  public name?: any;
+
+  constructor(value?: any, name?: any) {
+    this.value = value || null;
+    this.name = name || null;
+  }
+
+  /**
+   * Clear the suggestion.
+   */
+  public clear(): void {
+    this.value = null;
+    this.name = null;
+  }
+  /**
+   * Set the suggestion with new values.
+   */
+  public set(value: any, name?: any) {
+    this.value = value;
+    this.name = name || null;
+  }
+  /**
+   * Copy the attributes from another suggestion.
+   */
+  public copy(suggestion: Suggestion) {
+    this.value = suggestion.value;
+    this.name = suggestion.name;
   }
 }

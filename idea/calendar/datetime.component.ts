@@ -43,13 +43,6 @@ import { IDEADateUtils } from './dateUtils.service';
         (click)="openCalendarPicker()"
       >
       </ion-input>
-      <button
-        ion-button item-end clear
-        *ngIf="!disabled"
-        (click)="onDateSelected.emit(null)"
-      >
-        {{ 'IDEA.CALENDAR.RESET' | translate }}
-      </button>
     </ion-item>
   `,
   styles:[
@@ -82,7 +75,7 @@ export class IDEADatetimeComponent {
       toolbarBgColor: this.toolbarBgColor, toolbarColor: this.toolbarColor
     });
     modal.onDidDismiss(date => {
-      if(date) this.onDateSelected.emit(date.getTime());
+      if(date !== undefined) this.onDateSelected.emit(date ? date.getTime() : null);
     });
     modal.present();
   }

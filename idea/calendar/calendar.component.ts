@@ -37,7 +37,7 @@ export class IDEACalendarComponent {
     this.refDate = new Date(this.selectedDate);
     this.title = this.navParams.get('title');
     this.toolbarBgColor = this.navParams.get('toolbarBgColor');
-    this.toolbarColor = this.navParams.get('toolbaColor');
+    this.toolbarColor = this.navParams.get('toolbarColor');
     this.buildCalendarGrid(this.refDate);
   }
   protected ionViewCanEnter(): Promise<void> { return this.API.initAndAuth(false); }
