@@ -75,7 +75,10 @@ export class IDEADatetimeComponent {
       toolbarBgColor: this.toolbarBgColor, toolbarColor: this.toolbarColor
     });
     modal.onDidDismiss(date => {
-      if(date !== undefined) this.onDateSelected.emit(date ? date.getTime() : null);
+      if(date !== undefined && date !== null) {
+        if(date == '') this.onDateSelected.emit(null);
+        else this.onDateSelected.emit(date.getTime());
+      }
     });
     modal.present();
   }
