@@ -12,7 +12,7 @@
         ion-button icon-only
         [color]="toolbarColor"
         [title]="t.instant('IDEA.CALENDAR.RESET')"
-        (click)="selectDate('')"
+        (click)="save(true)"
       >
         <ion-icon
           name="undo"
@@ -21,7 +21,7 @@
       <button
         ion-button icon-only
         [color]="toolbarColor"
-        (click)="selectDate()"
+        (click)="save()"
       >
         <ion-icon
           name="close"
@@ -31,85 +31,103 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
+  <h1>{{ 'IDEA.CALENDAR.SET_DATE' | translate }}</h1>
   <ion-grid
-    class="cal"
+    class="aGrid"
   >
-    <ion-row
-      align-items-center justify-content-center
-      class="calRow"
-    >
+    <ion-row>
       <ion-col
-        col-5 text-right
+        col-5
+        text-center
       >
-        <button
-          ion-button icon-only clear
-          color="dark"
-          (click)="addYears(-1)"
+        <ion-row
+          align-items-center justify-content-center
         >
-          <ion-icon
-            name="ios-arrow-back"
-          ></ion-icon>
-        </button>
+          <ion-col
+            col-3 text-right
+          >
+            <button
+              ion-button icon-only clear
+              color="dark"
+              (click)="addYears(-1)"
+            >
+              <ion-icon
+                name="ios-arrow-back"
+              ></ion-icon>
+            </button>
+          </ion-col>
+          <ion-col
+            col-6 text-center tappable
+          >
+            <ion-input
+              type="text"
+              class="yearSelector"
+              [placeholder]="t.instant('IDEA.CALENDAR.YEAR')"
+              [value]="refDate.getFullYear()"
+              (ionFocus)="$event.value = ''"
+              (ionChange)="setYear($event)"
+            >
+            </ion-input>
+          </ion-col>
+          <ion-col
+            col-3 text-left
+          >
+            <button
+              ion-button icon-only clear
+              color="dark"
+              (click)="addYears(+1)"
+            >
+              <ion-icon
+                name="ios-arrow-forward"
+              ></ion-icon>
+            </button>
+          </ion-col>
+        </ion-row>
       </ion-col>
       <ion-col
-        col-2 text-center tappable
-        (click)="showYears()"
+        col-7
+        text-center
       >
-        {{ refDate | date:'yyyy' }}
-      </ion-col>
-      <ion-col
-        col-5 text-left
-      >
-        <button
-          ion-button icon-only clear
-          color="dark"
-          (click)="addYears(+1)"
+        <ion-row
+          align-items-center
         >
-          <ion-icon
-            name="ios-arrow-forward"
-          ></ion-icon>
-        </button>
+          <ion-col
+            col-3 text-right
+          >
+            <button
+              ion-button icon-only clear
+              color="dark"
+              (click)="addMonths(-1)"
+            >
+              <ion-icon
+                name="ios-arrow-back"
+              ></ion-icon>
+            </button>
+          </ion-col>
+          <ion-col
+            col-6 text-center tappable
+            (click)="showMonths()"
+          >
+            {{ d.d2lm(refDate) }}
+          </ion-col>
+          <ion-col
+            col-3 text-left
+          >
+            <button
+              ion-button icon-only clear
+              color="dark"
+              (click)="addMonths(+1)"
+            >
+              <ion-icon
+                name="ios-arrow-forward"
+              ></ion-icon>
+            </button>
+          </ion-col>
+        </ion-row>
       </ion-col>
     </ion-row>
     <ion-row
-      align-items-center
-      class="calRow"
-    >
-      <ion-col
-        text-right
-      >
-        <button
-          ion-button icon-only clear
-          color="dark"
-          (click)="addMonths(-1)"
-        >
-          <ion-icon
-            name="ios-arrow-back"
-          ></ion-icon>
-        </button>
-      </ion-col>
-      <ion-col
-        text-center tappable
-        (click)="showMonths()"
-      >
-        {{ d.d2lm(refDate) }}
-      </ion-col>
-      <ion-col
-        text-left
-      >
-        <button
-          ion-button icon-only clear
-          color="dark"
-          (click)="addMonths(+1)"
-        >
-          <ion-icon
-            name="ios-arrow-forward"
-          ></ion-icon>
-        </button>
-      </ion-col>
-    </ion-row>
-    <ion-row
-      class="calRow daysRow"
+      class="daysRow"
     >
       <ion-col
         text-center
@@ -157,7 +175,7 @@
       >
         <button
           ion-button clear
-          class="dayButton"
+          class="aButton"
           [class.notInThisMonth]="refDate.getMonth() != calendarGrid[i][j].getMonth()"
           [class.today]="d.isSameDay(calendarGrid[i][j])"
           [class.selected]="d.isSameDay(selectedDate, calendarGrid[i][j])"
@@ -168,4 +186,79 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+  <h1
+    *ngIf="timePicker"
+    >
+    {{ 'IDEA.CALENDAR.SET_TIME' | translate }}
+  </h1>
+  <ion-grid
+    class="aGrid"
+    *ngIf="timePicker"
+  >
+    <ion-row
+      align-items-center
+    >
+      <ion-col
+        col-7
+      >
+        <ion-row>
+          <ion-col
+            col-2
+            text-center
+            *ngFor="let hour of hours"
+          >
+            <button
+              ion-button clear
+              class="aButton"
+              [class.selected]="isSameHour(hour)"
+              (click)="selectHour(hour)"
+            >
+              {{ hour }}
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+      <ion-col
+        col-1 text-center
+        class="separator"
+      >
+        :
+      </ion-col>
+      <ion-col
+        col-4
+      >
+        <ion-row>
+          <ion-col
+            col-4
+            text-center
+            *ngFor="let minute of minutes"
+          >
+            <button
+              ion-button clear
+              class="aButton"
+              [class.selected]="isSameMinute(minute)"
+              (click)="selectMinute(minute)"
+            >
+              {{ minute }}
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
+<ion-footer>
+  <ion-toolbar
+    tappable
+    [color]="toolbarBgColor"
+    (click)="save()"
+  >
+    <ion-title
+      text-center
+    >
+      <ion-icon
+        name="checkmark"
+      ></ion-icon>
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>

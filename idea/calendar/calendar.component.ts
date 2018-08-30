@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { DatePipe } from '@angular/common';
 import { IonicPage, NavParams, ViewController, AlertController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -11,22 +10,27 @@ import { IDEADateUtils } from './dateUtils.service';
 })
 @Component({
   selector: 'IDEACalendarComponent',
-  templateUrl: 'calendar.component.html',
-  providers: [ DatePipe ]
+  templateUrl: 'calendar.component.html'
 })
 export class IDEACalendarComponent {
   protected selectedDate: Date;
   protected refDate: Date; // date used to center the calendar on the right month
   protected today: Date;
-  protected calendarGrid: Array<Array<Date>>;
+  protected timePicker: boolean;
   protected title: string;
   protected toolbarBgColor: string;
   protected toolbarColor: string;
 
+  // support
+  protected calendarGrid: Array<Array<Date>>;
+  protected hour: number;
+  protected minute: number;
+  protected hours: Array<string>;
+  protected minutes: Array<string>;
+
   constructor(
     protected viewCtrl: ViewController,
     protected navParams: NavParams,
-    protected datePipe: DatePipe,
     protected alertCtrl: AlertController,
     protected d: IDEADateUtils,
     protected API: IDEAAWSAPIService,
@@ -34,11 +38,22 @@ export class IDEACalendarComponent {
   ) {
     this.today = new Date();
     this.selectedDate = new Date(this.navParams.get('refDate') || this.today);
-    this.refDate = new Date(this.selectedDate);
     this.title = this.navParams.get('title');
+    this.timePicker = this.navParams.get('timePicker');
     this.toolbarBgColor = this.navParams.get('toolbarBgColor');
     this.toolbarColor = this.navParams.get('toolbarColor');
+
+    this.refDate = new Date(this.selectedDate);
+    if(!this.timePicker) this.selectedDate.setHours(0, 0, 0, 0);
+    else {
+      this.hour = this.selectedDate.getHours();
+      // round the minutes a multiple of 5
+      this.minute = Math.ceil(this.selectedDate.getMinutes()/5)*5;
+      this.selectedDate.setMinutes(this.minute);
+    }
     this.buildCalendarGrid(this.refDate);
+    this.hours = Array.from(Array(24).keys()).map(i => ('0'.concat(i.toString())).slice(-2));
+    this.minutes = Array.from(Array(12).keys()).map(i => ('0'.concat((i*5).toString())).slice(-2));
   }
   protected ionViewCanEnter(): Promise<void> { return this.API.initAndAuth(false); }
 
@@ -96,20 +111,12 @@ export class IDEACalendarComponent {
   /**
    * Manual selection of the year.
    */
-  public showYears(): void {
-    let alert = this.alertCtrl.create();
-    alert.setTitle(this.t.instant('IDEA.CALENDAR.YEAR'));
-    for(let i = 1970; i < 2040; i++) alert.addInput({
-      type: 'radio', label: i.toString(), value: i.toString(),
-      checked: (i == this.refDate.getFullYear()+1)
-    });
-    alert.addButton(this.t.instant('COMMON.CANCEL'));
-    alert.addButton({ text: this.t.instant('COMMON.SELECT'), handler: year => {
-      this.refDate.setFullYear(year);
-      this.buildCalendarGrid(this.refDate);
-      this.refDate = new Date(this.refDate);  // to fire the "onChange" event
-    }});
-    alert.present();
+  public setYear(ev: any): void {
+    let year = parseInt(ev.value);
+    if(!year) return;
+    this.refDate.setFullYear(year);
+    this.buildCalendarGrid(this.refDate);
+    this.refDate = new Date(this.refDate);  // to fire the "onChange" event
   }
   /**
    * +- num months to the current one.
@@ -139,9 +146,44 @@ export class IDEACalendarComponent {
   }
 
   /**
-   * Select a date and close the calendar.
+   * Set the new date.
    */
   protected selectDate(date: Date): void {
-    this.viewCtrl.dismiss(date);
+    this.selectedDate.setDate(date.getDate());
+    this.selectedDate.setMonth(date.getMonth());
+    this.selectedDate.setFullYear(date.getFullYear());
+  }
+
+  /**
+   * Set the new hour.
+   */
+  protected selectHour(hour: string): void {
+    this.selectedDate.setHours(parseInt(hour));
+  }
+  /**
+   * Set the new minute.
+   */
+  protected selectMinute(minute: string): void {
+    this.selectedDate.setMinutes(parseInt(minute));
+  }
+
+  /**
+   * Return true if the hour in the UI is the selected one.
+   */
+  protected isSameHour(hour: string): boolean {
+    return this.selectedDate.getHours() == parseInt(hour);
+  }
+  /**
+   * Return true if the minute in the UI is the selected one.
+   */
+  protected isSameMinute(minute: string): boolean {
+    return this.selectedDate.getMinutes() == parseInt(minute);
+  }
+
+  /**
+   * Confirm and close.
+   */
+  protected save(reset?: boolean): void {
+    this.viewCtrl.dismiss(reset ? '' : this.selectedDate);
   }
 }

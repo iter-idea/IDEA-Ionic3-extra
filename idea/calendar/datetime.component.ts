@@ -38,7 +38,7 @@ import { IDEADateUtils } from './dateUtils.service';
       <ion-input
         readonly
         type="text"
-        [value]="date ? d.d2l(date, false, false, true) : null"
+        [value]="date ? d.dt2l(date, false, false, true) : null"
         [disabled]="disabled"
         (click)="openCalendarPicker()"
       >
@@ -53,7 +53,7 @@ export class IDEADatetimeComponent {
   @Input() protected label: string;
   @Input() protected labelType: string;
   @Input() protected date: Date;
-  @Input() protected format: string;
+  @Input() protected timePicker: boolean;
   @Input() protected toolbarBgColor: string;
   @Input() protected toolbarColor: string;
   @Input() protected disabled: boolean;
@@ -71,7 +71,7 @@ export class IDEADatetimeComponent {
   protected openCalendarPicker(): void {
     if(this.disabled) return;
     let modal = this.modalCtrl.create('idea-calendar', {
-      refDate: this.date, title: this.label,
+      refDate: this.date, title: this.label, timePicker: this.timePicker,
       toolbarBgColor: this.toolbarBgColor, toolbarColor: this.toolbarColor
     });
     modal.onDidDismiss(date => {

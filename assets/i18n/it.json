@@ -75,7 +75,9 @@
       "THURSDAY_SHORT": "Gio",
       "FRIDAY_SHORT": "Ven",
       "SATURDAY_SHORT": "Sab",
-      "SUNDAY_SHORT": "Dom"
+      "SUNDAY_SHORT": "Dom",
+      "SET_DATE": "Scegli una data",
+      "SET_TIME": "Scegli un orario"
     },
     "CHECKER": {
       "DONE": "Fatto"

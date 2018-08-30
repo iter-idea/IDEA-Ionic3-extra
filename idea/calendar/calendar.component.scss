@@ -1,35 +1,49 @@
 IDEACalendarComponent {
-  .cal {
+  h1 {
+    margin: 10px;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  .aGrid {
     background-color: white;
-    ion-col {
-      padding: 0px;
+    padding: 8px;
+    .yearSelector {
+      input {
+        margin: 0;
+        text-align: center;
+      }
     }
-  }
-  .calRow {
-    ion-col {
-      margin: 5px 0;
-      font-size: 1.2em;
+    .daysRow {
+      margin: 12px 0;
+      font-weight: 600;
     }
-  }
-  .daysRow {
-    margin-top: 20px;
-    font-weight: 600;
-  }
-  .dayButton {
-    color: #444;
-    font-weight: normal;
-    font-size: 1.8rem;
-    height: 35px;
-    width: 35px;
-  }
-  .notInThisMonth {
-    color: #AAA;
-  }
-  .today {
-    border: 1px solid color($colors, primary);
-  }
-  .selected, .selected:hover {
-    background-color: color($colors, primary) !important;
-    color: white !important;
+    ion-col {
+      padding: 0;
+      font-size: 1.6rem;
+    }
+    .aButton {
+      height: 30px;
+      width: 30px;
+      margin: 0;
+      color: #444;
+      font-weight: normal;
+      font-size: 1.6rem;
+    }
+    .separator {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+    .notInThisMonth {
+      color: #AAA;
+    }
+    .today {
+      border: 1px solid color($colors, primary);
+    }
+    .selected, .selected:hover {
+      background-color: color($colors, primary) !important;
+      color: white !important;
+    }
   }
 }

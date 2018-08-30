@@ -15,14 +15,14 @@ export class IDEADateUtils {
   public d2l(
     date: Date | string | number, short?: boolean, noYear?: boolean, noDayName?: boolean
   ): string {
-    date = (date instanceof Date) ? date : new Date(date);
-    let dayName = date.toLocaleDateString(this.t.currentLang,
+    let d = new Date(date);
+    let dayName = d.toLocaleDateString(this.t.currentLang,
       { weekday: short ? 'short' : 'long' });
     dayName = dayName.slice(0, 1).toUpperCase().concat(dayName.slice(1));
-    let day = date.toLocaleDateString(this.t.currentLang, { day: 'numeric' });
-    let month = date.toLocaleDateString(this.t.currentLang, { month: short ? 'short' : 'long' });
+    let day = d.toLocaleDateString(this.t.currentLang, { day: 'numeric' });
+    let month = d.toLocaleDateString(this.t.currentLang, { month: short ? 'short' : 'long' });
     month = month.slice(0, 1).toUpperCase().concat(month.slice(1));
-    let year = date.toLocaleDateString(this.t.currentLang, { year: 'numeric' });
+    let year = d.toLocaleDateString(this.t.currentLang, { year: 'numeric' });
     return `${noDayName ? '' : dayName} ${day} ${month} ${noYear ? '' : year}`;
   }
 
@@ -32,8 +32,22 @@ export class IDEADateUtils {
    * @returns {string} the string representation (in locale format)
    */
   public t2l(date: Date | number | string): string {
-    date = (date instanceof Date) ? date : new Date(date);
-    return date.toLocaleTimeString(this.t.currentLang, { hour: '2-digit', minute: '2-digit' });
+    let d = new Date(date);
+    return d.toLocaleTimeString(this.t.currentLang, { hour: '2-digit', minute: '2-digit' });
+  }
+
+  /**
+   * Convert the datetime to a locale string, based on the current language.
+   * @param {Date | string | number} date the date to convet
+   * @param {boolean} short if true, return a shorter version of the date
+   * @param {boolean} noYear if true, hide the year
+   * @returns {string} the string representation (in locale format)
+   */
+  public dt2l(
+    date: Date | string | number, short?: boolean, noYear?: boolean, noDayName?: boolean
+  ): string {
+    let d = new Date(date);
+    return `${this.d2l(d, short, noYear, noDayName)}, ${this.t2l(d)}`;
   }
 
   /**
@@ -43,8 +57,8 @@ export class IDEADateUtils {
    * @returns {string} the string representation (in locale format)
    */
   public d2lm(date: Date | number | string, short?: boolean): string {
-    date = (date instanceof Date) ? date : new Date(date);
-    let month = date.toLocaleDateString(this.t.currentLang, { month: short ? 'short' : 'long' });
+    let d = new Date(date);
+    let month = d.toLocaleDateString(this.t.currentLang, { month: short ? 'short' : 'long' });
     return month.slice(0, 1).toUpperCase().concat(month.slice(1));
   }
 
@@ -58,8 +72,8 @@ export class IDEADateUtils {
   public dayDiff(d1: Date | number | string, d2?: Date | number | string): number {
     if(!d1) return null;
     d2 = d2 || new Date(); // today
-    d1 = (d1 instanceof Date) ? d1 : new Date(d1);
-    d2 = (d2 instanceof Date) ? d2 : new Date(d2);
+    d1 = new Date(d1);
+    d2 = new Date(d2);
     d1.setHours(0, 0, 0, 0);
     d2.setHours(0, 0, 0, 0);
     return (d1.getTime() - d2.getTime()) / (1000 * 3600 * 24);
