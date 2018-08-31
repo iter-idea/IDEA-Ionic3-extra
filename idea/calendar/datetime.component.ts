@@ -38,7 +38,9 @@ import { IDEADateUtils } from './dateUtils.service';
       <ion-input
         readonly
         type="text"
-        [value]="date ? d.dt2l(date, false, false, true) : null"
+        [value]="date ? 
+            timePicker ? d.dt2l(date, false, false, true) : d.d2l(date, false, false, true) 
+          : null"
         [disabled]="disabled"
         (click)="openCalendarPicker()"
       >
