@@ -13,7 +13,7 @@ IDEASignatureComponent {
       background-color: white;
     }
     .fieldHasError {
-      border-bottom: 3px solid $color-error !important;
+      border-bottom: 3px solid $error-color !important;
     }
   }
 }
