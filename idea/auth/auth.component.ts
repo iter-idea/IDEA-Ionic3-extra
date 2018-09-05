@@ -61,17 +61,20 @@ export class IDEAAuthComponent {
 
   public login(): void {
     this.loading.show();
-    this.auth.login(this.username, this.password)
-    .then(needNewPassword => {
-      this.loading.hide();
-      if(needNewPassword) this.mode = 'P'; // go to new password challenge
-      else window.location.assign('');
-    })
-    .catch((err) => {
-      this.loading.hide();
-      this.message.show(this.t.instant('IDEA.AUTH.AUTHENTICATION_FAILED'),
-        this.message.TYPE_ERROR);
-    });
+    setTimeout(() => {
+      // the timeout is needed to avoid a freeze time without no loading screen
+      this.auth.login(this.username, this.password)
+      .then(needNewPassword => {
+        this.loading.hide();
+        if(needNewPassword) this.mode = 'P'; // go to new password challenge
+        else window.location.assign('');
+      })
+      .catch(() => {
+        this.loading.hide();
+        this.message.show(this.t.instant('IDEA.AUTH.AUTHENTICATION_FAILED'),
+          this.message.TYPE_ERROR);
+      });
+    }, 100);
   }
   public confirmNewPassword(): void {
     this.loading.show();
