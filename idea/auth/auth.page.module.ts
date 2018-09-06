@@ -2,15 +2,15 @@ import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { IDEAAuthComponent } from './auth.component';
+import { IDEAAuthPage } from './auth.page';
 
 @NgModule({
   declarations: [
-    IDEAAuthComponent
+    IDEAAuthPage
   ],
   imports: [
-    IonicPageModule.forChild(IDEAAuthComponent),
+    IonicPageModule.forChild(IDEAAuthPage),
     TranslateModule.forChild()
   ]
 })
-export class IDEAAuthComponentModule { }
+export class IDEAAuthPageModule { }

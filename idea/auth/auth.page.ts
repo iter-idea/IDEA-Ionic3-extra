@@ -20,10 +20,10 @@ declare const IDEA_WEBSITE: string;
   segment: 'sign-in'
 })
 @Component({
-  selector: 'IDEAAuthComponent',
-  templateUrl: 'auth.component.html'
+  selector: 'IDEAAuthPage',
+  templateUrl: 'auth.page.html'
 })
-export class IDEAAuthComponent {
+export class IDEAAuthPage {
   protected title: string;
   protected website: string;
   protected registrationPossible: boolean;
@@ -59,14 +59,19 @@ export class IDEAAuthComponent {
   }
   protected ionViewCanEnter(): Promise<void> { return this.API.initAndAuth(false); }
 
+  /**
+   * Sign-in with the auth details provided.
+   */
   public login(): void {
     this.loading.show();
     setTimeout(() => {
       // the timeout is needed to avoid a freeze time without no loading screen
       this.auth.login(this.username, this.password)
       .then(needNewPassword => {
-        this.loading.hide();
-        if(needNewPassword) this.mode = 'P'; // go to new password challenge
+        if(needNewPassword) {
+          this.loading.hide();
+          this.mode = 'P'; // go to new password challenge
+        }
         else window.location.assign('');
       })
       .catch(() => {
@@ -76,22 +81,29 @@ export class IDEAAuthComponent {
       });
     }, 100);
   }
+  /**
+   * Confirm a new password (auth flow that follows a registration or a password reset).
+   */
   public confirmNewPassword(): void {
     this.loading.show();
-    this.auth.confirmNewPassword(this.username, this.password, this.newPassword)
-    .then(() => {
-      this.loading.hide();
-      window.location.assign('');
-    })
-    .catch((err) => {
+    this.auth
+    .confirmNewPassword(this.username, this.password, this.newPassword)
+    .then(() => window.location.assign(''))
+    .catch(() => {
       this.loading.hide();
       this.message.show(this.t.instant('IDEA.AUTH.PASSWORD_POLICY_VIOLATION', { n: 8 }),
         this.message.TYPE_ERROR);
     });
   }
+  /**
+   * Go to the registration page.
+   */
   public goToRegistration(): void {
     this.navCtrl.setRoot('sign-up');
   }
+  /**
+   * Go to the forgot password page.
+   */
   public goToForgotPassword(): void {
     this.navCtrl.setRoot('forgot-password');
   }

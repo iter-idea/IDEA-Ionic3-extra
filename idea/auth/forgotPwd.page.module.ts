@@ -2,15 +2,15 @@ import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { IDEAForgotPwdComponent } from './forgotPwd.component';
+import { IDEAForgotPwdPage } from './forgotPwd.page';
 
 @NgModule({
   declarations: [
-    IDEAForgotPwdComponent
+    IDEAForgotPwdPage
   ],
   imports: [
-    IonicPageModule.forChild(IDEAForgotPwdComponent),
+    IonicPageModule.forChild(IDEAForgotPwdPage),
     TranslateModule.forChild()
   ]
 })
-export class IDEAForgotPwdComponentModule { }
+export class IDEAForgotPwdPageModule { }

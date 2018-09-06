@@ -16,10 +16,10 @@ declare const IDEA_AUTH_VIDEO: boolean;
   defaultHistory: ['sign-in']
 })
 @Component({
-  selector: 'IDEAAuthComponent',
-  templateUrl: 'registration.component.html'
+  selector: 'IDEAAuthPage',
+  templateUrl: 'registration.page.html'
 })
-export class IDEARegistrationComponent {
+export class IDEARegistrationPage {
   protected showVideo: boolean;
   protected mode: string; // 'R' register, 'C' confirm registration, 'S' send again the code
   protected username: string;
@@ -66,7 +66,7 @@ export class IDEARegistrationComponent {
     // start the registration
     this.loading.show();
     this.auth.register(this.username, this.password, { email: this.email, name: this.name.trim() })
-    .then(user => {
+    .then(() => {
       this.loading.hide();
       this.mode = 'C'; // confirm the account with the code
     })
@@ -118,7 +118,7 @@ export class IDEARegistrationComponent {
         this.message.TYPE_SUCCESS);
       this.mode = 'C'; // confirm the account with the code
     })
-    .catch(err => {
+    .catch(() => {
       this.loading.hide();
       this.errorMsg = this.t.instant('IDEA.AUTH.IS_THE_USERNAME_CORRECT');
       this.message.show(this.t.instant('IDEA.AUTH.SENDING_FAILED'), this.message.TYPE_ERROR);

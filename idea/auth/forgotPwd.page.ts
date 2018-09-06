@@ -16,10 +16,10 @@ declare const IDEA_AUTH_VIDEO: boolean;
   defaultHistory: ['sign-in']
 })
 @Component({
-  selector: 'IDEAAuthComponent',
-  templateUrl: 'forgotPwd.component.html'
+  selector: 'IDEAAuthPage',
+  templateUrl: 'forgotPwd.page.html'
 })
-export class IDEAForgotPwdComponent {
+export class IDEAForgotPwdPage {
   protected showVideo: boolean;
   protected mode: string; // 'R' recover, 'C' confirm
   protected username: string;
@@ -43,7 +43,7 @@ export class IDEAForgotPwdComponent {
   public forgotPassword(): void {
     this.loading.show();
     this.auth.forgotPassword(this.username)
-    .then(result => {
+    .then(() => {
       this.loading.hide();
       this.message.show(this.t.instant('IDEA.AUTH.PASSWORD_RESET_CODE_SENT'),
         this.message.TYPE_SUCCESS);
@@ -58,7 +58,7 @@ export class IDEAForgotPwdComponent {
   public confirmPassword(): void {
     this.loading.show();
     this.auth.confirmPassword(this.username, this.code, this.newPassword)
-    .then(result => {
+    .then(() => {
       this.loading.hide();
       this.message.show(this.t.instant('IDEA.AUTH.PASSWORD_CHANGED'),
         this.message.TYPE_SUCCESS);

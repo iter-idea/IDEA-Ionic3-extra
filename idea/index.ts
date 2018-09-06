@@ -1,8 +1,7 @@
 export * from './auth/auth.service';
-export * from './auth/cognito.service';
-export * from './auth/auth.component.module';
-export * from './auth/registration.component.module';
-export *  from './auth/forgotPwd.component.module';
+export * from './auth/auth.page.module';
+export * from './auth/registration.page.module';
+export * from './auth/forgotPwd.page.module';
 
 export * from './calendar/calendar.component.module';
 

@@ -1,178 +1,227 @@
 import { Injectable } from '@angular/core';
 
-import { Cognito } from './cognito.service';
+import * as Cognito from 'amazon-cognito-identity-js';
 
+// from idea-config.js
+declare const IDEA_AWS_COGNITO_USER_POOL_ID: string;
+declare const IDEA_AWS_COGNITO_WEB_CLIENT_ID: string;
+
+/**
+ * Cognito wrapper to manage the authentication flow.
+ *
+ * Note: in IDEA's Cognito users pools, the email is an alias of the username.
+ *
+ * **Note well**: the from amazon-cognito-identity-js must be set in `index.html`.
+ */
 @Injectable()
 export class IDEAAuthService {
-  private cognito: Cognito;
+  protected userPool: Cognito.CognitoUserPool;
 
   constructor() {
-    this.cognito = new Cognito();
+    this.userPool = new Cognito.CognitoUserPool({
+      UserPoolId: IDEA_AWS_COGNITO_USER_POOL_ID,
+      ClientId: IDEA_AWS_COGNITO_WEB_CLIENT_ID
+    });
   }
 
-  public getUsername(): any {
-    return this.cognito.getCurrentUser().getUsername();
+  /**
+   * Prepare the necessary structure to get authorized in Cognito.
+   */
+  private prepareAuthDetails(username: string, pwd: string): Cognito.AuthenticationDetails {
+    return new Cognito.AuthenticationDetails({ Username: username, Password: pwd });
   }
-  public login(username: string, password: string): Promise<any> {
-    // note: the email is an alias of the username
+  /**
+   * Prepare the necessary structure to identify a Cognito user.
+   */
+  private prepareCognitoUser(username: string): Cognito.CognitoUser {
+    return new Cognito.CognitoUser({ Username: username, Pool: this.userPool })
+  }
+  /**
+   * Prepare a user attribute (they are all strings) in Cognito's format.
+   */
+  private prepareUserAttribute(name: string, value: string): Cognito.CognitoUserAttribute {
+    return new Cognito.CognitoUserAttribute({ Name: name, Value: value });
+  }
+
+  /**
+   * Perform a login through username and password.
+   */
+  public login(username: string, password: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      // find the user and its authentication details...
-      let user = this.cognito.makeUser(username);
-      let authDetails = this.cognito.makeAuthDetails(username, password);
-      // ... to perform a login
-      user.authenticateUser(authDetails, {
-        onSuccess: () => { resolve(false) },
-        onFailure: (err: Error) => { reject(err) },
-        newPasswordRequired: () => { resolve(true) }
+      // get a cognito user and try to authenticate
+      this.prepareCognitoUser(username)
+      .authenticateUser(this.prepareAuthDetails(username, password), {
+        onSuccess: () => resolve(false),
+        onFailure: (err: Error) => reject(err),
+        newPasswordRequired: () => resolve(true)
       });
     });
   }
+  /**
+   * Complete a complete new password flow in the authentication.
+   */
   public confirmNewPassword(
     username: string, tempPassword: string, newPassword: string
-  ): Promise<any> {
+  ): Promise<void> {
     return new Promise((resolve, reject) => {
-      // find the user and its temporary authentication details
-      let user = this.cognito.makeUser(username);
-      let authDetails = this.cognito.makeAuthDetails(username, tempPassword);
       // login with the old password
-      user.authenticateUser(authDetails, {
-        onSuccess: () => { resolve() },
-        onFailure: (err: Error) => { reject(err) },
-        newPasswordRequired: () => {
+      this.prepareCognitoUser(username)
+      .authenticateUser(this.prepareAuthDetails(username, tempPassword), {
+        onSuccess: () => resolve(),
+        onFailure: (err: Error) => reject(err),
+        newPasswordRequired: () =>
           // complete the new password challenge
-          user.completeNewPasswordChallenge(newPassword, {}, {
-            onSuccess: () => { resolve() },
-            onFailure: (err: Error) => { reject(err) }
-          });
-        }
+          this.prepareCognitoUser(username)
+          .completeNewPasswordChallenge(newPassword, {}, {
+            onSuccess: () => resolve(),
+            onFailure: (err: Error) => reject(err)
+          })
       });
     });
   }
-  public register(username: string, password: string, attributes: any): Promise<any> {
+  /**
+   * Register a new user a set its default attributes.
+   */
+  public register(
+    username: string, password: string, attributes: any
+  ): Promise<Cognito.CognitoUser> {
     return new Promise((resolve, reject) => {
       // add attributes like the email address and the fullname
-      let attributeList = [];
+      let attrs = [];
       for(let prop in attributes)
-        attributeList.push(this.cognito.makeAttribute(prop, attributes[prop]))
-      // register the new user
-      this.cognito.getUserPool().signUp(username, password, attributeList, null,
-      (err: Error, res: any) => {
-        if(err) reject(err);
-        else resolve(res.user);
-      });
+        attrs.push(this.prepareUserAttribute(prop, attributes[prop]));
+      // register the new user to the pool
+      this.userPool
+      .signUp(username, password, attrs, null,
+        (err: Error, res: Cognito.ISignUpResult) => err ? reject(err) : resolve(res.user)
+      );
     });
   }
+  /**
+   * Confirm a new registration through the confirmation code sent by Cognito.
+   */
   public confirmRegistration(username: string, code: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      // find the user
-      let user = this.cognito.makeUser(username);
-      // confirm the registration of the user with the code provided
-      user.confirmRegistration(code, true, (err: Error) => {
-        if(err) reject(err);
-        else resolve();
-      });
+      this.prepareCognitoUser(username)
+      .confirmRegistration(code, true, (err: Error) => err ? reject(err) : resolve());
     });
   }
+  /**
+   * Send again a confirmation code for a new registration.
+   */
   public resendConfirmationCode(username: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      // find the user
-      let user = this.cognito.makeUser(username);
-      // resend the confirmation code
-      user.resendConfirmationCode((err: Error)  => {
-        if(err) reject(err);
-        else resolve();
-      });
+      this.prepareCognitoUser(username)
+      .resendConfirmationCode((err: Error) => err ? reject(err) : resolve());
     });
   }
+  /**
+   * Logout the currently signed in user.
+   */
   public logout(dontReload?: boolean): void {
     this.isAuthenticated(false)
     .then(() => {
-      this.cognito.getCurrentUser().signOut();
+      this.userPool
+      .getCurrentUser()
+      .signOut();
       if(!dontReload) window.location.assign('');
     })
     .catch(() => window.location.assign(''));
   }
-  public forgotPassword(email: string): Promise<any> {
+  /**
+   * Send a password reset request.
+   */
+  public forgotPassword(username: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      // find the user and request a password reset
-      this.cognito.makeUser(email)
+      this.prepareCognitoUser(username)
       .forgotPassword({
-        onSuccess: () => { resolve() },
-        onFailure: (err: Error) => { reject(err) }
+        onSuccess: () => resolve(),
+        onFailure: (err: Error) => reject(err)
       });
     });
   }
-  public confirmPassword(email: string, code: string, newPassword: string): Promise<any> {
+  /**
+   * Confirm a new password after a password reset request.
+   */
+  public confirmPassword(username: string, code: string, newPwd: string): Promise<any> {
      return new Promise((resolve, reject) => {
       // get the user and confirm a new password
-      this.cognito.makeUser(email)
-      .confirmPassword(code, newPassword, {
-        onSuccess: () => { resolve() },
-        onFailure: (err: Error) => { reject(err) }
+      this.prepareCognitoUser(username)
+      .confirmPassword(code, newPwd, {
+        onSuccess: () => resolve(),
+        onFailure: (err: Error) => reject(err)
       });
     });
   }
+  /**
+   * Check if a user is currently authenticated.
+   * @param offlineCountsAsLogged if set, if the client is offline, count as logged in
+   * @param getFreshIdTokenOnExpiration cb function to execute when the idToken is refreshed
+   */
   public isAuthenticated(
-    offlineCountsAsLogged: boolean, getFreshIdTokenOnExpiration?: (freshIdToken: string) => void
+    offlineCountsAsLogged: boolean,
+    getFreshIdTokenOnExpiration?: (freshIdToken: string) => void
   ): Promise<any> {
     return new Promise((resolve, reject) => {
-      // offlineCountsAsLogged -> to avoid auth checks if online
+      // offlineCountsAsLogged -> to avoid auth checks if offline
       if(offlineCountsAsLogged && !navigator.onLine) return resolve();
-      var user = this.cognito.getCurrentUser();
-      if(user != null) {
-        user.getSession((err: Error, session: any) => {
-          if(err) reject(err);
-          else {
-            // get user attributes
-            this.cognito.getUserDetails(session.getAccessToken().getJwtToken())
-            .then(userDetails => {
-              // set a timer to manage the autorefresh of the idToken (through the refreshToken)
-              setTimeout(() => {
-                this.refreshSession(user, session.refreshToken, getFreshIdTokenOnExpiration);
-              }, 15*60*1000); // every 15 minutes
-              // return the idToken (to use with API)
-              resolve({
-                idToken: session.getIdToken().getJwtToken(), userDetails: userDetails
-              });
-            })
-            .catch(err => reject(err));
-          }
-        });
-      } else reject();
+      let user = this.userPool.getCurrentUser();
+      if(!user) return reject();
+      user.getSession((err: Error, session: Cognito.CognitoUserSession) => {
+        if(err) return reject(err);
+        // get user attributes
+        user.getUserAttributes((e: Error, attributes: Array<Cognito.CognitoUserAttribute>) => {
+          if(e) return reject(e);
+          // remap user attributes
+          let userDetails: any = []
+          attributes.forEach((a: Cognito.CognitoUserAttribute) =>
+            userDetails[a.getName()] = a.getValue());
+          // set a timer to manage the autorefresh of the idToken (through the refreshToken)
+          setTimeout(() => this.refreshSession(
+            user, session.getRefreshToken().getToken(), getFreshIdTokenOnExpiration
+          ), 15*60*1000); // every 15 minutes
+          // return the idToken (to use with API)
+          resolve({ idToken: session.getIdToken().getJwtToken(), userDetails: userDetails });
+        })
+      });
     });
   }
-  protected refreshSession(user: any, refreshToken: string,
+  /**
+   * Helper to refresh the session every N minutes.
+   */
+  protected refreshSession(user: Cognito.CognitoUser, refreshToken: string,
     callback:(freshIdToken: string) => void
   ): void {
-    user.refreshSession(refreshToken, (err: Error, session: any) => {
+    user.refreshSession(new Cognito.CognitoRefreshToken({ RefreshToken: refreshToken }),
+    (err: Error, session: Cognito.CognitoUserSession) => {
       if(err)
-        setTimeout(() => {
-          this.refreshSession(user, refreshToken, callback);
-        }, 1*60*1000); // try again in 1 minute
+        // try again in 1 minute
+        setTimeout(() => this.refreshSession(user, refreshToken, callback), 1*60*1000);
       else {
-        setTimeout(() => {
-          this.refreshSession(user, session.refreshToken, callback);
-        }, 15*60*1000); // every 15 minutes
+        // every 15 minutes
+        setTimeout(() =>
+          this.refreshSession(user, session.getRefreshToken().getToken(), callback),
+            15*60*1000);
         console.debug('Token refreshed');
         if(callback) callback(session.getIdToken().getJwtToken());
       }
     });
   }
+  /**
+   * Update the currently logged in user's attributes.
+   */
   public updateUserAttributes(attributes: any): Promise<any> {
     return new Promise((resolve, reject) => {
       // prepare the attributes we want to change
-      let attributeList = new Array<any>();
+      let attrs = new Array<any>();
       for(let prop in attributes)
-        attributeList.push(this.cognito.makeAttribute(prop, attributes[prop]));
-      let user = this.cognito.getCurrentUser();
-      if(!user) reject();
-      else user.getSession((err: Error, session: any) => {
-        // we need to get the session before to make changes
+        attrs.push(this.prepareUserAttribute(prop, attributes[prop]));
+      let user = this.userPool.getCurrentUser();
+      if(!user) return reject();
+      // we need to get the session before to make changes
+      user.getSession((err: Error) => {
         if(err) reject(err);
-        else user.updateAttributes(attributeList, (err: Error, res: any) => {
-          if(err) reject(err);
-          else resolve();
-        });
+        else user.updateAttributes(attrs, (err: Error) => err ? reject(err) : resolve());
       });
     });
   }

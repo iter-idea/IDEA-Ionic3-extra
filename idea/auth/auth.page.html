@@ -1,0 +1,233 @@
+<video
+  id="authVideo"
+  playsinline loop autoplay
+  muted="true"
+  preload="auto"
+  *ngIf="showVideo"
+  [attr.poster]="platform.is('android') ? './assets/imgs/auth.jpg' : null"
+>
+  <source
+    src="./assets/videos/auth.mp4"
+    type="video/mp4"
+  >
+  <img
+    src="./assets/imgs/auth.jpg"
+  >
+</video>
+<img
+  id="authImage"
+  src="./assets/imgs/auth.jpg"
+  *ngIf="!showVideo"
+>
+<ion-content>
+  <div
+    *ngIf="mode=='L'"
+  >
+    <form
+      (ngSubmit)="login()"
+    >
+      <ion-card
+        class="aCard"
+      >
+        <img
+          src="assets/icons/icon.png"
+          class="theLogo"
+        >
+        <h1
+          class="theTitle"
+        >
+          {{ title }}
+        </h1>
+        <h2
+          class="theTagline"
+          *ngIf="t.instant('TAGLINE')"
+        >
+          {{ 'IDEA.TAGLINE' | translate }}
+        </h2>
+        <ion-list>
+          <ion-item
+            class="anInput"
+          >
+            <ion-label
+              inline
+            >
+              <ion-icon
+                name="contact"
+              >
+              </ion-icon>
+            </ion-label>
+            <ion-input
+              type="text"
+              autocorrect="off"
+              autocapitalize="none"
+              [ngModelOptions]="{ standalone: true }"
+              [placeholder]="t.instant('IDEA.AUTH.USERNAME_OR_EMAIL')"
+              [(ngModel)]="username"
+            ></ion-input>
+          </ion-item>
+          <ion-item
+            class="anInput"
+          >
+            <ion-label
+              inline
+            >
+              <ion-icon
+                name="key"
+              ></ion-icon>
+            </ion-label>
+            <ion-input
+              type="password"
+              [ngModelOptions]="{ standalone: true }"
+              [placeholder]="t.instant('IDEA.AUTH.PASSWORD')"
+              [(ngModel)]="password"
+            ></ion-input>
+          </ion-item>
+          <ion-row
+            class="privacyPolicyAcceptanceBox"
+            *ngIf="t.instant('IDEA.AUTH.PRIVACY_POLICY_URL')"
+          >
+            <ion-col
+              text-center
+            >
+              <ion-checkbox
+                [ngModelOptions]="{ standalone: true }"
+                [(ngModel)]="privacyPolicyCheck"
+              ></ion-checkbox>
+              {{ 'IDEA.AUTH.PRIVACY_POLICY_CHECK' | translate }}
+              <a
+                ion-text
+                color="primary"
+                target="_blank"
+                rel="noopener"
+                [href]="t.instant('IDEA.AUTH.PRIVACY_POLICY_URL')"
+              >
+                {{ 'IDEA.AUTH.PRIVACY_POLICY' | translate }}
+              </a>
+            </ion-col>
+          </ion-row>
+          <button
+            ion-button outline
+            class="aButton"
+            [disabled]="t.instant('IDEA.AUTH.PRIVACY_POLICY_URL') && !privacyPolicyCheck"
+          >
+            {{ 'IDEA.AUTH.SIGN_IN' | translate }}
+          </button>
+        </ion-list>
+      </ion-card>
+    </form>
+    <form
+      *ngIf="registrationPossible"
+      (ngSubmit)="goToRegistration()"
+    >
+      <ion-card
+        class="aCard createAccount"
+      >
+        <div
+          class="someInfo"
+        >
+          {{ 'IDEA.AUTH.OR' | translate }}
+        </div>
+        <button
+          ion-button outline
+          class="aButton alternative"
+          [disabled]="t.instant('IDEA.AUTH.PRIVACY_POLICY_URL') && !privacyPolicyCheck"
+        >
+          {{ 'IDEA.AUTH.CREATE_AN_ACCOUNT' | translate }}
+        </button>
+      </ion-card>
+    </form>
+  </div>
+  <div
+    *ngIf="mode=='P'"
+  >
+    <form
+      (ngSubmit)="confirmNewPassword()"
+    >
+      <ion-card
+        class="aCard"
+      >
+        <h1
+          class="theTitle"
+        >
+          {{ 'IDEA.AUTH.CHOOSE_A_PASSWORD' | translate }}
+        </h1>
+        <h2
+          class="theTagline"
+        >
+          {{ 'IDEA.AUTH.YOU_NEED_TO_CHOOSE_A_NEW_PASSWORD' | translate }}
+        </h2>
+        <ion-list>
+          <ion-item
+            class="anInput"
+          >
+            <ion-label
+              inline
+            >
+              <ion-icon
+                name="key"
+              ></ion-icon>
+            </ion-label>
+            <ion-input
+              type="password"
+              [ngModelOptions]="{ standalone: true }"
+              [placeholder]="t.instant('IDEA.AUTH.PASSWORD')"
+              [(ngModel)]="newPassword"
+            ></ion-input>
+          </ion-item>
+          <button
+            ion-button outline
+            class="aButton"
+          >
+            {{ 'IDEA.AUTH.CONFIRM_NEW_PASSWORD' | translate }}
+          </button>
+        </ion-list>
+      </ion-card>
+    </form>
+  </div>
+  <ion-card
+    class="aCard"
+  >
+    <div
+      class="someInfo"
+    >
+      <a
+        ion-text tappable
+        (click)="goToForgotPassword()"
+      >
+        {{ 'IDEA.AUTH.I_FORGOT_MY_PASSWORD' | translate }}
+        <b>
+          {{ 'IDEA.AUTH.CLICK_HERE' | translate }}
+        </b>
+      </a>
+    </div>
+    <div
+      class="someInfo discoverMore"
+      *ngIf="website"
+    >
+      <a
+        ion-text tappable
+        target="_blank"
+        rel="noopener"
+        [href]="website"
+      >
+        {{ 'IDEA.AUTH.DISCOVER_MORE' | translate }}
+      </a>
+    </div>
+    <div
+      class="someInfo"
+      *ngIf="showIDEALogo"
+    >
+      <a
+        ion-text
+        target="_blank"
+        rel="noopener"
+        [href]="IDEAWebsite"
+      >
+        <img
+          src="./assets/icons/idea.png"
+          class="logoIdea"
+        >
+      </a>
+    </div>
+  </ion-card>
+</ion-content>

@@ -2,15 +2,15 @@ import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { IDEARegistrationComponent } from './registration.component';
+import { IDEARegistrationPage } from './registration.page';
 
 @NgModule({
   declarations: [
-    IDEARegistrationComponent
+    IDEARegistrationPage
   ],
   imports: [
-    IonicPageModule.forChild(IDEARegistrationComponent),
+    IonicPageModule.forChild(IDEARegistrationPage),
     TranslateModule.forChild()
   ]
 })
-export class IDEARegistrationComponentModule {}
+export class IDEARegistrationPageModule {}
