@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { Storage } from '@ionic/storage';
 import { Config } from 'ionic-angular';
 import { IDEAErrorReportingService } from './errorReporting.service';
 
@@ -13,13 +14,17 @@ const API_URL =
 
 /**
  * To communicate with an AWS's API Gateway istance.
- * To be extended and istantiated; note: requires an AWSAPIAuthToken var to be set by Ionic Config
+ *
+ * Includes a rundimental cache on GET requests, until Android doesn't support SWs on local files.
+ *
+ * Note: requires an `AWSAPIAuthToken` variable to be set by Ionic Config.
  */
 @Injectable()
 export class IDEAAWSAPIService {
   constructor(
     protected http: HttpClient,
     protected ionConfig: Config,
+    protected storage: Storage,
     protected errorReporting: IDEAErrorReportingService
   ) {}
 
@@ -73,6 +78,7 @@ export class IDEAAWSAPIService {
     const resourceId = options ? options.resourceId : null;
     const params = options ? options.params : null;
     const additionalHeaders = options && options.headers ? new HttpHeaders(options.headers) : null;
+    const useCache = options ? options.useCache : false;
     var responseType = 'json';
     if(additionalHeaders &&
       [
@@ -87,15 +93,38 @@ export class IDEAAWSAPIService {
       // optionally set search params
       let searchParams = new HttpParams();
       if(params) for(let prop in params) searchParams = searchParams.set(prop, params[prop]);
-      // try to get from the API
-      this.request(req, 'GET', null, searchParams, additionalHeaders, responseType)
-      .subscribe(
-        res => resolve(res),
-        err => {
-          if(reportError) this.errorReporting.sendReport(err);
-          this.fixErrMessageBeforeReject(err, reject);
-        }
-      );
+      // try to fetch the content from the storage (cache), if requested (otherwise cache ignored)
+      this.getResourceUsingCache(req, useCache)
+      .then((res: any) => resolve(res))
+      .catch(() => {
+        // try to get from the API
+        this.request(req, 'GET', null, searchParams, additionalHeaders, responseType)
+        .subscribe(
+          res => {
+            // optionally cache and return the resource (errors here are accepted)
+            if(!useCache) return resolve(res);
+            this.storage.set('AWSAPI/'.concat(req), res)
+            .then(() => resolve(res))
+            .catch(() => resolve(res));
+          },
+          err => {
+            if(reportError) this.errorReporting.sendReport(err);
+            this.fixErrMessageBeforeReject(err, reject);
+          }
+        );
+      });
+    });
+  }
+  /**
+   * Give priority to the content cached, if there's any.
+   * Note: it doesn't support queryParams for the URLs, by now.
+   */
+  private getResourceUsingCache(url: string, useCache: boolean): Promise<any> {
+    return new Promise((resolve, reject) => {
+      if(!useCache) return reject();
+      this.storage.get('AWSAPI/'.concat(url))
+      .then((resource: any) => resource ? resolve(resource): reject())
+      .catch(() => reject());
     });
   }
   public postResource(
@@ -203,4 +232,5 @@ export class IDEAAWSAPIService {
    public params?: any;
    public body?: any;
    public headers?: any;
+   public useCache?: boolean;
  }
