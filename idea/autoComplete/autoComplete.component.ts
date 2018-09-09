@@ -28,32 +28,7 @@ import { IDEASuggestionsComponent, Suggestion } from './suggestions.component';
  */
 @Component({
   selector: 'IDEAAutoCompleteComponent',
-  template: `
-    <ion-item
-      [attr.tappable]="disabled ? null : true"
-      [class.selectable]="!disabled"
-      (click)="fetchDataAndOpenModal()"
-    >
-      <ion-label
-        stacked
-        *ngIf="label"
-      >
-        {{ label }}
-      </ion-label>
-      <ion-input
-        [value]="value"
-        [title]="value"
-        [placeholder]="placeholder"
-        [type]="type"
-        [readonly]="true"
-        [disabled]="disabled"
-      >
-      </ion-input>
-    </ion-item>
-  `,
-  styles:[
-    `.selectable input { cursor: pointer }`
-  ]
+  templateUrl: 'autoComplete.component.html'
 })
 export class IDEAAutoCompleteComponent {
   @Input() protected data: Array<Suggestion>;

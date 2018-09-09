@@ -1,0 +1,30 @@
+<ion-item
+  class="autoCompleteItem"
+  [class.selectable]="!disabled"
+  [title]="value"
+  (click)="fetchDataAndOpenModal()"
+>
+  <span
+    class="itemLabel"
+    *ngIf="label"
+  >
+    {{ label }}
+  </span>
+  <span
+    class="value"
+  >
+    {{ value }}
+    <span
+      class="placeholder"
+      *ngIf="!value && !disabled"
+    >
+      {{ placeholder }}
+    </span>
+  </span>
+  <ion-icon
+    item-end
+    name="md-arrow-dropdown"
+    class="selectIcon"
+    *ngIf="!disabled"
+  ></ion-icon>
+</ion-item>

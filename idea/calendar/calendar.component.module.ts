@@ -3,13 +3,13 @@ import { IonicPageModule } from 'ionic-angular';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { IDEACalendarComponent } from './calendar.component';
-import { IDEADatetimeComponent } from './datetime.component';
+import { IDEADateTimeComponent } from './dateTime.component';
 import { IDEADateUtils } from './dateUtils.service';
 
 @NgModule({
   declarations: [
     IDEACalendarComponent,
-    IDEADatetimeComponent
+    IDEADateTimeComponent
   ],
   imports: [
     IonicPageModule.forChild(IDEACalendarComponent),
@@ -17,11 +17,11 @@ import { IDEADateUtils } from './dateUtils.service';
   ],
   entryComponents: [
     IDEACalendarComponent,
-    IDEADatetimeComponent
+    IDEADateTimeComponent
   ],
   exports: [
     IDEACalendarComponent,
-    IDEADatetimeComponent
+    IDEADateTimeComponent
   ],
   providers: [
     IDEADateUtils
