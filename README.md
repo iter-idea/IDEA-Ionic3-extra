@@ -15,6 +15,7 @@ IDEA's extra components and services built on Ionic.
 - Loading service
 - Message service
 - Error reporting service
+- Zebra Barcode Reader service
 
 ## Requirements
 

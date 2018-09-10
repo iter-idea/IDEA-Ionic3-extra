@@ -24,3 +24,4 @@ export * from './message.service';
 export * from './extBrowser.service';
 export * from './errorReporting.service';
 export * from './calendar/dateUtils.service';
+export * from './zebraReader.service';
