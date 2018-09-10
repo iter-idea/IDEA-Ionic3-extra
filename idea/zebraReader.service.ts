@@ -11,7 +11,7 @@ import { Platform } from 'ionic-angular';
  * needs, in order to work, the following plugin: `com-darryncampbell-cordova-plugin-intent`.
  */
 @Injectable()
-export class ZebraReaderService {
+export class IDEAZebraReaderService {
   /**
    * To manage device's intents.
    */
