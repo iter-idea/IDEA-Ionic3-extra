@@ -65,13 +65,14 @@ export class IDEAAuthService {
   ): Promise<void> {
     return new Promise((resolve, reject) => {
       // login with the old password
-      this.prepareCognitoUser(username)
+      let user = this.prepareCognitoUser(username);
+      user
       .authenticateUser(this.prepareAuthDetails(username, tempPassword), {
         onSuccess: () => resolve(),
         onFailure: (err: Error) => reject(err),
         newPasswordRequired: () =>
           // complete the new password challenge
-          this.prepareCognitoUser(username)
+          user
           .completeNewPasswordChallenge(newPassword, {}, {
             onSuccess: () => resolve(),
             onFailure: (err: Error) => reject(err)
