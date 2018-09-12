@@ -5,9 +5,9 @@ import { IDEASuggestionsComponent, Suggestion } from './suggestions.component';
 
 /**
  * Useful configurations
- *    1. Picker:                           [suggestions], (onSelect), [clearValueAfterSelection]
- *    2. Autocomplete strict:              [suggestions], (onSelect), [value]
- *    3. Autocomplete  allow loose values: [suggestions], (onSelect), [value], [allowUnlistedValues]
+ *    1. Picker:             [suggestions], (onSelect), [clearValueAfterSelection]
+ *    2. Strict:             [suggestions], (onSelect), [description]
+ *    3. Allow loose values: [suggestions], (onSelect), [description], [allowUnlistedValues]
  *
  * Data can either be populated directly from the namesake attribute, passing an array of values,
  * or through the _dataProvider_, which is a function that returns a Promise<Array<Suggestion>>,
@@ -31,12 +31,19 @@ import { IDEASuggestionsComponent, Suggestion } from './suggestions.component';
   templateUrl: 'autoComplete.component.html'
 })
 export class IDEAAutoCompleteComponent {
+  /**
+   * The description to show in the field.
+   * Set the property so it detects changes.
+   */
+  private _description: string;
+  get description(): string { return this._description; }
+  @Input() set description(description: string) { this._description = description; }
+
   @Input() protected data: Array<Suggestion>;
   /**
    *  Function that returns a Promise<Array<Suggestion>>.
    */
   @Input() protected dataProvider: any;
-  @Input() protected value: string;
   @Input() protected type: string;
   @Input() protected label: string;
   @Input() protected placeholder: string;
@@ -48,13 +55,13 @@ export class IDEAAutoCompleteComponent {
   @Input() protected hideIdFromUI: boolean;
   @Input() protected toolbarBgColor: string;
   @Input() protected toolbarColor: string;
-  @Output() protected onSelect: EventEmitter<any>;
+  @Output() protected onSelect: EventEmitter<Suggestion>;
 
   constructor(protected modalCtrl: ModalController) {
     this.data = new Array<Suggestion>();
     this.dataProvider = null;
-    this.value = '';
     this.label = null;
+    this.description = '';
     this.placeholder = '';
     this.searchPlaceholder = '';
     this.noSuggestionsText = null;
@@ -64,7 +71,7 @@ export class IDEAAutoCompleteComponent {
     this.hideIdFromUI = false;
     this.toolbarBgColor = null;
     this.toolbarColor = null;
-    this.onSelect = new EventEmitter<any>();
+    this.onSelect = new EventEmitter<Suggestion>();
   }
 
   /**
@@ -83,7 +90,7 @@ export class IDEAAutoCompleteComponent {
     else this.openSuggestions();
   }
   /**
-   * Automatically convers data into Suggestions (e.g. plain strings, numbers, etc.).
+   * Automatically convers data into Suggestions (from plain strings, numbers, etc.).
    */
   private convertDataInSuggestions(): void {
     this.data = this.data.map((x: any) => {
@@ -100,23 +107,20 @@ export class IDEAAutoCompleteComponent {
     this.convertDataInSuggestions();
     // open the modal to let the user pick a suggestion
     let modal = this.modalCtrl.create(IDEASuggestionsComponent, {
-      data: this.data, value: this.value, searchPlaceholder: this.searchPlaceholder,
+      data: this.data, searchPlaceholder: this.searchPlaceholder,
       noSuggestionsText: this.noSuggestionsText, allowUnlistedValues: this.allowUnlistedValues,
       clearValueAfterSelection: this.clearValueAfterSelection, hideIdFromUI: this.hideIdFromUI,
       toolbarBgColor: this.toolbarBgColor, toolbarColor: this.toolbarColor
     });
     modal.onDidDismiss((selection: Suggestion) => {
-      // manage a cancel option (modal dismission or cancel button), a reset or a selection
-      let value = selection === undefined || selection === null ? this.value :
-        selection.value == '' ? '' : selection.value;
-      // emit directly the value (i.e. not the Suggestion object)
-      this.onSelect.emit(value);
-      // render the suggestion selected; the timeout is needed, otherwise the UI isn't updated
-      setTimeout(() => {
-        if(this.clearValueAfterSelection) this.value = '';
-        else if(selection.name) this.value = selection.name;
-        else this.value = value;
-      }, 500);
+      // manage a cancel option (modal dismission or cancel button)
+      if(selection === undefined || selection === null) return;
+      // manage a reset ('') or a selection
+      this.onSelect.emit(selection.value ? selection : new Suggestion());
+      // render the suggestion selected
+      if(this.clearValueAfterSelection) this.description = '';
+      else if(selection.name) this.description = selection.name;
+      else this.description = selection.value;
     });
     modal.present();
   }

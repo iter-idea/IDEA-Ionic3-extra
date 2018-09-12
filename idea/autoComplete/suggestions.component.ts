@@ -8,7 +8,6 @@ import { ViewController, NavParams, Searchbar } from 'ionic-angular';
 export class IDEASuggestionsComponent {
   @ViewChild (Searchbar) protected searchbar: Searchbar;
   protected data: Array<Suggestion>;
-  protected value: string;
   protected searchPlaceholder: string;
   protected noSuggestionsText: string;
   protected allowUnlistedValues: boolean;
@@ -23,8 +22,7 @@ export class IDEASuggestionsComponent {
     protected navParams: NavParams
   ) {
     this.data = this.navParams.get('data') || new Array<Suggestion>();
-    this.value = this.navParams.get('value') || null;
-    this.searchPlaceholder = this.value || this.navParams.get('searchPlaceholder') || null;
+    this.searchPlaceholder = this.navParams.get('searchPlaceholder') || null;
     this.noSuggestionsText = this.navParams.get('noSuggestionsText') || null;
     this.allowUnlistedValues = this.navParams.get('allowUnlistedValues') || false;
     this.hideIdFromUI = this.navParams.get('hideIdFromUI') || false;

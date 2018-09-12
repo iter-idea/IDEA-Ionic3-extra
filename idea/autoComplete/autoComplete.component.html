@@ -1,7 +1,7 @@
 <ion-item
   class="autoCompleteItem"
   [class.selectable]="!disabled"
-  [title]="value"
+  [title]="description"
   (click)="fetchDataAndOpenModal()"
 >
   <span
@@ -11,12 +11,12 @@
     {{ label }}
   </span>
   <span
-    class="value"
+    class="description"
   >
-    {{ value }}
+    {{ description }}
     <span
       class="placeholder"
-      *ngIf="!value && !disabled"
+      *ngIf="!description && !disabled"
     >
       {{ placeholder }}
     </span>
