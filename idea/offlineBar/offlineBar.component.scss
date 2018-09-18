@@ -1,0 +1,22 @@
+IDEAOfflineBarComponent {
+  .offlineBar {
+    .toolbar {
+      height: 25px;
+      min-height: auto;
+      .toolbar-background {
+        background-color: #333;
+      }
+      .toolbar-title {
+        font-size: 1.1rem;
+        color: white;
+      }
+      b {
+        padding-right: 5px;
+      }
+      ion-icon {
+        margin-right: 10px;
+        vertical-align: text-bottom;
+      }
+    }
+  }
+}

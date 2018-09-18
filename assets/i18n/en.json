@@ -98,5 +98,9 @@
       "SAVE_SIGNATURE": "Save the signature",
       "CLEAR_SIGNATURE": "Clear the signature"
     }
+  },
+  "OFFLINE_BAR": {
+    "YOU_ARE_OFFLINE": "You are offline",
+    "FEATURES_REDUCED_CONTENTS_NOT_UP_TO_DATE": "Features are reduced and contents may not be up to date"
   }
 }

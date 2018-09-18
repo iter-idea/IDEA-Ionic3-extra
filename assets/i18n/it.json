@@ -97,6 +97,10 @@
       "CANCEL": "Annulla",
       "SAVE_SIGNATURE": "Salva la firma",
       "CLEAR_SIGNATURE": "Resetta la firma"
+    },
+    "OFFLINE_BAR": {
+      "YOU_ARE_OFFLINE": "Sei offline",
+      "FEATURES_REDUCED_CONTENTS_NOT_UP_TO_DATE": "Le funzionalità sono ridotte e i contenuti potrebbero non essere aggiornati"
     }
   }
 }

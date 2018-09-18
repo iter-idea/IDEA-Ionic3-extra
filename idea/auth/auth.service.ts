@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Storage } from '@ionic/storage';
 
 import * as Cognito from 'amazon-cognito-identity-js';
 
@@ -17,7 +18,7 @@ declare const IDEA_AWS_COGNITO_WEB_CLIENT_ID: string;
 export class IDEAAuthService {
   protected userPool: Cognito.CognitoUserPool;
 
-  constructor() {
+  constructor(protected storage: Storage) {
     this.userPool = new Cognito.CognitoUserPool({
       UserPoolId: IDEA_AWS_COGNITO_USER_POOL_ID,
       ClientId: IDEA_AWS_COGNITO_WEB_CLIENT_ID
@@ -156,35 +157,45 @@ export class IDEAAuthService {
   }
   /**
    * Check if a user is currently authenticated.
-   * @param offlineCountsAsLogged if set, if the client is offline, count as logged in
-   * @param getFreshIdTokenOnExpiration cb function to execute when the idToken is refreshed
+   * @param offlineAllowed if set and if offline, skip authentication and retrieve data locally
+   * @param getFreshIdTokenOnExp cb function to execute when the idToken is refreshed
    */
   public isAuthenticated(
-    offlineCountsAsLogged: boolean,
-    getFreshIdTokenOnExpiration?: (freshIdToken: string) => void
+    offlineAllowed: boolean, getFreshIdTokenOnExp?: (freshIdToken: string) => void
   ): Promise<any> {
     return new Promise((resolve, reject) => {
-      // offlineCountsAsLogged -> to avoid auth checks if offline
-      if(offlineCountsAsLogged && !navigator.onLine) return resolve();
-      let user = this.userPool.getCurrentUser();
-      if(!user) return reject();
-      user.getSession((err: Error, session: Cognito.CognitoUserSession) => {
-        if(err) return reject(err);
-        // get user attributes
-        user.getUserAttributes((e: Error, attributes: Array<Cognito.CognitoUserAttribute>) => {
-          if(e) return reject(e);
-          // remap user attributes
-          let userDetails: any = []
-          attributes.forEach((a: Cognito.CognitoUserAttribute) =>
-            userDetails[a.getName()] = a.getValue());
-          // set a timer to manage the autorefresh of the idToken (through the refreshToken)
-          setTimeout(() => this.refreshSession(
-            user, session.getRefreshToken().getToken(), getFreshIdTokenOnExpiration
-          ), 15*60*1000); // every 15 minutes
-          // return the idToken (to use with API)
-          resolve({ idToken: session.getIdToken().getJwtToken(), userDetails: userDetails });
-        })
-      });
+      if(offlineAllowed && !navigator.onLine) {
+        this.storage.get('AuthUserDetails')
+        .then(userDetails => resolve({ idToken: null, userDetails: userDetails }));
+        // re-execute the method when back online, so that you can retrieve a token to make requests
+        window.addEventListener('online', () =>
+          this.isAuthenticated(true, getFreshIdTokenOnExp)
+          // set the new token as if it was refreshed
+          .then(result => getFreshIdTokenOnExp(result.idToken))
+        );
+      } else {
+        let user = this.userPool.getCurrentUser();
+        if(!user) return reject();
+        user.getSession((err: Error, session: Cognito.CognitoUserSession) => {
+          if(err) return reject(err);
+          // get user attributes
+          user.getUserAttributes((e: Error, attributes: Array<Cognito.CognitoUserAttribute>) => {
+            if(e) return reject(e);
+            // remap user attributes
+            let userDetails: any = []
+            attributes.forEach((a: Cognito.CognitoUserAttribute) =>
+              userDetails[a.getName()] = a.getValue());
+            // set a timer to manage the autorefresh of the idToken (through the refreshToken)
+            setTimeout(() => this.refreshSession(
+              user, session.getRefreshToken().getToken(), getFreshIdTokenOnExp
+            ), 15*60*1000); // every 15 minutes
+            // if offlineAllowed, save data locally, to use it next time we'll be offline
+            if(offlineAllowed) this.storage.set('AuthUserDetails', userDetails); // async
+            // return the idToken (to use with API)
+            resolve({ idToken: session.getIdToken().getJwtToken(), userDetails: userDetails });
+          })
+        });
+      }
     });
   }
   /**
@@ -200,10 +211,8 @@ export class IDEAAuthService {
         setTimeout(() => this.refreshSession(user, refreshToken, callback), 1*60*1000);
       else {
         // every 15 minutes
-        setTimeout(() =>
-          this.refreshSession(user, session.getRefreshToken().getToken(), callback),
-            15*60*1000);
-        console.debug('Token refreshed');
+        setTimeout(() => this.refreshSession(user, session.getRefreshToken().getToken(), callback),
+          15*60*1000);
         if(callback) callback(session.getIdToken().getJwtToken());
       }
     });

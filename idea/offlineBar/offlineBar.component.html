@@ -1,0 +1,17 @@
+<ion-footer
+  class="offlineBar"
+  *ngIf="isOffline"
+>
+  <ion-toolbar>
+    <ion-title>
+      <ion-icon
+        name="plane"
+      >
+      </ion-icon>
+      <b>
+        {{ 'IDEA.OFFLINE_BAR.YOU_ARE_OFFLINE' | translate }}.
+      </b>
+      {{ 'IDEA.OFFLINE_BAR.FEATURES_REDUCED_CONTENTS_NOT_UP_TO_DATE' | translate }}.
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>
