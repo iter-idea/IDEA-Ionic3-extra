@@ -41,7 +41,7 @@ export class IDEAAWSAPIService {
       // prepare a single resource request (by id) or a normal one
       const url = API_URL.concat(`/${resource}/`).concat(opt.resourceId || '');
       // preare the headers and set the Authorization; note: HttpHeaders is immutable!
-      let headers = opt.headers || new HttpHeaders();
+      let headers = new HttpHeaders(opt.headers || null);
       if(!headers.get('Authorization') && this.ionConfig.get('AWSAPIAuthToken'))
         headers = headers.append('Authorization', this.ionConfig.get('AWSAPIAuthToken'));
       // execute the request
