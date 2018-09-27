@@ -18,7 +18,7 @@ export * from './autoComplete/autoComplete.component.module';
 
 export * from './signature/signature.component.module';
 
-export * from './offlineBar/offlineBar.component.module';
+export * from './customFields/customFields.component.module';
 
 export * from './AWSAPI.service';
 export * from './loading.service';

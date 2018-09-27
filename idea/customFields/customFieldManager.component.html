@@ -1,0 +1,186 @@
+<ion-header>
+  <ion-toolbar
+    [color]="toolbarBgColor"
+  >
+    <ion-title>
+      {{ 'IDEA.CUSTOM_FIELDS.MANAGE_FIELD' | translate }}
+    </ion-title>
+    <ion-buttons
+      end
+    >
+      <button
+        ion-button icon-only
+        [color]="toolbarColor"
+        (click)="delete()"
+      >
+        <ion-icon
+          name="trash"
+        ></ion-icon>
+      </button>
+      <button
+        ion-button icon-only
+        [color]="toolbarColor"
+        (click)="close()"
+      >
+        <ion-icon
+          name="close"
+        ></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+<!-- LAGUAGE BAR -->
+  <ion-row
+    justify-content-center align-items-end
+    class="languageSelector"
+    *ngIf="availableLangs.length > 1"
+  >
+    <ion-col
+      col-1 text-center tappable
+      *ngFor="let l of availableLangs"
+      [class.current]="l == currentLang"
+      (click)="currentLang = l"
+    >
+      <img [src]="'/assets/flags/'+l+'.png'">
+    </ion-col>
+  </ion-row>
+  <ion-list
+    class="fieldAttributesList"
+  >
+    <ion-list-header>
+      {{ fieldKey }}
+    </ion-list-header>
+    <ion-item
+      [class.fieldHasError]="hasFieldAnError('name')"
+    >
+      <ion-label
+        stacked
+      >
+        {{ 'IDEA.CUSTOM_FIELDS.NAME' | translate }}
+      </ion-label>
+      <ion-input
+        type="text"
+        [(ngModel)]="field.name[currentLang]"
+      ></ion-input>
+    </ion-item>
+    <ion-item
+      [class.fieldHasError]="hasFieldAnError('description')"
+    >
+      <ion-label
+        stacked
+      >
+        {{ 'IDEA.CUSTOM_FIELDS.DESCRIPTION' | translate }}
+        ({{ ('IDEA.CUSTOM_FIELDS.OPTIONAL' | translate).toLowerCase() }})
+      </ion-label>
+      <ion-input
+        type="text"
+        [(ngModel)]="field.description[currentLang]"
+      ></ion-input>
+    </ion-item>
+    <ion-item
+      [class.fieldHasError]="hasFieldAnError('description')"
+    >
+      <ion-label
+        stacked
+      >
+        {{ 'IDEA.CUSTOM_FIELDS.TYPE' | translate }}
+      </ion-label>
+      <ion-select
+        [(ngModel)]="field.type"
+      >
+        <ion-option
+          *ngFor="let t of FIELD_TYPES"
+          [value]="t"
+        >
+          {{ 'IDEA.CUSTOM_FIELDS.FIELDS_TYPES.'+t | translate }}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item
+      *ngIf="field.type == 'ENUM'"
+      [class.fieldHasError]="hasFieldAnError('enum')"
+    >
+      <ion-label
+        stacked
+      >
+        {{ 'IDEA.CUSTOM_FIELDS.ENUM' | translate }}
+      </ion-label>
+      <ion-input
+        type="text"
+        [(ngModel)]="enumAsString"
+      ></ion-input>
+    </ion-item>
+    <ion-item
+      *ngIf="field.type != 'BOOLEAN'"
+      [class.fieldHasError]="hasFieldAnError('default')"
+    >
+      <ion-label
+        stacked
+      >
+        {{ 'IDEA.CUSTOM_FIELDS.DEFAULT' | translate }}
+        ({{ ('IDEA.CUSTOM_FIELDS.OPTIONAL' | translate).toLowerCase() }})
+      </ion-label>
+      <ion-input
+        type="text"
+        [(ngModel)]="field.default"
+      ></ion-input>
+    </ion-item>
+    <ion-item
+      [class.fieldHasError]="hasFieldAnError('min')"
+      *ngIf="field.type == 'NUMBER'"
+    >
+      <ion-label
+        stacked
+      >
+        {{ 'IDEA.CUSTOM_FIELDS.MIN' | translate }}
+        ({{ ('IDEA.CUSTOM_FIELDS.OPTIONAL' | translate).toLowerCase() }})
+      </ion-label>
+      <ion-input
+        type="number"
+        [(ngModel)]="field.min"
+      ></ion-input>
+    </ion-item>
+    <ion-item
+      [class.fieldHasError]="hasFieldAnError('max')"
+      *ngIf="field.type == 'NUMBER'"
+    >
+      <ion-label
+        stacked
+      >
+        {{ 'IDEA.CUSTOM_FIELDS.MAX' | translate }}
+        ({{ ('IDEA.CUSTOM_FIELDS.OPTIONAL' | translate).toLowerCase() }})
+      </ion-label>
+      <ion-input
+        type="number"
+        [(ngModel)]="field.max"
+      ></ion-input>
+    </ion-item>
+    <ion-item
+      *ngIf="field.type != 'BOOLEAN'"
+      [class.fieldHasError]="hasFieldAnError('obligatory')"
+    >
+      <ion-label>
+        {{ 'IDEA.CUSTOM_FIELDS.OBLIGATORY' | translate }}
+      </ion-label>
+      <ion-checkbox
+        [(ngModel)]="field.obligatory"
+      ></ion-checkbox>
+    </ion-item>
+  </ion-list>
+</ion-content>
+<ion-footer>
+  <ion-toolbar
+    tappable
+    [color]="toolbarBgColor"
+    (click)="save()"
+  >
+    <ion-title
+      text-center
+    >
+      <ion-icon
+        name="checkmark"
+      ></ion-icon>
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>

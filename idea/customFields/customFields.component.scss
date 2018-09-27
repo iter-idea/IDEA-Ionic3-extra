@@ -1,0 +1,21 @@
+IDEACustomFieldsComponent {
+  .customField {
+    .fieldMain {
+      display: block;
+      margin-bottom: 7px;
+    }
+    .fieldOptions {
+      font-size: 0.75em;
+      font-style: italic;
+      span {
+        font-weight: 600;
+      }
+    }
+    .fieldType {
+      background-color: color($colors, primary);
+    }
+    .obligatory {
+      background-color: color($colors, danger);
+    }
+  }
+}

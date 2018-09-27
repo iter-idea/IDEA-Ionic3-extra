@@ -102,5 +102,29 @@
   "OFFLINE_BAR": {
     "YOU_ARE_OFFLINE": "You are offline",
     "FEATURES_REDUCED_CONTENTS_NOT_UP_TO_DATE": "Features are reduced and contents may not be up to date"
+  },
+  "CUSTOM_FIELDS": {
+    "FIELDS_TYPES": {
+      "STRING": "Short text",
+      "NUMBER": "Number",
+      "BOOLEAN": "Yes / No",
+      "TEXT": "Long text",
+      "ENUM": "Choice"
+    },
+    "OBLIGATORY": "Obligatory",
+    "CHOICES": "Possible choices",
+    "DEFAULT": "Default value",
+    "NEW_FIELD": "New field",
+    "CHOOSE_A_KEY": "Choose a name for the field",
+    "DUPLICATED_KEY": "A field with that name already exists",
+    "MANAGE_FIELD": "Manage field",
+    "NAME": "Name",
+    "TYPE": "Type",
+    "DESCRIPTION": "Description",
+    "OPTIONAL": "Optional",
+    "ENUM": "Choices (separate the values with commas)",
+    "MIN": "Minimum",
+    "MAX": "Maximum",
+    "FIELD_DELETION_ALERT": "The field will be irreversibly deleted"
   }
 }

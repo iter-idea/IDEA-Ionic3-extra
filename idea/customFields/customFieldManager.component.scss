@@ -1,0 +1,58 @@
+IDEACustomFieldManagerComponent {
+  .languageSelector {
+    background-color: $over-background-color;
+    padding: 5px 0;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    ion-col {
+      padding: 0;
+      border-bottom: 2px solid transparent;
+    }
+    .current {
+      border-bottom-color: color($colors, primary);
+    }
+    img {
+      max-width: 25px;
+      border-radius: 10px;
+    }
+  }
+  .fieldAttributesList {
+    padding: 0 20px;
+    ion-list-header {
+      margin: 0;
+      border-top: none;
+      padding-left: 10px;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 0.85em;
+      color: color($colors, primary);
+    }
+    ion-item {
+      background-color: $over-background-color;
+      border-bottom: none !important;
+      .item-inner {
+        border-bottom-color: $border-color !important;
+        .label {
+          color: $text-color-light;
+        }
+      }
+    }
+    ion-item:last-child {
+      border-bottom: 1px solid $border-color !important;
+      .item-inner {
+        border-bottom: none;
+      }
+    }
+    .fieldHasError {
+      border-bottom: 1px solid $error-color !important;
+      .item-inner .label {
+        color: $error-color;
+        font-weight: 500;
+      }
+    }
+    .fieldKey {
+      text-transform: none;
+      font-weight: 600;
+    }
+  }
+}

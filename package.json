@@ -1,6 +1,6 @@
 {
   "name": "idea-ionic-extra",
-  "version": "1.7.1",
+  "version": "1.8.0",
   "author": "iter IDEA <info@iter-idea.com> (https://iter-idea.com)",
   "homepage": "https://uatisdeproblem.github.io/IDEA-Ionic-Extra",
   "private": true,
@@ -20,7 +20,7 @@
     "@ngx-translate/core": "^9.1.1",
     "@ngx-translate/http-loader": "^2.0.1",
     "amazon-cognito-identity-js": "^2.0.23",
-    "idea-toolbox": "^3.0.8",
+    "idea-toolbox": "^3.2.2",
     "ionic-angular": "3.9.2",
     "ionicons": "3.0.0",
     "rxjs": "5.5.2",

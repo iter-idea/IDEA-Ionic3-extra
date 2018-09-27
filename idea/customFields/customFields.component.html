@@ -1,0 +1,73 @@
+<ion-item-group
+  reorder="true" (ionItemReorder)="$event.applyTo(fieldsLegend)"
+>
+  <ion-item
+    class="customField"
+    *ngFor="let f of fieldsLegend"
+    [attr.tappable]="disabled ? null : true"
+    (click)="openManager(f)"
+  >
+    <span
+      class="fieldMain"
+    >
+      <b>
+        {{ fields[f].name[currentLang] || fields[f].name[defaultLang] }}
+      </b>
+      <p>
+        {{ fields[f].description[currentLang] || fields[f].description[defaultLang] }}
+      </p>
+    </span>
+    <p
+      class="fieldOptions"
+      *ngIf="fields[f].enum?.length"
+    >
+      {{ 'IDEA.CUSTOM_FIELDS.CHOICES' | translate }}:
+      <span>
+        {{ fields[f].enum.join(', ') }}
+      </span>
+    </p>
+    <p
+      class="fieldOptions"
+      *ngIf="fields[f].min !== null && fields[f].min !== undefined"
+    >
+      {{ 'IDEA.CUSTOM_FIELDS.MIN' | translate }}:
+      <span>
+        {{ fields[f].min }}
+      </span>
+    </p>
+    <p
+      class="fieldOptions"
+      *ngIf="fields[f].max !== null && fields[f].max !== undefined"
+    >
+      {{ 'IDEA.CUSTOM_FIELDS.MAX' | translate }}:
+      <span>
+        {{ fields[f].max }}
+      </span>
+    </p>
+    <p
+      class="fieldOptions"
+      *ngIf="fields[f].default"
+    >
+      {{ 'IDEA.CUSTOM_FIELDS.DEFAULT' | translate }}:
+      <span>
+        {{ fields[f].default }}
+      </span>
+    </p>
+    <ion-badge
+      item-end
+      class="fieldType"
+    >
+      {{ 'IDEA.CUSTOM_FIELDS.FIELDS_TYPES.'+fields[f].type | translate }}
+    </ion-badge>
+    <ion-badge
+      item-end
+      class="obligatory"
+      *ngIf="fields[f].obligatory"
+      [title]="t.instant('IDEA.CUSTOM_FIELDS.OBLIGATORY')"
+    >
+      <ion-icon
+        name="hand"
+      ></ion-icon>
+    </ion-badge>
+  </ion-item>
+</ion-item-group>
