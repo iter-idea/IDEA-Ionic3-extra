@@ -44,7 +44,7 @@ export class IDEACalendarComponent {
     this.toolbarColor = this.navParams.get('toolbarColor');
 
     this.refDate = new Date(this.selectedDate);
-    if(!this.timePicker) this.selectedDate.setHours(0, 0, 0, 0);
+    if(!this.timePicker) this.selectedDate.setUTCHours(0, 0, 0, 0);
     else {
       this.hour = this.selectedDate.getHours();
       // round the minutes a multiple of 5

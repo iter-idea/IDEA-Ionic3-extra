@@ -35,7 +35,10 @@ export class IDEADateTimeComponent {
     modal.onDidDismiss(date => {
       if(date !== undefined && date !== null) {
         if(date == '') this.onDateSelected.emit(null);
-        else this.onDateSelected.emit(date.getTime());
+        else {
+          if(!this.timePicker) date.setUTCHours(0, 0, 0, 0);
+          this.onDateSelected.emit(date.getTime());
+        }
       }
     });
     modal.present();
