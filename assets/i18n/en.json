@@ -99,10 +99,6 @@
       "CLEAR_SIGNATURE": "Clear the signature"
     }
   },
-  "OFFLINE_BAR": {
-    "YOU_ARE_OFFLINE": "You are offline",
-    "FEATURES_REDUCED_CONTENTS_NOT_UP_TO_DATE": "Features are reduced and contents may not be up to date"
-  },
   "CUSTOM_FIELDS": {
     "FIELDS_TYPES": {
       "STRING": "Short text",
@@ -126,5 +122,23 @@
     "MIN": "Minimum",
     "MAX": "Maximum",
     "FIELD_DELETION_ALERT": "The field will be irreversibly deleted"
+  },
+  "OFFLINE": {
+    "YOU_ARE_OFFLINE": "You are offline",
+    "FEATURES_REDUCED_CONTENTS_NOT_UP_TO_DATE": "Features are reduced and contents may not be up to date",
+    "OFFLINE_MANAGER": "Offline manager",
+    "LAST_SYNC": "Last sync",
+    "LOADING": "Loading...",
+    "SYNC_NOW": "Sync now",
+    "ERROR_DURING_LAST_SYNC": "There was an error during the last synchronization; please try again.",
+    "UPLOAD": "Upload",
+    "UPLOAD_RESOURCES_EXPLANATION": "The resources created offline need to be uploaded online",
+    "DOWNLOAD": "Download",
+    "DOWNLOAD_RESOURCES_EXPLANATION": "List of the resources available when offline",
+    "NOW": "Now",
+    "SYNC_IN_PROGRESSS": "Synchronization in progress",
+    "NO_RESOURCES_CONFIGURED": "No resources configured",
+    "NUM_ELEMENTS_TO_SYNC": "Number of element to sync",
+    "ONE_OF_THE_UPLOADS_FAILED": "One or more uploads are failed; open each element and try manually"
   }
 }

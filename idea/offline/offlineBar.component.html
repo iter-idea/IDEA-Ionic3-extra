@@ -1,0 +1,35 @@
+<!-- OFFLINE -->
+<ion-footer
+  class="offlineBar"
+  *ngIf="offline.isOffline"
+>
+  <ion-toolbar>
+    <ion-title>
+      <ion-icon
+        name="plane"
+      >
+      </ion-icon>
+      <b>
+        {{ 'IDEA.OFFLINE.YOU_ARE_OFFLINE' | translate }}.
+      </b>
+      {{ 'IDEA.OFFLINE.FEATURES_REDUCED_CONTENTS_NOT_UP_TO_DATE' | translate }}.
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>
+<!-- SYNCHRONIZING -->
+<ion-footer
+  tappable
+  class="offlineBar"
+  *ngIf="offline.synchronizing"
+  (click)="openOfflineManager()"
+>
+  <ion-toolbar>
+    <ion-title>
+      <ion-spinner
+        name="crescent"
+        color="light"
+      ></ion-spinner>
+      {{ 'IDEA.OFFLINE.SYNC_IN_PROGRESSS' | translate }}...
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>

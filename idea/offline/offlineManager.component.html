@@ -1,0 +1,171 @@
+<ion-header>
+  <ion-toolbar
+    color="quiteDark"
+  >
+    <ion-title>
+      {{ 'IDEA.OFFLINE.OFFLINE_MANAGER' | translate }}
+    </ion-title>
+    <ion-buttons
+      end
+    >
+      <button
+        ion-button icon-only
+        color="light"
+        (click)="close()"
+      >
+        <ion-icon
+          name="close"
+        ></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list
+    class="offlineList"
+  >
+    <ion-list-header
+      *ngIf="!offline.synchronizing"
+    >
+      {{ 'IDEA.OFFLINE.LAST_SYNC' | translate }}:
+      <span
+       class="lastSyncAt"
+      >
+        {{ getLastSyncLabel() || ('IDEA.OFFLINE.LOADING' | translate) }}
+      </span>
+      <button
+        item-end ion-button icon-right
+        [color]="offline.errorInLastSync ? 'danger' : 'primary'"
+        (click)="offline.synchronize()"
+      >
+        {{ 'IDEA.OFFLINE.SYNC_NOW' | translate }}
+        <ion-icon
+          name="sync"
+        ></ion-icon>
+      </button>
+      <p
+        ion-text
+        color="danger"
+        *ngIf="offline.errorInLastSync"
+      >
+        {{ 'IDEA.OFFLINE.ERROR_DURING_LAST_SYNC' | translate }}
+      </p>
+    </ion-list-header>
+    <ion-list-header
+      text-center
+      *ngIf="offline.synchronizing"
+    >
+      <ion-spinner
+        name="crescent"
+        color="primary"
+      ></ion-spinner>
+    </ion-list-header>
+    <ion-list-header>
+      {{ 'IDEA.OFFLINE.UPLOAD' | translate }}
+      <p>
+        {{ 'IDEA.OFFLINE.UPLOAD_RESOURCES_EXPLANATION' | translate }}
+      </p>
+    </ion-list-header>
+    <ion-item
+      *ngIf="!offline.offlineResources.length"
+    >
+      <i>
+        {{ 'IDEA.OFFLINE.NO_RESOURCES_CONFIGURED' | translate }}
+      </i>
+    </ion-item>
+    <ion-item
+      *ngFor="let r of offline.offlineResources"
+    >
+      {{ r.description }}
+      <p
+        ion-text
+        color="danger"
+        *ngIf="r.error"
+      >
+        {{ 'IDEA.OFFLINE.ONE_OF_THE_UPLOADS_FAILED' | translate }}
+      </p>
+      <ion-badge
+        item-end
+        *ngIf="r.elementsToUpload.length"
+        [title]="t.instant('IDEA.OFFLINE.NUM_ELEMENTS_TO_SYNC')"
+      >
+        {{ r.elementsToUpload.length }}
+      </ion-badge>
+      <ion-badge
+        item-end
+        color="danger"
+        *ngIf="!r.synchronizing && r.error"
+        [title]="t.instant('IDEA.OFFLINE.ONE_OF_THE_UPLOADS_FAILED')"
+      >
+        !
+      </ion-badge>
+      <button
+        ion-button item-end clear icon-only
+        color="quiteDark"
+        *ngIf="!r.synchronizing && r.elementsToUpload.length"
+        [title]="t.instant('IDEA.OFFLINE.SYNC_NOW')"
+        (click)="offline.uploadOfflineResource(r)"
+      >
+        <ion-icon
+          name="cloud-upload"
+        ></ion-icon>
+      </button>
+      <button
+        ion-button item-end clear icon-only
+        color="success"
+        *ngIf="!r.synchronizing && !r.error && r.elementsToUpload.length == 0"
+      >
+        <ion-icon
+          name="checkmark"
+        ></ion-icon>
+      </button>
+      <ion-spinner
+        item-end
+        name="dots"
+        *ngIf="r.synchronizing"
+      ></ion-spinner>
+    </ion-item>
+    <ion-list-header>
+      {{ 'IDEA.OFFLINE.DOWNLOAD' | translate }}
+      <p>
+        {{ 'IDEA.OFFLINE.DOWNLOAD_RESOURCES_EXPLANATION' | translate }}
+      </p>
+    </ion-list-header>
+    <ion-item
+      *ngIf="!offline.resourcesToCache.length"
+    >
+      <i>
+        {{ 'IDEA.OFFLINE.NO_RESOURCES_CONFIGURED' | translate }}
+      </i>
+    </ion-item>
+    <ion-item
+      *ngFor="let r of offline.resourcesToCache"
+    >
+      {{ r.description }}
+      <ion-badge
+        item-end
+        color="danger"
+        *ngIf="!r.synchronizing && r.error"
+        [title]="t.instant('IDEA.OFFLINE.ONE_OF_THE_UPLOADS_FAILED')"
+      >
+        !
+      </ion-badge>
+      <button
+        ion-button item-end clear icon-only
+        color="success"
+        *ngIf="!r.synchronizing && !error"
+        [title]="t.instant('IDEA.OFFLINE.SYNC_NOW')"
+        (click)="offline.cacheResource(r)"
+      >
+        <ion-icon
+          name="checkmark"
+        ></ion-icon>
+      </button>
+      <ion-spinner
+        item-end
+        name="dots"
+        *ngIf="r.synchronizing"
+      ></ion-spinner>
+    </ion-item>
+  </ion-list>
+</ion-content>

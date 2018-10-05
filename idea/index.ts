@@ -18,6 +18,8 @@ export * from './autoComplete/autoComplete.component.module';
 
 export * from './signature/signature.component.module';
 
+export * from './offline/offlineManager.component.module';
+
 export * from './customFields/customFields.component.module';
 
 export * from './AWSAPI.service';
@@ -27,3 +29,4 @@ export * from './extBrowser.service';
 export * from './errorReporting.service';
 export * from './calendar/dateUtils.service';
 export * from './zebraReader.service';
+export * from './offline/offline.service';
