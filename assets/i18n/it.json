@@ -131,14 +131,15 @@
       "SYNC_NOW": "Sincronizza ora",
       "ERROR_DURING_LAST_SYNC": "Si è verificato un errore durante l'ultima sincronizzazione; per favore riprova.",
       "UPLOAD": "Upload",
-      "UPLOAD_RESOURCES_EXPLANATION": "Le risorse create offline devono essere caricate online",
+      "UPLOAD_QUEUE_REQUESTS_EXPLANATION": "Le azioni create offline devono essere caricate online",
       "DOWNLOAD": "Download",
       "DOWNLOAD_RESOURCES_EXPLANATION": "Lista delle risorse disponibili quando offline",
       "NOW": "Adesso",
       "SYNC_IN_PROGRESSS": "Sincronizzazione in corso",
-      "NO_RESOURCES_CONFIGURED": "Nessuna risorsa configurata",
       "NUM_ELEMENTS_TO_SYNC": "Numero elementi da sincronizzare",
-      "ONE_OF_THE_UPLOADS_FAILED": "Uno o più upload sono falliti; apri ogni elemento e prova manualmente"
+      "REQUEST_FAILED": "Richiesta fallita; riprova o cancella la richiesta",
+      "NO_ELEMENTS_TO_UPLOAD": "Nessun elemento da caricare",
+      "DELETION_IS_IRREVERSIBLE": "La cancellazione è irreversibile"
     }
   }
 }

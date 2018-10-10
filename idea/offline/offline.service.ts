@@ -3,7 +3,7 @@ import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 import Async = require('async');
 
-import { IDEAAWSAPIService, CacheModes } from '../AWSAPI.service';
+import { IDEAAWSAPIService, CacheModes, APIRequestOption } from '../AWSAPI.service';
 import { epochDateTime } from 'idea-toolbox';
 
 /**
@@ -13,7 +13,7 @@ export const SYNC_EXPIRATION_INTERVAL: number = 1000 * 60 * 60 * 24; // a day
 /**
  * Prefix of an online resource name, for the local storage.
  */
-export const OFFLINE_RESOURCE_KEY_PREFIX: string = 'IDEAOfflineService.offlineResource.';
+export const QUEUE_API_REQUESTS_KEY: string = 'IDEAOfflineService.queueAPIrequests';
 /**
  * Id of the last sync time info in the local storage.
  */
@@ -26,9 +26,9 @@ export const LAST_SYNC_KEY: string = 'IDEAOfflineService.lastSyncAt';
  *
  * **How to use it**. Configure the sync mechanism in the main app.component as it follows
  *    1. set the resources to cache offline.
- *    2. set the offline resources (the ones that you can create offline).
- *    3. run a synchronization
- *    4. optionally, enable the offline manager (UI).
+ *    2. run a synchronization
+ *    3. enable the offline manager (UI).
+ *    4. add API requests to the queue when offline
  * e.g.
  ```
   // set the resources we want to download from the back-end
@@ -36,11 +36,7 @@ export const LAST_SYNC_KEY: string = 'IDEAOfflineService.lastSyncAt';
     new CacheableResource('trainingModels', 'trainingModelId', this.t.instant('MENU.MODELS')),
     new CacheableResource('trainings', 'trainingId', this.t.instant('MENU.TRAININGS'))
   ];
-  // set the resources that create offline content, to upload it
-  this.offline.setOfflineResources([
-    new OfflineResource('trainings', this.t.instant('MENU.TRAININGS'))
-  ])
-  .then(() => this.offline.synchronizeIfNeeded());
+  this.offline.synchronizeIfNeeded();
  ```
  */
 @Injectable()
@@ -61,11 +57,14 @@ export class IDEAOfflineService {
    * True if an error happened in the last general synchronization.
    */
   public errorInLastSync: boolean;
-
   /**
-   * The array of the resources created offline, to upload in the back-end.
+   * If false, ignore the entire upload scenario.
    */
-  protected offlineResources: Array<OfflineResource>;
+  public useQueueAPIRequests: boolean;
+  /**
+   * The array of the requested not executed because offline; they need to run once online.
+   */
+  public queueAPIRequests: Array<APIRequest>;
   /**
    * The array of resources to cache offline from the back-end.
    */
@@ -81,60 +80,86 @@ export class IDEAOfflineService {
     window.addEventListener('offline', () => this.isOffline = true);
     this.synchronizing = false;
     this.errorInLastSync = false;
-    this.offlineResources = new Array<OfflineResource>();
+    this.useQueueAPIRequests = true;
+    this.queueAPIRequests = new Array<APIRequest>();
     this.resourcesToCache = new Array<CacheableResource>();
     this.storage.get(LAST_SYNC_KEY)
     .then((lastSyncAt: number) => this.lastSyncAt = lastSyncAt || 0);
   }
 
   /**
-   * Set the offline resources and load their elements (to upload) from the local storage.
+   * Execute all the API requests in the queue; the requests terminated with an error will
+   * remain in the queue.
    */
-  public setOfflineResources(resources: Array<OfflineResource>): Promise<void> {
-    return new Promise((resolve) => {
-      this.offlineResources = resources;
-      // acquire the resource elements from the offline storage, in order to upload them
-      Async.each(this.offlineResources, (resource: OfflineResource, done: any) => {
-        this.storage.get(OFFLINE_RESOURCE_KEY_PREFIX.concat(resource.name))
-        .then((elements: Array<Object>) => {
-          resource.elementsToUpload = elements || new Array<Object>();
-          done();
-        });
-      }, () => resolve());
-    });
-  }
-  /**
-   * Check in the local storage for the elements of each offline resource and try to upload them.
-   */
-  protected uploadOfflineResource(resource: OfflineResource): Promise<void> {
+  public runQueueAPIRequests(): Promise<void> {
     return new Promise((resolve, reject) => {
-      resource.synchronizing = true;
-      resource.error = false;
-      // upload the elements of the current resource
-      Async.each(resource.elementsToUpload, (element: Object, doneEl: any) => {
-        // upload the current element
-        this.API.postResource(resource.name, { body: element })
+      if(!this.useQueueAPIRequests || this.isOffline || !this.queueAPIRequests.length)
+        return resolve();
+      this.synchronizing = true;
+      Async.eachSeries(this.queueAPIRequests, (request: APIRequest, doneReq: any) => {
+        let options: APIRequestOption = {};
+        if(request.resourceId) options.resourceId = request.resourceId;
+        if(request.body) options.body = request.body;
+        var promise: any;
+        switch(request.method.toUpperCase()) {
+          case 'POST': promise = this.API.postResource(request.resource, options); break;
+          case 'PUT': promise = this.API.putResource(request.resource, options); break;
+          case 'PATCH': promise = this.API.patchResource(request.resource, options); break;
+        }
+        if(!promise) {
+          request.error = 'INVALID_METHOD';
+          doneReq();
+          return;
+        }
+        promise
         .then(() => {
-          // sign the element as "successfully updated"
-          element = null;
-          doneEl();
+          request.error = null;
+          doneReq();
         })
-        .catch(() => {
-          resource.error = true;
-          doneEl();
+        .catch((err: Error) => {
+          request.error = err.message || 'UNKNOWN_ERROR';
+          doneReq();
         });
       }, () => {
-        // keep the elements NOT successfully updated
-        this.storage.set(OFFLINE_RESOURCE_KEY_PREFIX.concat(resource.name),
-          resource.elementsToUpload.filter(x => x)
-        )
+        // keep the requests NOT successfully executed
+        this.saveQueueAPIRequest(this.queueAPIRequests.filter(x => x.error))
         .then(() => {
-          resource.synchronizing = false;
-          if(resource.error) reject();
+          // if the queue is empty, the entire operation was successful
+          this.synchronizing = false;
+          if(this.queueAPIRequests.length) reject();
           else resolve();
         });
       });
     })
+  }
+  /**
+   * Load from the local storage the API requests queue.
+   */
+  protected loadQueueAPIRequest(): Promise<Array<APIRequest>> {
+    return new Promise((resolve) => {
+      if(!this.useQueueAPIRequests) return resolve([]);
+      this.storage.get(QUEUE_API_REQUESTS_KEY)
+      .then((queue: Array<APIRequest>) => {
+        this.queueAPIRequests = queue || [];
+        resolve(this.queueAPIRequests);
+      })
+    });
+  }
+  /**
+   * Update the queue in memory and also save the copy in the local storage.
+   */
+  public saveQueueAPIRequest(queue?: Array<APIRequest>): Promise<void> {
+    this.queueAPIRequests = queue || this.queueAPIRequests;
+    return this.storage.set(QUEUE_API_REQUESTS_KEY, this.queueAPIRequests);
+  }
+  /**
+   * Delete a request stuck in an error.
+   */
+  public deleteRequest(request: APIRequest): void {
+    if(request) {
+      this.queueAPIRequests.splice(this.queueAPIRequests.indexOf(request), 1);
+      this.saveQueueAPIRequest();
+    }
   }
 
   /**
@@ -193,14 +218,17 @@ export class IDEAOfflineService {
   }
 
   /**
-   * Run general synchronization, only if needed, i.e. a resource needs to upload some elements or
-   * the cached content expired.
+   * Run general synchronization, only if needed, i.e. the cached content expired or
+   * we have pending API requests in the queue.
    */
   public synchronizeIfNeeded(): void {
-    if(
-      this.offlineResources.some(x => x.elementsToUpload.length > 0) ||
-      Date.now() > (this.lastSyncAt + SYNC_EXPIRATION_INTERVAL)
-    ) this.synchronize();
+    this.loadQueueAPIRequest()
+    .then(() => {
+      if(
+        this.queueAPIRequests.length ||
+        Date.now() > (this.lastSyncAt + SYNC_EXPIRATION_INTERVAL)
+      ) this.synchronize();
+    });
   }
   /**
    * General synchronization of the whole set of resources (upload+download).
@@ -208,16 +236,10 @@ export class IDEAOfflineService {
   protected synchronize(): void {
     if(this.synchronizing) return;
     this.synchronizing = true;
+    this.errorInLastSync = false;
     // try to upload the elements of all the offline resources
-    Async.each(this.offlineResources, (resource: OfflineResource, done: any) => {
-      this.uploadOfflineResource(resource)
-      .then(() => done())
-      .catch(() => {
-        // show an error alert, but don't make the entire process to fail
-        this.errorInLastSync = true;
-        done();
-      });
-    }, () => {
+    this.runQueueAPIRequests()
+    .then(() => {
       // download (if needed) an updated version of the cached elements for each resource
       Async.each(this.resourcesToCache, (resource: CacheableResource, done: any) => {
         this.cacheResource(resource)
@@ -236,43 +258,43 @@ export class IDEAOfflineService {
           .then(() => this.synchronizing = false);
         }
       });
+    })
+    .catch(() => {
+      this.errorInLastSync = true;
+      this.synchronizing = false;
     });
   }
 }
 
 /**
- * A resource of which the elements are allowed to be created offline (UPLOAD).
+ * The description of an API request to a resource, to use with `IDEAAWSAPI`.
+ * Used for queues of requests.
  */
-export class OfflineResource {
+export interface APIRequest {
   /**
-   * The resource name.
+   * Resource path (e.g. `users` or `teams/${teamId}/users`).
    */
-  public name: string;
+  resource: string;
   /**
-   * The resource description.
+   * The id to identify a specific element of the resource.
    */
-  public description: string;
+  resourceId: string;
   /**
-   * The elements of the resource which are stored offline and needs to be uploaded.
-   * **Each element is the body of a POST request.**
+   * The API request method (e.g. POST, PUT, PATCH).
    */
-  public elementsToUpload: Array<Object>;
+  method: string;
   /**
-   * Runtime attribute to know if the resource is synchronizing.
+   * The body of the request.
    */
-  public synchronizing: boolean;
+  body: Object;
   /**
-   * True if one of the elements failed to upload.
+   * A description to show for the request.
    */
-  public error: boolean;
-
-  constructor(name: string, description?: string) {
-    this.name = name;
-    this.description = description || this.name;
-    this.elementsToUpload = new Array<Object>();
-    this.synchronizing = false;
-    this.error = false;
-  }
+  description?: string;
+  /**
+   * If not null, the request tried to run but it encountered the error.
+   */
+  error?: string;
 }
 
 /**
@@ -280,7 +302,7 @@ export class OfflineResource {
  */
 export class CacheableResource {
   /**
-   * The resource name.
+   * Resource path (e.g. `users` or `teams/${teamId}/users`).
    */
   public name: string;
   /**

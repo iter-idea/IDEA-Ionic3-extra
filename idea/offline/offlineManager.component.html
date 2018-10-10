@@ -36,6 +36,7 @@
       <button
         item-end ion-button icon-right
         [color]="offline.errorInLastSync ? 'danger' : 'primary'"
+        [disabled]="offline.isOffline"
         (click)="offline.synchronize()"
       >
         {{ 'IDEA.OFFLINE.SYNC_NOW' | translate }}
@@ -54,7 +55,6 @@
   </ion-list>
   <ion-list
     class="offlineList"
-    *ngIf="offline.offlineResources.length"
   >
     <ion-list-header
       text-center
@@ -65,14 +65,31 @@
         color="primary"
       ></ion-spinner>
     </ion-list-header>
+  </ion-list>
+  <ion-list
+    class="offlineList"
+    *ngIf="offline.useQueueAPIRequests"
+  >
     <ion-list-header>
       {{ 'IDEA.OFFLINE.UPLOAD' | translate }}
       <p>
-        {{ 'IDEA.OFFLINE.UPLOAD_RESOURCES_EXPLANATION' | translate }}
+        {{ 'IDEA.OFFLINE.UPLOAD_QUEUE_REQUESTS_EXPLANATION' | translate }}
       </p>
     </ion-list-header>
     <ion-item
-      *ngFor="let r of offline.offlineResources"
+      *ngIf="!offline.queueAPIRequests.length"
+    >
+      <i>
+        {{ 'IDEA.OFFLINE.NO_ELEMENTS_TO_UPLOAD' | translate }}
+      </i>
+      <ion-icon
+        item-end small
+        name="checkmark"
+        color="success"
+      ></ion-icon>
+    </ion-item>
+    <ion-item
+      *ngFor="let r of offline.queueAPIRequests"
     >
       {{ r.description }}
       <p
@@ -80,47 +97,30 @@
         color="danger"
         *ngIf="r.error"
       >
-        {{ 'IDEA.OFFLINE.ONE_OF_THE_UPLOADS_FAILED' | translate }}
+        {{ r.error }}
       </p>
       <ion-badge
         item-end
-        *ngIf="r.elementsToUpload.length"
-        [title]="t.instant('IDEA.OFFLINE.NUM_ELEMENTS_TO_SYNC')"
-      >
-        {{ r.elementsToUpload.length }}
-      </ion-badge>
-      <ion-badge
-        item-end
         color="danger"
-        *ngIf="!r.synchronizing && r.error"
-        [title]="t.instant('IDEA.OFFLINE.ONE_OF_THE_UPLOADS_FAILED')"
+        *ngIf="r.error"
+        [title]="t.instant('IDEA.OFFLINE.REQUEST_FAILED')"
       >
         !
       </ion-badge>
       <button
-        ion-button item-end clear icon-only
-        color="quiteDark"
-        *ngIf="!r.synchronizing && r.elementsToUpload.length"
-        [title]="t.instant('IDEA.OFFLINE.SYNC_NOW')"
-        (click)="offline.uploadOfflineResource(r)"
+        ion-button clear item-end icon-only
+        color="danger"
+        *ngIf="r.error"
+        (click)="deleteRequest(r)"
       >
         <ion-icon
-          name="cloud-upload"
-        ></ion-icon>
-      </button>
-      <button
-        ion-button item-end clear icon-only
-        color="success"
-        *ngIf="!r.synchronizing && !r.error && r.elementsToUpload.length == 0"
-      >
-        <ion-icon
-          name="checkmark"
+          name="trash"
         ></ion-icon>
       </button>
       <ion-spinner
         item-end
         name="dots"
-        *ngIf="r.synchronizing"
+        *ngIf="offline.synchronizing"
       ></ion-spinner>
     </ion-item>
   </ion-list>
@@ -146,17 +146,12 @@
       >
         !
       </ion-badge>
-      <button
-        ion-button item-end clear icon-only
+      <ion-icon
+        item-end small
+        name="checkmark"
         color="success"
         *ngIf="!r.synchronizing && !error"
-        [title]="t.instant('IDEA.OFFLINE.SYNC_NOW')"
-        (click)="offline.cacheResource(r)"
-      >
-        <ion-icon
-          name="checkmark"
-        ></ion-icon>
-      </button>
+      ></ion-icon>
       <ion-spinner
         item-end
         name="dots"
