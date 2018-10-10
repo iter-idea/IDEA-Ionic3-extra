@@ -146,50 +146,48 @@ export class IDEAOfflineService {
     return new Promise((resolve, reject) => {
       resource.synchronizing = true;
       resource.error = false;
-      // get (online) the resource elements list and update its cache (index)
-      this.API.getResource(resource.name, { useCache: CacheModes.NETWORK_FIRST })
+      // prepare the array of ids of the elements to cache
+      let toCache = new Array<string>();
+      // get the resource elements ONLINE (list)
+      this.API.getResource(resource.name, { useCache: CacheModes.NO_CACHE })
       .then((cloudElements: Array<any>) => {
-        // prepare the array of ids of the elements to cache
-        let toCache = new Array<string>();
-        // for each element check if the cache is up to date
-        Async.each(cloudElements, (cloudEl: any, done: any) => {
-          // get the localEl (from cache) and confront the mAt values with the cloudEl
-          this.API.getResource(resource.name, { resourceId: cloudEl[resource.idAttribute],
-            useCache: CacheModes.CACHE_ONLY
-          })
-          .then((localEl: any) => {
-            // cloudEl more recent than localEl -> download cloudEl
-            if(!localEl.mAt || cloudEl.mAt > localEl.mAt)
+        // get the resource elements OFFLINE (list)
+        this.API.getResource(resource.name, { useCache: CacheModes.CACHE_ONLY })
+        .then((localElements: Array<any>) => {
+          // prepare the list, keeping the most updated elements between cloud and local version
+          let mostUpdatedElements = cloudElements.map(cloudEl => {
+            let localEl = localElements.find(l =>
+              l[resource.idAttribute] == cloudEl[resource.idAttribute]);
+            if(!localEl) {
+              // !localEl -> download cloudEl
+              toCache.push(cloudEl[resource.idAttribute]);
+              return cloudEl;
+            } else if(!localEl.mAt || !cloudEl.mAt || cloudEl.mAt > localEl.mAt) {
+              // cloudEl more recent than localEl -> download cloudEl
               toCache.push(localEl[resource.idAttribute]);
-            done();
-          })
-          .catch(() => {
-            // !localEl -> download cloudEl
-            toCache.push(cloudEl[resource.idAttribute]);
-            done();
+              return cloudEl;
+            } else return localEl;
           });
-        }, () => {
-          // cache the elements identified
-          Async.eachSeries(toCache, (id: string, done: any) => {
-            // note: the NETWORK_FIRST request will cache the response
-            this.API.getResource(resource.name, { resourceId: id,
-              useCache: CacheModes.NETWORK_FIRST
-            })
-            .then(() => done())
-            .catch((err: Error) => done(err))
-          }, (err: Error) => {
-            resource.error = Boolean(err);
-            resource.synchronizing = false;
-            // in case of errors, we wouldn't know which element had failed: kill the entire process
-            if(err) reject(err);
-            else resolve();
+          // cache the list: keep the most updated version (cloud/local) of each resource
+          this.API.putInCache(resource.name, mostUpdatedElements)
+          .then(() => {
+            // cache the elements identified
+            Async.eachSeries(toCache, (id: string, done: any) => {
+              // note: the NETWORK_FIRST request will cache the response
+              this.API.getResource(resource.name, { resourceId: id,
+                useCache: CacheModes.NETWORK_FIRST
+              })
+              .then(() => done())
+              .catch((err: Error) => done(err))
+            }, (err: Error) => {
+              resource.error = Boolean(err);
+              resource.synchronizing = false;
+              // in case of errors, we wouldn't know which element had failed: kill the entire process
+              if(err) reject(err);
+              else resolve();
+            });
           });
-        })
-      })
-      .catch((err: Error) => {
-        resource.error = true;
-        resource.synchronizing = false;
-        reject(err);
+        });
       });
     });
   }

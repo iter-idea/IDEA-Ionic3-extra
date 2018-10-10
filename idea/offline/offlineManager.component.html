@@ -51,6 +51,11 @@
         {{ 'IDEA.OFFLINE.ERROR_DURING_LAST_SYNC' | translate }}
       </p>
     </ion-list-header>
+  </ion-list>
+  <ion-list
+    class="offlineList"
+    *ngIf="offline.offlineResources.length"
+  >
     <ion-list-header
       text-center
       *ngIf="offline.synchronizing"
@@ -66,13 +71,6 @@
         {{ 'IDEA.OFFLINE.UPLOAD_RESOURCES_EXPLANATION' | translate }}
       </p>
     </ion-list-header>
-    <ion-item
-      *ngIf="!offline.offlineResources.length"
-    >
-      <i>
-        {{ 'IDEA.OFFLINE.NO_RESOURCES_CONFIGURED' | translate }}
-      </i>
-    </ion-item>
     <ion-item
       *ngFor="let r of offline.offlineResources"
     >
@@ -125,19 +123,17 @@
         *ngIf="r.synchronizing"
       ></ion-spinner>
     </ion-item>
+  </ion-list>
+  <ion-list
+    class="offlineList"
+    *ngIf="offline.resourcesToCache.length"
+  >
     <ion-list-header>
       {{ 'IDEA.OFFLINE.DOWNLOAD' | translate }}
       <p>
         {{ 'IDEA.OFFLINE.DOWNLOAD_RESOURCES_EXPLANATION' | translate }}
       </p>
     </ion-list-header>
-    <ion-item
-      *ngIf="!offline.resourcesToCache.length"
-    >
-      <i>
-        {{ 'IDEA.OFFLINE.NO_RESOURCES_CONFIGURED' | translate }}
-      </i>
-    </ion-item>
     <ion-item
       *ngFor="let r of offline.resourcesToCache"
     >
