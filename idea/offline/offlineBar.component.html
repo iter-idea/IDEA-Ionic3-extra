@@ -2,6 +2,7 @@
 <ion-footer
   class="offlineBar"
   *ngIf="offline.isOffline"
+  [style.bottom]="offsetBottom ? '42px' : null"
 >
   <ion-toolbar>
     <ion-title>
