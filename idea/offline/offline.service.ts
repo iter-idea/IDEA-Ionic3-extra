@@ -76,7 +76,12 @@ export class IDEAOfflineService {
     protected API: IDEAAWSAPIService
   ) {
     this.isOffline = !navigator.onLine;
-    window.addEventListener('online',  () => this.isOffline = false);
+    window.addEventListener('online',  () => {
+      this.isOffline = false;
+      // once back online, try a synchronization if needed or if the last one failed
+      if(this.errorInLastSync) this.synchronize();
+      else this.synchronizeIfNeeded();
+    });
     window.addEventListener('offline', () => this.isOffline = true);
     this.synchronizing = false;
     this.errorInLastSync = false;
