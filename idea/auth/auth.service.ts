@@ -11,8 +11,6 @@ declare const IDEA_AWS_COGNITO_WEB_CLIENT_ID: string;
  * Cognito wrapper to manage the authentication flow.
  *
  * Note: in IDEA's Cognito users pools, the email is an alias of the username.
- *
- * **Note well**: the from amazon-cognito-identity-js must be set in `index.html`.
  */
 @Injectable()
 export class IDEAAuthService {
@@ -85,13 +83,16 @@ export class IDEAAuthService {
    * Register a new user a set its default attributes.
    */
   public register(
-    username: string, password: string, attributes: any
+    username: string, password: string, attributes?: any
   ): Promise<Cognito.CognitoUser> {
+    attributes = attributes || {};
     return new Promise((resolve, reject) => {
       // add attributes like the email address and the fullname
       let attrs = [];
       for(let prop in attributes)
         attrs.push(this.prepareUserAttribute(prop, attributes[prop]));
+      // add the email, which is equal to the username for most of our Pools
+      if(!attributes.email) attrs.push(this.prepareUserAttribute('email', username));
       // register the new user to the pool
       this.userPool
       .signUp(username, password, attrs, null,

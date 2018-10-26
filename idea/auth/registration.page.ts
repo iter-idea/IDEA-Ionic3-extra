@@ -21,12 +21,16 @@ declare const IDEA_AUTH_VIDEO: boolean;
 })
 export class IDEARegistrationPage {
   protected showVideo: boolean;
-  protected mode: string; // 'R' register, 'C' confirm registration, 'S' send again the code
+  /**
+   * === email.
+   */
   protected username: string;
   protected password: string;
-  protected email: string;
-  protected name: string;
-  protected code: string;
+  /**
+   * 'R' registration, 'L' resend confirmation link.
+   */
+  protected mode: string;
+  protected privacyPolicyCheck: boolean;
   protected errorMsg: string;
 
   constructor(
@@ -40,56 +44,28 @@ export class IDEARegistrationPage {
   ) {
     this.showVideo = IDEA_AUTH_VIDEO;
     this.mode = 'R';
-    this.username = '';
-    this.password = '';
-    this.email = '';
-    this.name = '';
-    this.code = '';
-    this.errorMsg = '';
+    this.privacyPolicyCheck = false;
   }
   protected ionViewCanEnter(): Promise<void> { return this.API.initAndAuth(false); }
 
-  public register(): void {
-    this.errorMsg = '';
+  /**
+   * Register the new user in cognito (note DynamoDB still need to be managed).
+   */
+  protected register(): void {
+    this.errorMsg = null;
     // check the fields
-    if(this.username.trim().length == 0)
+    if(!(this.username || '').trim())
       this.errorMsg = this.t.instant('IDEA.AUTH.USERNAME_OBLIGATORY');
-    if(this.email.trim().length == 0)
-      this.errorMsg = this.t.instant('IDEA.AUTH.EMAIL_OBLIGATORY');
-    if(this.password.trim().length < 8)
+    if((this.password || '').trim().length < 8)
       this.errorMsg = this.t.instant('IDEA.AUTH.PASSWORD_POLICY_VIOLATION', { n: 8 });
     // output the error, if there was one
-    if(this.errorMsg.length > 0) {
+    if(this.errorMsg) {
       this.message.show(this.t.instant('IDEA.AUTH.REGISTRATION_FAILED'), this.message.TYPE_ERROR);
       return;
     }
     // start the registration
     this.loading.show();
-    this.auth.register(this.username, this.password, { email: this.email, name: this.name.trim() })
-    .then(() => {
-      this.loading.hide();
-      this.mode = 'C'; // confirm the account with the code
-    })
-    .catch(err => {
-      this.loading.hide();
-      this.errorMsg = err.message; // show the error detail on screen (english)
-      this.message.show(this.t.instant('IDEA.AUTH.REGISTRATION_FAILED'),
-        this.message.TYPE_ERROR);
-    });
-  }
-  public confirmRegistration(): void {
-    this.errorMsg = '';
-    if(this.username.trim().length == 0)
-      this.errorMsg = this.t.instant('IDEA.AUTH.USERNAME_OBLIGATORY');
-    if(this.code.trim().length == 0)
-      this.errorMsg = this.t.instant('IDEA.AUTH.CONFIRMATION_CODE_OBLIGATORY');
-    // output the error, if there was one
-    if(this.errorMsg.length > 0) {
-      this.message.show(this.t.instant('IDEA.AUTH.SENDING_FAILED'), this.message.TYPE_ERROR);
-      return;
-    }
-    this.loading.show();
-    this.auth.confirmRegistration(this.username, this.code)
+    this.auth.register(this.username, this.password)
     .then(() => {
       this.loading.hide();
       this.message.show(this.t.instant('IDEA.AUTH.REGISTRATION_COMPLETED'), this.message.TYPE_SUCCESS);
@@ -97,16 +73,22 @@ export class IDEARegistrationPage {
     })
     .catch(err => {
       this.loading.hide();
-      this.errorMsg = this.t.instant('IDEA.AUTH.CONFIRMATION_CODE_INVALID');
-      this.message.show(this.t.instant('IDEA.AUTH.SENDING_FAILED'), this.message.TYPE_ERROR);
+      // show the unexpected error on screen (english)
+      this.errorMsg = err.message;
+      this.message.show(this.t.instant('IDEA.AUTH.REGISTRATION_FAILED'),
+        this.message.TYPE_ERROR);
     });
   }
-  public resendConfirmationCode(): void {
-    this.errorMsg = '';
-    if(this.username.trim().length == 0)
+
+  /**
+   * Resend the link to confirm the email address.
+   */
+  protected resendConfirmationLink(): void {
+    this.errorMsg = null;
+    if(!(this.username || '').trim().length)
       this.errorMsg = this.t.instant('IDEA.AUTH.USERNAME_OBLIGATORY');
     // output the error, if there was one
-    if(this.errorMsg.length > 0) {
+    if(this.errorMsg) {
       this.message.show(this.t.instant('IDEA.AUTH.SENDING_FAILED'), this.message.TYPE_ERROR);
       return;
     }
@@ -114,9 +96,9 @@ export class IDEARegistrationPage {
     this.auth.resendConfirmationCode(this.username)
     .then(() => {
       this.loading.hide();
-      this.message.show(this.t.instant('IDEA.AUTH.CONFIRMATION_CODE_SENT'),
+      this.message.show(this.t.instant('IDEA.AUTH.CONFIRMATION_LINK_SENT'),
         this.message.TYPE_SUCCESS);
-      this.mode = 'C'; // confirm the account with the code
+      this.goToLogin();
     })
     .catch(() => {
       this.loading.hide();
@@ -124,7 +106,11 @@ export class IDEARegistrationPage {
       this.message.show(this.t.instant('IDEA.AUTH.SENDING_FAILED'), this.message.TYPE_ERROR);
     });
   }
-  public goToLogin(): void {
+
+  /**
+   * Go to sign-in page.
+   */
+  protected goToLogin(): void {
     this.navCtrl.setRoot('sign-in');
   }
 }

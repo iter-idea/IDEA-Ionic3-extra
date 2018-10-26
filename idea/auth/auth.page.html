@@ -1,6 +1,6 @@
 <video
-  id="authVideo"
   playsinline loop autoplay
+  id="authVideo"
   muted="true"
   preload="auto"
   *ngIf="showVideo"
@@ -44,6 +44,15 @@
         >
           {{ 'IDEA.TAGLINE' | translate }}
         </h2>
+        <p
+          class="theMessage error"
+          *ngIf="errorMsg"
+        >
+          <b>
+            {{ 'IDEA.AUTH.ERROR' | translate }}.
+          </b>
+          {{ errorMsg }}
+        </p>
         <ion-list>
           <ion-item
             class="anInput"
@@ -61,7 +70,7 @@
               autocorrect="off"
               autocapitalize="none"
               [ngModelOptions]="{ standalone: true }"
-              [placeholder]="t.instant('IDEA.AUTH.USERNAME_OR_EMAIL')"
+              [placeholder]="t.instant('IDEA.AUTH.USERNAME')"
               [(ngModel)]="username"
             ></ion-input>
           </ion-item>
@@ -93,7 +102,7 @@
                 [ngModelOptions]="{ standalone: true }"
                 [(ngModel)]="privacyPolicyCheck"
               ></ion-checkbox>
-              {{ 'IDEA.AUTH.PRIVACY_POLICY_CHECK' | translate }}
+              {{ 'IDEA.AUTH.PRIVACY_POLICY_CHECK_LOGIN' | translate }}
               <a
                 ion-text
                 color="primary"
@@ -130,7 +139,6 @@
         <button
           ion-button outline
           class="aButton alternative"
-          [disabled]="t.instant('IDEA.AUTH.PRIVACY_POLICY_URL') && !privacyPolicyCheck"
         >
           {{ 'IDEA.AUTH.CREATE_AN_ACCOUNT' | translate }}
         </button>
@@ -189,6 +197,7 @@
   >
     <div
       class="someInfo"
+      *ngIf="mode=='L'"
     >
       <a
         ion-text tappable

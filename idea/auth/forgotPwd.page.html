@@ -1,7 +1,8 @@
 <video
-  id="authVideo"
   playsinline loop autoplay
-  muted="true"  preload="auto"
+  id="authVideo"
+  muted="true"
+  preload="auto"
   *ngIf="showVideo"
   [attr.poster]="platform.is('android') ? './assets/imgs/auth.jpg' : null"
 >
@@ -38,6 +39,15 @@
         >
           {{ 'IDEA.AUTH.PASSWORD_RESET_HINT' | translate }}
         </h2>
+        <p
+          class="theMessage error"
+          *ngIf="errorMsg"
+        >
+          <b>
+            {{ 'IDEA.AUTH.ERROR' | translate }}.
+          </b>
+          {{ errorMsg }}
+        </p>
         <ion-list>
           <ion-item
             class="anInput"
@@ -54,7 +64,7 @@
               autocorrect="off"
               autocapitalize="none"
               [ngModelOptions]="{ standalone: true }"
-              [placeholder]="t.instant('IDEA.AUTH.USERNAME_OR_EMAIL')"
+              [placeholder]="t.instant('IDEA.AUTH.USERNAME')"
               [(ngModel)]="username"
             ></ion-input>
           </ion-item>
@@ -110,6 +120,15 @@
         >
           {{ 'IDEA.AUTH.CHANGE_THE_PASSWORD_HINT' | translate:{ 'n':8 } }}
         </h2>
+        <p
+          class="theMessage error"
+          *ngIf="errorMsg"
+        >
+          <b>
+            {{ 'IDEA.AUTH.ERROR' | translate }}.
+          </b>
+          {{ errorMsg }}
+        </p>
         <ion-list>
           <ion-item
             class="anInput"
@@ -126,7 +145,7 @@
               autocorrect="off"
               autocapitalize="none"
               [ngModelOptions]="{ standalone: true }"
-              [placeholder]="t.instant('IDEA.AUTH.USERNAME_OR_EMAIL')"
+              [placeholder]="t.instant('IDEA.AUTH.USERNAME')"
               [(ngModel)]="username"
             ></ion-input>
           </ion-item>

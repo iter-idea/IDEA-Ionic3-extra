@@ -1,3 +1,3 @@
-IDEA Ionic Extra v1.9.3
+IDEA Ionic Extra v1.9.4
 
 *Note:* This **folder** is supposed to be **read-only**; all the changes should be performed over the repo **[IDEA Ionic extra](htps://github.com/uatisdeproblem/IDEA-Ionic-extra)**.

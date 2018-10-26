@@ -21,10 +21,17 @@ declare const IDEA_AUTH_VIDEO: boolean;
 })
 export class IDEAForgotPwdPage {
   protected showVideo: boolean;
-  protected mode: string; // 'R' recover, 'C' confirm
+  /**
+   * 'R' recover, 'C' confirm.
+   */
+  protected mode: string;
+  /**
+   * === email.
+   */
   protected username: string;
   protected code: string;
   protected newPassword: string;
+  protected errorMsg: string;
 
   constructor(
     protected platform: Platform,
@@ -40,7 +47,11 @@ export class IDEAForgotPwdPage {
   }
   protected ionViewCanEnter(): Promise<void> { return this.API.initAndAuth(false); }
 
-  public forgotPassword(): void {
+  /**
+   * "I forgot my password" procedure.
+   */
+  protected forgotPassword(): void {
+    this.errorMsg = null;
     this.loading.show();
     this.auth.forgotPassword(this.username)
     .then(() => {
@@ -51,11 +62,17 @@ export class IDEAForgotPwdPage {
     })
     .catch(() => {
       this.loading.hide();
+      this.errorMsg = this.t.instant('IDEA.AUTH.USER_NOT_FOUND');
       this.message.show(this.t.instant('IDEA.AUTH.USER_NOT_FOUND'),
         this.message.TYPE_ERROR);
     });
   }
-  public confirmPassword(): void {
+
+  /**
+   * Confirm new password.
+   */
+  protected confirmPassword(): void {
+    this.errorMsg = null;
     this.loading.show();
     this.auth.confirmPassword(this.username, this.code, this.newPassword)
     .then(() => {
@@ -66,11 +83,16 @@ export class IDEAForgotPwdPage {
     })
     .catch(() => {
       this.loading.hide();
-      this.message.show(this.t.instant('IDEA.AUTH.CONFIRM_PASSWORD_ERROR'),
+      this.errorMsg = this.t.instant('IDEA.AUTH.CONFIRM_PASSWORD_ERROR', { n: 8 });
+      this.message.show(this.t.instant('IDEA.AUTH.CONFIRM_PASSWORD_ERROR', { n: 8 }),
          this.message.TYPE_ERROR);
     });
   }
-  public goToLogin(): void {
+
+  /**
+   * Go to sign-in page.
+   */
+  protected goToLogin(): void {
     this.navCtrl.setRoot('sign-in');
   }
 }

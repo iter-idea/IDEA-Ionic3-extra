@@ -1,7 +1,7 @@
 <video
-  id="authVideo"
   playsinline loop autoplay
-  muted="true"  preload="auto"
+  id="authVideo"
+  muted="true" preload="auto"
   *ngIf="showVideo"
   [attr.poster]="platform.is('android') ? './assets/imgs/auth.jpg' : null"
 >
@@ -43,30 +43,11 @@
           *ngIf="errorMsg"
         >
           <b>
-            {{ 'IDEA.AUTH.ERROR_DETAIL' | translate }}:
+            {{ 'IDEA.AUTH.ERROR' | translate }}.
           </b>
           {{ errorMsg }}
         </p>
         <ion-list>
-          <ion-item
-            class="anInput"
-          >
-            <ion-label
-              inline
-            >
-              <ion-icon
-                name="body"
-              ></ion-icon>
-            </ion-label>
-            <ion-input
-              type="text"
-              autocorrect="off"
-              autocapitalize="none"
-              [ngModelOptions]="{ standalone: true }"
-              [placeholder]="t.instant('IDEA.AUTH.FULL_NAME')"
-              [(ngModel)]="name"
-            ></ion-input>
-          </ion-item>
           <ion-item
             class="anInput"
           >
@@ -91,25 +72,6 @@
               inline
             >
               <ion-icon
-                name="mail"
-              ></ion-icon>
-            </ion-label>
-            <ion-input
-              type="text"
-              autocorrect="off"
-              autocapitalize="none"
-              [ngModelOptions]="{ standalone: true }"
-              [placeholder]="t.instant('IDEA.AUTH.EMAIL')"
-              [(ngModel)]="email"
-            ></ion-input>
-          </ion-item>
-          <ion-item
-            class="anInput"
-          >
-            <ion-label
-              inline
-            >
-              <ion-icon
                 name="key"
               ></ion-icon>
             </ion-label>
@@ -120,57 +82,45 @@
               [(ngModel)]="password"
             ></ion-input>
           </ion-item>
+          <ion-row
+            class="privacyPolicyAcceptanceBox"
+            *ngIf="t.instant('IDEA.AUTH.PRIVACY_POLICY_URL')"
+          >
+            <ion-col
+              text-center
+            >
+              <ion-checkbox
+                [ngModelOptions]="{ standalone: true }"
+                [(ngModel)]="privacyPolicyCheck"
+              ></ion-checkbox>
+              {{ 'IDEA.AUTH.PRIVACY_POLICY_CHECK_REGISTRATION' | translate }}
+              <a
+                ion-text
+                color="primary"
+                target="_blank"
+                rel="noopener"
+                [href]="t.instant('IDEA.AUTH.PRIVACY_POLICY_URL')"
+              >
+                {{ 'IDEA.AUTH.PRIVACY_POLICY' | translate }}
+              </a>
+            </ion-col>
+          </ion-row>
           <button
             ion-button outline
             class="aButton"
+            [disabled]="t.instant('IDEA.AUTH.PRIVACY_POLICY_URL') && !privacyPolicyCheck"
           >
             {{ 'IDEA.AUTH.SIGN_UP' | translate }}
           </button>
         </ion-list>
-        <div
-          class="someInfo"
-        >
-          <a
-            ion-text tappable
-            (click)="mode='S'"
-          >
-            {{ 'IDEA.AUTH.HAVEN_T_RECEIVED_CONFIRMATION_CODE' | translate }}
-            <b>
-              {{ 'IDEA.AUTH.CLICK_HERE' | translate }}
-            </b>
-          </a>
-        </div>
-        <div
-          class="someInfo"
-        >
-          <a
-            ion-text tappable
-            (click)="mode='C'"
-          >
-            {{ 'IDEA.AUTH.ALREADY_HAVE_A_CONFIRMATION_CODE' | translate }}
-            <b>
-              {{ 'IDEA.AUTH.CLICK_HERE' | translate }}
-            </b>
-          </a>
-        </div>
-        <div
-          class="someInfo"
-        >
-          <a
-            ion-text tappable
-            (click)="goToLogin()"
-          >
-            ≪ {{ 'IDEA.AUTH.BACK_TO_SIGN_IN' | translate }}
-          </a>
-        </div>
       </ion-card>
     </form>
   </div>
   <div
-    *ngIf="mode=='C'"
+    *ngIf="mode=='L'"
   >
     <form
-      (ngSubmit)="confirmRegistration()"
+      (ngSubmit)="resendConfirmationLink()"
     >
       <ion-card
         class="aCard"
@@ -178,104 +128,19 @@
         <h1
           class="theTitle"
         >
-          {{ 'IDEA.AUTH.CONFIRM_A_REGISTRATION' | translate }}
+          {{ 'IDEA.AUTH.CONFIRM_ACCOUNT' | translate }}
         </h1>
         <h2
           class="theTagline"
         >
-          {{ 'IDEA.AUTH.CONFIRM_A_REGISTRATION_HINT' | translate }}
+          {{ 'IDEA.AUTH.RESEND_CONFIRMATION_LINK_HINT' | translate }}
         </h2>
         <p
           class="theMessage error"
           *ngIf="errorMsg"
         >
           <b>
-            {{ 'IDEA.AUTH.ERROR_DETAIL' | translate }}:
-          </b>
-          {{ errorMsg }}
-        </p>
-        <ion-list>
-          <ion-item
-            class="anInput"
-          >
-            <ion-label
-              inline
-            >
-              <ion-icon
-                name="contact"
-              ></ion-icon>
-            </ion-label>
-            <ion-input
-              type="text"
-              autocorrect="off"
-              autocapitalize="none"
-              [ngModelOptions]="{ standalone: true }"
-              [placeholder]="t.instant('IDEA.AUTH.USERNAME_OR_EMAIL')"
-              [(ngModel)]="username"
-            ></ion-input>
-          </ion-item>
-          <ion-item
-            class="anInput"
-          >
-            <ion-label
-              inline
-            >
-              <ion-icon
-                name="disc"
-              ></ion-icon>
-            </ion-label>
-            <ion-input
-              type="text"
-              [ngModelOptions]="{ standalone: true }"
-              [placeholder]="t.instant('IDEA.AUTH.CONFIRMATION_CODE')"
-              [(ngModel)]="code"
-            ></ion-input>
-          </ion-item>
-          <button
-            ion-button outline
-            class="aButton"
-          >
-            {{ 'IDEA.AUTH.CONFIRM_REGISTRATION' | translate }}
-          </button>
-        </ion-list>
-        <div
-          class="someInfo"
-        >
-          <a
-            ion-text tappable
-            (click)="mode='R'"
-          >
-            ≪ {{ 'IDEA.AUTH.BACK_TO_REGISTRATION' | translate }}
-          </a>
-        </div>
-      </ion-card>
-    </form>
-  </div>
-  <div
-    *ngIf="mode=='S'"
-  >
-    <form
-      (ngSubmit)="resendConfirmationCode()"
-    >
-      <ion-card
-        class="aCard"
-      >
-        <h1
-          class="theTitle"
-        >
-          {{ 'IDEA.AUTH.RESEND_CONFIRMATION_CODE' | translate }}
-        </h1>
-        <h2
-          class="theTagline"
-        >
-          {{ 'IDEA.AUTH.RESEND_CONFIRMATION_CODE_HINT' | translate }}
-        </h2>
-        <p
-          class="theMessage error"
-          *ngIf="errorMsg"
-        >
-          <b>
-            {{ 'IDEA.AUTH.ERROR_DETAIL' | translate }}:
+            {{ 'IDEA.AUTH.ERROR' | translate }}.
           </b>
           {{ errorMsg }}
         </p>
@@ -303,20 +168,38 @@
             ion-button outline
             class="aButton"
           >
-            {{ 'IDEA.AUTH.RESEND_CODE' | translate }}
+            {{ 'IDEA.AUTH.RESEND_LINK' | translate }}
           </button>
         </ion-list>
-        <div
-          class="someInfo"
-        >
-          <a
-            ion-text tappable
-            (click)="mode='R'"
-          >
-            ≪ {{ 'IDEA.AUTH.BACK_TO_REGISTRATION' | translate }}
-          </a>
-        </div>
       </ion-card>
     </form>
   </div>
+  <ion-card
+    class="aCard"
+  >
+    <div
+      class="someInfo"
+      *ngIf="mode!='L'"
+    >
+      <a
+        ion-text tappable
+        (click)="mode='L'"
+      >
+        {{ 'IDEA.AUTH.HAVEN_T_RECEIVED_CONFIRMATION_LINK' | translate }}
+        <b>
+          {{ 'IDEA.AUTH.CLICK_HERE' | translate }}
+        </b>
+      </a>
+    </div>
+    <div
+      class="someInfo"
+    >
+      <a
+        ion-text tappable
+        (click)="goToLogin()"
+      >
+        ≪ {{ 'IDEA.AUTH.BACK_TO_SIGN_IN' | translate }}
+      </a>
+    </div>
+  </ion-card>
 </ion-content>
