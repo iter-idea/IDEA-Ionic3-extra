@@ -15,7 +15,6 @@ import { IDEADateUtils } from './dateUtils.service';
 export class IDEACalendarComponent {
   protected selectedDate: Date;
   protected refDate: Date; // date used to center the calendar on the right month
-  protected today: Date;
   protected timePicker: boolean;
   protected title: string;
   protected toolbarBgColor: string;
@@ -36,16 +35,14 @@ export class IDEACalendarComponent {
     protected API: IDEAAWSAPIService,
     protected t: TranslateService
   ) {
-    this.today = new Date();
-    this.selectedDate = new Date(this.navParams.get('refDate') || this.today);
+    this.selectedDate = new Date(this.navParams.get('refDate') || new Date());
     this.title = this.navParams.get('title');
     this.timePicker = this.navParams.get('timePicker');
     this.toolbarBgColor = this.navParams.get('toolbarBgColor');
     this.toolbarColor = this.navParams.get('toolbarColor');
 
     this.refDate = new Date(this.selectedDate);
-    if(!this.timePicker) this.selectedDate.setUTCHours(0, 0, 0, 0);
-    else {
+    if(this.timePicker) {
       this.hour = this.selectedDate.getHours();
       // round the minutes a multiple of 5
       this.minute = Math.ceil(this.selectedDate.getMinutes()/5)*5;
@@ -132,10 +129,14 @@ export class IDEACalendarComponent {
   public showMonths(): void {
     let alert = this.alertCtrl.create();
     alert.setTitle(this.t.instant('IDEA.CALENDAR.MONTH'));
-    for(let i = 1; i <= 12; i++) alert.addInput({
-      type: 'radio', label: this.d.d2lm(`1970-${i}`), value: i.toString(),
-      checked: (i == this.refDate.getMonth()+1)
-    });
+    let month = new Date(`1970-01-01`);
+    for(let i = 1; i <= 12; i++) {
+      alert.addInput({
+        type: 'radio', label: this.d.d2lm(month), value: i.toString(),
+        checked: (i == this.refDate.getMonth()+1)
+      });
+      month.setMonth(month.getMonth()+1);
+    }
     alert.addButton(this.t.instant('COMMON.CANCEL'));
     alert.addButton({ text: this.t.instant('COMMON.SELECT'), handler: month => {
       this.refDate.setMonth(parseInt(month)-1);

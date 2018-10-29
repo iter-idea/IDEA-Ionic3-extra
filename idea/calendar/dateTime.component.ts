@@ -12,6 +12,7 @@ export class IDEADateTimeComponent {
   @Input() protected label: string;
   @Input() protected date: Date;
   @Input() protected timePicker: boolean;
+  @Input() protected placeholder: string;
   @Input() protected toolbarBgColor: string;
   @Input() protected toolbarColor: string;
   @Input() protected disabled: boolean;
@@ -34,11 +35,9 @@ export class IDEADateTimeComponent {
     });
     modal.onDidDismiss(date => {
       if(date !== undefined && date !== null) {
+        console.log(date, date.getTime())
         if(date == '') this.onDateSelected.emit(null);
-        else {
-          if(!this.timePicker) date.setUTCHours(0, 0, 0, 0);
-          this.onDateSelected.emit(date.getTime());
-        }
+        else this.onDateSelected.emit(date.getTime());
       }
     });
     modal.present();

@@ -1,7 +1,7 @@
 <ion-item
   class="dateTimeItem"
   [class.selectable]="!disabled"
-  [title]="value"
+  [title]="date ? timePicker ? d.dt2l(date,false,false,true) : d.d2l(date,false,false,true) : ''"
   (click)="openCalendarPicker()"
 >
   <span
@@ -14,9 +14,10 @@
     class="value"
   >
     {{ date ? timePicker ? d.dt2l(date,false,false,true) : d.d2l(date,false,false,true) : null }}
+    &nbsp;
     <span
       class="placeholder"
-      *ngIf="!value && !disabled"
+      *ngIf="!date && !disabled"
     >
       {{ placeholder }}
     </span>
