@@ -35,7 +35,6 @@ export class IDEADateTimeComponent {
     });
     modal.onDidDismiss(date => {
       if(date !== undefined && date !== null) {
-        console.log(date, date.getTime())
         if(date == '') this.onDateSelected.emit(null);
         else this.onDateSelected.emit(date.getTime());
       }
