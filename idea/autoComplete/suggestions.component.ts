@@ -8,6 +8,7 @@ import { ViewController, NavParams, Searchbar } from 'ionic-angular';
 export class IDEASuggestionsComponent {
   @ViewChild (Searchbar) protected searchbar: Searchbar;
   protected data: Array<Suggestion>;
+  protected sortData: boolean;
   protected searchPlaceholder: string;
   protected noSuggestionsText: string;
   protected allowUnlistedValues: boolean;
@@ -22,6 +23,7 @@ export class IDEASuggestionsComponent {
     protected navParams: NavParams
   ) {
     this.data = this.navParams.get('data') || new Array<Suggestion>();
+    this.sortData = Boolean(this.navParams.get('sortData'));
     this.searchPlaceholder = this.navParams.get('searchPlaceholder') || null;
     this.noSuggestionsText = this.navParams.get('noSuggestionsText') || null;
     this.allowUnlistedValues = this.navParams.get('allowUnlistedValues') || false;
@@ -29,8 +31,9 @@ export class IDEASuggestionsComponent {
     this.toolbarBgColor = this.navParams.get('toolbarBgColor') || null;
     this.toolbarColor = this.navParams.get('toolbarColor') || null;
     this.suggestions = new Array<any>();
-    this.data = this.data.sort((a, b) =>
-      a.name && b.name ? a.name.localeCompare(b.name) : a.value.localeCompare(b.value));
+    if(this.sortData)
+      this.data = this.data.sort((a, b) =>
+        a.name && b.name ? a.name.localeCompare(b.name) : a.value.localeCompare(b.value));
     this.getSuggestions();
   }
   protected ionViewDidEnter(): void {
@@ -67,19 +70,25 @@ export class IDEASuggestionsComponent {
   @HostListener('window:keydown', ['$event'])
   protected navigateComponent(event: KeyboardEvent): void {
     // identify the suggestions list
-    let suggestionsList;
+    let suggestionsList: any;
     if(document.getElementsByClassName('suggestionsList').length)
       suggestionsList = document.getElementsByClassName('suggestionsList')[0];
     // identify the action to execute based on the key pressed
     switch(event.keyCode) {
       case 13:
         // quick confirm of the selection, based on what is on in the component
-        if(suggestionsList && suggestionsList.getElementsByClassName('selected').length)
-          this.select(
-            new Suggestion(suggestionsList.getElementsByClassName('selected')[0]
-              .textContent.trim())                                            // selected
-          );
-        else if(this.allowUnlistedValues && this.searchbar.value)
+        if(suggestionsList && suggestionsList.getElementsByClassName('selected').length) {
+          if(
+            suggestionsList
+            .getElementsByClassName('selected')[0]
+            .getElementsByClassName('key').length
+          )
+            this.select(this.data.find(x => x.value ==
+              suggestionsList
+              .getElementsByClassName('selected')[0]
+              .getElementsByClassName('key')[0].innerHTML.trim()
+            ));                                                               // selected
+        } else if(this.allowUnlistedValues && this.searchbar.value)
           this.select(new Suggestion(this.searchbar.value));                  // loose value
         else if(this.suggestions.length == 0) this.select();                  // cancel
         else this.select(this.suggestions[0]);                                // first element

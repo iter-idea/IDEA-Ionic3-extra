@@ -51,6 +51,7 @@ export class IDEAAutoCompleteComponent {
   @Input() protected noSuggestionsText: string;
   @Input() protected disabled: boolean;
   @Input() protected allowUnlistedValues: boolean;
+  @Input() protected sortData: boolean;
   @Input() protected clearValueAfterSelection: boolean;
   @Input() protected hideIdFromUI: boolean;
   @Input() protected toolbarBgColor: string;
@@ -67,6 +68,7 @@ export class IDEAAutoCompleteComponent {
     this.noSuggestionsText = null;
     this.disabled = false;
     this.allowUnlistedValues = false;
+    this.sortData = false;
     this.clearValueAfterSelection = false;
     this.hideIdFromUI = false;
     this.toolbarBgColor = null;
@@ -107,7 +109,7 @@ export class IDEAAutoCompleteComponent {
     this.convertDataInSuggestions();
     // open the modal to let the user pick a suggestion
     let modal = this.modalCtrl.create(IDEASuggestionsComponent, {
-      data: this.data, searchPlaceholder: this.searchPlaceholder,
+      data: this.data, sortData: this.sortData, searchPlaceholder: this.searchPlaceholder,
       noSuggestionsText: this.noSuggestionsText, allowUnlistedValues: this.allowUnlistedValues,
       clearValueAfterSelection: this.clearValueAfterSelection, hideIdFromUI: this.hideIdFromUI,
       toolbarBgColor: this.toolbarBgColor, toolbarColor: this.toolbarColor

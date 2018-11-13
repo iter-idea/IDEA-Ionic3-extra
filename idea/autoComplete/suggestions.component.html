@@ -56,6 +56,12 @@
       (click)="select(suggestion)"
     >
       <span
+        class="key"
+        style="display: none;"
+      >
+       {{ suggestion.value }}
+      </span>
+      <span
         [innerHTML]='(suggestion.name || suggestion.value) | boldprefix:searchbar.value'
       ></span>
       <p
