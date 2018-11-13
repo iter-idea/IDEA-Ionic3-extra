@@ -9,6 +9,12 @@
     *ngIf="label"
   >
     {{ label }}
+    <span
+      class="obligatory"
+      *ngIf="obligatory && !disabled"
+    >
+      *
+    </span>
   </span>
   <span
     class="value"

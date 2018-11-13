@@ -16,6 +16,7 @@ export class IDEADateTimeComponent {
   @Input() protected toolbarBgColor: string;
   @Input() protected toolbarColor: string;
   @Input() protected disabled: boolean;
+  @Input() protected obligatory: boolean;
   @Output() protected onDateSelected = new EventEmitter<number>();
 
   constructor(

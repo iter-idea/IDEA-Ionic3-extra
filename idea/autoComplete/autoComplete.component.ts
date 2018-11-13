@@ -50,6 +50,7 @@ export class IDEAAutoCompleteComponent {
   @Input() protected searchPlaceholder: string;
   @Input() protected noSuggestionsText: string;
   @Input() protected disabled: boolean;
+  @Input() protected obligatory: boolean;
   @Input() protected allowUnlistedValues: boolean;
   @Input() protected sortData: boolean;
   @Input() protected clearValueAfterSelection: boolean;
@@ -67,6 +68,7 @@ export class IDEAAutoCompleteComponent {
     this.searchPlaceholder = '';
     this.noSuggestionsText = null;
     this.disabled = false;
+    this.obligatory = false;
     this.allowUnlistedValues = false;
     this.sortData = false;
     this.clearValueAfterSelection = false;

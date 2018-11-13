@@ -26,6 +26,10 @@ IDEAAutoCompleteComponent {
       font-size: 2rem;
       color: #999;
     }
+    span.obligatory {
+      font-size: 1.1em;
+      color: color($colors, danger);
+    }
   }
   .selectable {
     cursor: pointer
