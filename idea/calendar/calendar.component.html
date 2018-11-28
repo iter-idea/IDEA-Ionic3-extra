@@ -1,7 +1,5 @@
 <ion-header>
-  <ion-toolbar
-    [color]="toolbarBgColor"
-  >
+  <ion-toolbar>
     <ion-title>
       {{ title }}
     </ion-title>
@@ -10,7 +8,6 @@
     >
       <button
         ion-button icon-only
-        [color]="toolbarColor"
         [title]="t.instant('IDEA.CALENDAR.RESET')"
         (click)="save(true)"
       >
@@ -20,7 +17,6 @@
       </button>
       <button
         ion-button icon-only
-        [color]="toolbarColor"
         (click)="save()"
       >
         <ion-icon
@@ -48,7 +44,7 @@
           >
             <button
               ion-button icon-only clear
-              color="dark"
+              class="dark"
               (click)="addYears(-1)"
             >
               <ion-icon
@@ -74,7 +70,7 @@
           >
             <button
               ion-button icon-only clear
-              color="dark"
+              class="dark"
               (click)="addYears(+1)"
             >
               <ion-icon
@@ -96,7 +92,7 @@
           >
             <button
               ion-button icon-only clear
-              color="dark"
+              class="dark"
               (click)="addMonths(-1)"
             >
               <ion-icon
@@ -115,7 +111,7 @@
           >
             <button
               ion-button icon-only clear
-              color="dark"
+              class="dark"
               (click)="addMonths(+1)"
             >
               <ion-icon
@@ -250,7 +246,6 @@
 <ion-footer>
   <ion-toolbar
     tappable
-    [color]="toolbarBgColor"
     (click)="save()"
   >
     <ion-title

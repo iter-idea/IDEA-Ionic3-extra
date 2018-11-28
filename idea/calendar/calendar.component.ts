@@ -17,8 +17,6 @@ export class IDEACalendarComponent {
   protected refDate: Date; // date used to center the calendar on the right month
   protected timePicker: boolean;
   protected title: string;
-  protected toolbarBgColor: string;
-  protected toolbarColor: string;
 
   // support
   protected calendarGrid: Array<Array<Date>>;
@@ -38,8 +36,6 @@ export class IDEACalendarComponent {
     this.selectedDate = new Date(this.navParams.get('refDate') || new Date());
     this.title = this.navParams.get('title');
     this.timePicker = this.navParams.get('timePicker');
-    this.toolbarBgColor = this.navParams.get('toolbarBgColor');
-    this.toolbarColor = this.navParams.get('toolbarColor');
 
     this.refDate = new Date(this.selectedDate);
     if(this.timePicker) {

@@ -13,6 +13,9 @@ IDEADateTimeComponent {
       font-size: 1.2rem;
       margin-bottom: 7px;
     }
+    ion-icon[item-start] {
+      margin-top: 10px;
+    }
     .value {
       min-height: 20px;
       color: $text-color;

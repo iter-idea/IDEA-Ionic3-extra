@@ -9,12 +9,11 @@ import { IDEADateUtils } from './dateUtils.service';
   templateUrl: 'dateTime.component.html'
 })
 export class IDEADateTimeComponent {
-  @Input() protected label: string;
   @Input() protected date: Date;
   @Input() protected timePicker: boolean;
+  @Input() protected label: string;
+  @Input() protected icon: string;
   @Input() protected placeholder: string;
-  @Input() protected toolbarBgColor: string;
-  @Input() protected toolbarColor: string;
   @Input() protected disabled: boolean;
   @Input() protected obligatory: boolean;
   @Output() protected onDateSelected = new EventEmitter<number>();
@@ -31,8 +30,7 @@ export class IDEADateTimeComponent {
   protected openCalendarPicker(): void {
     if(this.disabled) return;
     let modal = this.modalCtrl.create('idea-calendar', {
-      refDate: this.date, title: this.label, timePicker: this.timePicker,
-      toolbarBgColor: this.toolbarBgColor, toolbarColor: this.toolbarColor
+      refDate: this.date, title: this.label, timePicker: this.timePicker
     });
     modal.onDidDismiss(date => {
       if(date !== undefined && date !== null) {
@@ -41,5 +39,16 @@ export class IDEADateTimeComponent {
       }
     });
     modal.present();
+  }
+
+  /**
+   * Calculate the value to show.
+   */
+  protected getValue(): string {
+    return this.date ?
+      this.timePicker ?
+        this.d.dt2l(this.date, false, false, true) :
+        this.d.d2l(this.date, false, false, true)
+    : '';
   }
 }

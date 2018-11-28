@@ -1,12 +1,17 @@
 <ion-item
   class="dateTimeItem"
-  [class.selectable]="!disabled"
-  [title]="date ? timePicker ? d.dt2l(date,false,false,true) : d.d2l(date,false,false,true) : ''"
+  [title]="label"
   (click)="openCalendarPicker()"
 >
+  <ion-icon
+    item-start
+    *ngIf="icon"
+    [name]="icon"
+  ></ion-icon>
   <span
     class="itemLabel"
-    *ngIf="label"
+    *ngIf="!icon && label"
+    [class.selectable]="!disabled"
   >
     {{ label }}
     <span
@@ -18,12 +23,14 @@
   </span>
   <span
     class="value"
+    [class.selectable]="!disabled"
   >
-    {{ date ? timePicker ? d.dt2l(date,false,false,true) : d.d2l(date,false,false,true) : null }}
+    {{ getValue() }}
     &nbsp;
     <span
       class="placeholder"
-      *ngIf="!date && !disabled"
+      *ngIf="!getValue() && !disabled"
+      [class.selectable]="!disabled"
     >
       {{ placeholder }}
     </span>
@@ -33,5 +40,6 @@
     name="md-arrow-dropdown"
     class="selectIcon"
     *ngIf="!disabled"
+    [class.selectable]="!disabled"
   ></ion-icon>
 </ion-item>
