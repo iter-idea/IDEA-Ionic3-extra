@@ -1,0 +1,24 @@
+<ion-item
+  class="multiCheck"
+  [class.selectable]="!disabled"
+  [title]="label"
+  (click)="fetchDataAndOpenModal()"
+>
+  <span
+    class="itemLabel"
+    *ngIf="label"
+  >
+    {{ label }}
+  </span>
+  <span
+    class="description"
+  >
+    {{ getPreview() }}
+  </span>
+  <ion-icon
+    item-end
+    name="md-arrow-dropdown"
+    class="selectIcon"
+    *ngIf="!disabled"
+  ></ion-icon>
+</ion-item>

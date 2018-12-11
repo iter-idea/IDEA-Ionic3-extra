@@ -1,0 +1,29 @@
+IDEAMultiCheckComponent {
+  .multiCheck {
+    .itemLabel, .value {
+      align-self: stretch;
+      width: auto;
+      max-width: 100%;
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .itemLabel {
+      font-size: 1.2rem;
+      margin-bottom: 7px;
+    }
+    .description {
+      min-height: 20px;
+      color: $text-color;
+    }
+    .selectIcon {
+      margin: 20px 5px 0 0;
+      font-size: 2rem;
+      color: #999;
+    }
+  }
+  .selectable {
+    cursor: pointer
+  }
+}

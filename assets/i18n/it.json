@@ -70,8 +70,11 @@
       "SET_DATE": "Scegli una data",
       "SET_TIME": "Scegli un orario"
     },
-    "CHECKER": {
-      "DONE": "Fatto"
+    "MULTICHECK": {
+      "DONE": "Fatto",
+      "ALL": "Tutti",
+      "NUM_ELEMENTS_SELECTED": "{{num}} elementi selezionati",
+      "NO_ELEMENT_FOUND": "Nessun elemento trovato"
     },
     "LOADING": {
       "PLEASE_WAIT": "Attendere prego..."

@@ -5,8 +5,7 @@ export * from './auth/forgotPwd.page.module';
 
 export * from './calendar/calendar.component.module';
 
-export * from './checker/checker.component.module';
-export * from './checker/check.model';
+export * from './multiCheck/multiCheck.component.module';
 
 export * from './mde/mde.component.module';
 

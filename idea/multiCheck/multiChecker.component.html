@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons
+      left
+    >
+      <button
+        ion-button icon-only
+        (click)="cancel()"
+      >
+        <ion-icon
+          name="ios-arrow-down"
+        ></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-searchbar
+      [debounce]="100"
+      [placeholder]="searchPlaceholder"
+      (ionInput)="filterChecks($event)"
+    ></ion-searchbar>
+    <ion-buttons
+      start
+    >
+      <button
+        ion-button icon-only
+        (click)="checkAll(false)"
+      >
+        <ion-icon
+          name="square-outline"
+        ></ion-icon>
+      </button>
+      <button
+        ion-button icon-only
+        (click)="checkAll(true)"
+      >
+        <ion-icon
+          name="checkbox-outline"
+        ></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons
+      end
+    >
+      <button
+        ion-button clear
+        (click)="confirm()"
+      >
+        {{ 'IDEA.MULTICHECK.DONE' | translate }}
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list
+    class="checksList"
+  >
+    <ion-item
+      *ngIf="!filteredChecks.length"
+      class="noChecksFound"
+    >
+      {{ noElementsText || ('IDEA.MULTICHECK.NO_ELEMENT_FOUND' | translate) }}
+    </ion-item>
+    <ion-item
+      tappable
+      class="check"
+      *ngFor="let check of filteredChecks"
+    >
+      <ion-label>
+        {{ check.name }}
+      </ion-label>
+      <ion-checkbox
+        [(ngModel)]="check.checked"
+      ></ion-checkbox>
+    </ion-item>
+  </ion-list>
+</ion-content>
