@@ -1,7 +1,7 @@
 <ion-item
   class="multiCheck"
   [class.selectable]="!disabled"
-  [title]="label"
+  [title]="searchPlaceholder || label"
   (click)="fetchDataAndOpenModal()"
 >
   <span
