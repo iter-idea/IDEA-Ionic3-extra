@@ -46,6 +46,7 @@ export class IDEAAutoCompleteComponent {
   @Input() protected dataProvider: any;
   @Input() protected type: string;
   @Input() protected label: string;
+  @Input() protected icon: string;
   @Input() protected placeholder: string;
   @Input() protected searchPlaceholder: string;
   @Input() protected noSuggestionsText: string;
@@ -55,14 +56,13 @@ export class IDEAAutoCompleteComponent {
   @Input() protected sortData: boolean;
   @Input() protected clearValueAfterSelection: boolean;
   @Input() protected hideIdFromUI: boolean;
-  @Input() protected toolbarBgColor: string;
-  @Input() protected toolbarColor: string;
   @Output() protected onSelect: EventEmitter<Suggestion>;
 
   constructor(protected modalCtrl: ModalController) {
     this.data = new Array<Suggestion>();
     this.dataProvider = null;
     this.label = null;
+    this.icon = null;
     this.description = '';
     this.placeholder = '';
     this.searchPlaceholder = '';
@@ -73,8 +73,6 @@ export class IDEAAutoCompleteComponent {
     this.sortData = false;
     this.clearValueAfterSelection = false;
     this.hideIdFromUI = false;
-    this.toolbarBgColor = null;
-    this.toolbarColor = null;
     this.onSelect = new EventEmitter<Suggestion>();
   }
 
@@ -113,8 +111,7 @@ export class IDEAAutoCompleteComponent {
     let modal = this.modalCtrl.create(IDEASuggestionsComponent, {
       data: this.data, sortData: this.sortData, searchPlaceholder: this.searchPlaceholder,
       noSuggestionsText: this.noSuggestionsText, allowUnlistedValues: this.allowUnlistedValues,
-      clearValueAfterSelection: this.clearValueAfterSelection, hideIdFromUI: this.hideIdFromUI,
-      toolbarBgColor: this.toolbarBgColor, toolbarColor: this.toolbarColor
+      clearValueAfterSelection: this.clearValueAfterSelection, hideIdFromUI: this.hideIdFromUI
     });
     modal.onDidDismiss((selection: Suggestion) => {
       // manage a cancel option (modal dismission or cancel button)

@@ -13,8 +13,6 @@ export class IDEASuggestionsComponent {
   protected noSuggestionsText: string;
   protected allowUnlistedValues: boolean;
   protected hideIdFromUI: boolean;
-  protected toolbarBgColor: string;
-  protected toolbarColor: string;
 
   protected suggestions: Array<Suggestion>;
 
@@ -28,8 +26,6 @@ export class IDEASuggestionsComponent {
     this.noSuggestionsText = this.navParams.get('noSuggestionsText') || null;
     this.allowUnlistedValues = this.navParams.get('allowUnlistedValues') || false;
     this.hideIdFromUI = this.navParams.get('hideIdFromUI') || false;
-    this.toolbarBgColor = this.navParams.get('toolbarBgColor') || null;
-    this.toolbarColor = this.navParams.get('toolbarColor') || null;
     this.suggestions = new Array<any>();
     if(this.sortData)
       this.data = this.data.sort((a, b) =>

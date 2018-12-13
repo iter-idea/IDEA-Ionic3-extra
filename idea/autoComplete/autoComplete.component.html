@@ -1,12 +1,17 @@
 <ion-item
   class="autoCompleteItem"
-  [class.selectable]="!disabled"
-  [title]="description"
+  [title]="placeholder || description"
   (click)="fetchDataAndOpenModal()"
 >
+  <ion-icon
+    item-start
+    *ngIf="icon"
+    [name]="icon"
+  ></ion-icon>
   <span
     class="itemLabel"
-    *ngIf="label"
+    *ngIf="!icon && label"
+    [class.selectable]="!disabled"
   >
     {{ label }}
     <span
@@ -18,6 +23,7 @@
   </span>
   <span
     class="description"
+    [class.selectable]="!disabled"
   >
     <span
       class="placeholder"
@@ -32,5 +38,6 @@
     name="md-arrow-dropdown"
     class="selectIcon"
     *ngIf="!disabled"
+    [class.selectable]="!disabled"
   ></ion-icon>
 </ion-item>
