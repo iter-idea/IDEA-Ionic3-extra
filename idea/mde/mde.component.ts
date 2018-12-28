@@ -15,7 +15,6 @@ declare var SimpleMDE: any;
   templateUrl: 'mde.component.html'
 })
 export class IDEAMarkdownEditorComponent {
-  protected toolbarColor: string;
   protected id: string;
   protected title: string;
   protected header: string
@@ -29,7 +28,6 @@ export class IDEAMarkdownEditorComponent {
     protected API: IDEAAWSAPIService,
     protected t: TranslateService
   ) {
-    this.toolbarColor = this.navParams.get('toolbarColor') || 'dark';
     this.id = this.navParams.get('id') || 'mde';
     this.title = this.navParams.get('title') || this.t.instant('IDEA.MDE.TITLE');
     this.header = this.navParams.get('header');
@@ -37,7 +35,6 @@ export class IDEAMarkdownEditorComponent {
     this.variables = this.navParams.get('variables') || [];
     this.mde = null;
   }
-  protected ionViewCanEnter(): Promise<void> { return this.API.initAndAuth(false); }
   protected ionViewDidEnter(): void {
     this.mde = new SimpleMDE({
       autofocus: this.navParams.get('autofocus'),
@@ -52,10 +49,16 @@ export class IDEAMarkdownEditorComponent {
     });
   }
 
-  protected close() {
+  /**
+   * Close without saving.
+   */
+  protected close(): void {
     this.viewCtrl.dismiss();
   }
-  protected confirm() {
+  /**
+   * Save and close
+   */
+  protected confirm(): void {
     this.viewCtrl.dismiss(this.mde.value());
   }
 }

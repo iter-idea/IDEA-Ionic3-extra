@@ -1,24 +1,66 @@
 <ion-header>
-  <ion-toolbar color="{{ toolbarColor }}">
-    <ion-buttons left>
-      <button ion-button icon-only color="light" (click)="close()">
-        <ion-icon name="close"></ion-icon>
+  <ion-toolbar
+  >
+    <ion-buttons
+      left
+    >
+      <button
+        ion-button icon-only
+        color="light"
+        (click)="close()"
+      >
+        <ion-icon
+          name="close"
+        ></ion-icon>
       </button>
     </ion-buttons>
-    <ion-title>{{ title }}</ion-title>
-    <ion-buttons right>
-      <button ion-button icon-only color="light" (click)="confirm()">
-        <ion-icon name="checkmark"></ion-icon>
+    <ion-title>
+      {{ title }}
+    </ion-title>
+    <ion-buttons
+      right
+    >
+      <button
+        ion-button icon-only
+        color="light"
+        (click)="confirm()"
+      >
+        <ion-icon
+          name="checkmark"
+        ></ion-icon>
       </button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<ion-content padding>
-  <h2 *ngIf="header" class="header">{{ header }}</h2>
-  <p *ngIf="description" class="description">{{ description }}</p>
-  <p *ngIf="variables?.length" class="variables">
-    <b>{{ 'IDEA.MDE.VARIABLES' | translate }}:</b>
-    <span *ngFor="let v of variables">{{ v+' ' }}</span>
+<ion-content
+  padding
+>
+  <h2
+    class="header"
+    *ngIf="header"
+  >
+    {{ header }}
+  </h2>
+  <p
+    class="description"
+    *ngIf="description"
+  >
+    {{ description }}
   </p>
-  <textarea [id]="id"></textarea>
+  <p
+    class="variables"
+    *ngIf="variables?.length"
+  >
+    <b>
+      {{ 'IDEA.MDE.VARIABLES' | translate }}:
+    </b>
+    <span
+      *ngFor="let v of variables"
+    >
+      {{ v+' ' }}
+    </span>
+  </p>
+  <textarea
+    [id]="id"
+  ></textarea>
 </ion-content>
