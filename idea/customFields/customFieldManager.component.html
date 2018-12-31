@@ -1,7 +1,5 @@
 <ion-header>
-  <ion-toolbar
-    [color]="toolbarBgColor"
-  >
+  <ion-toolbar>
     <ion-title>
       {{ 'IDEA.CUSTOM_FIELDS.MANAGE_FIELD' | translate }}
     </ion-title>
@@ -10,7 +8,6 @@
     >
       <button
         ion-button icon-only
-        [color]="toolbarColor"
         (click)="delete()"
       >
         <ion-icon
@@ -19,7 +16,6 @@
       </button>
       <button
         ion-button icon-only
-        [color]="toolbarColor"
         (click)="close()"
       >
         <ion-icon

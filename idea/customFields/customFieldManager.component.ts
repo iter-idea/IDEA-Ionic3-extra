@@ -15,8 +15,6 @@ export class IDEACustomFieldManagerComponent {
   protected defaultLang: string;
   protected currentLang: string;
   protected availableLangs: Array<string>;
-  protected toolbarBgColor: string;
-  protected toolbarColor: string;
 
   protected errors: Array<string>;
   protected FIELD_TYPES: Array<string> = Object.keys(IdeaX.CustomFieldTypes);
@@ -35,8 +33,6 @@ export class IDEACustomFieldManagerComponent {
     this.field.load(this.navParams.get('field'), this.availableLangs); // we work on a copy
     this.fieldKey = this.navParams.get('fieldKey');
     if(!this.field || !this.fieldKey) this.close();
-    this.toolbarBgColor = this.navParams.get('toolbarBgColor');
-    this.toolbarColor = this.navParams.get('toolbarColor');
     //
     this.errors = Array<string>();
     this.enumAsString = (this.field.enum || []).join(', ');
