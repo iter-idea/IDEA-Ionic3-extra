@@ -1,36 +1,72 @@
 <ion-header>
-  <ion-toolbar color="{{ toolbarColor }}">
-    <ion-title>{{ title }}</ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only color="primary" (click)="addElement()">
-        <ion-icon name="add"></ion-icon>
+  <ion-toolbar>
+    <ion-title>
+      {{ title }}
+    </ion-title>
+    <ion-buttons
+      end
+    >
+      <button
+        ion-button icon-only
+        [title]="t.instant('IDEA.LIST.NEW_ELEMENT')"
+        (click)="addElement()"
+      >
+        <ion-icon
+          name="add"
+        ></ion-icon>
+      </button>
+      <button
+        ion-button icon-only
+        [title]="t.instant('IDEA.LIST.CANCEL_AND_CLOSE')"
+        (click)="close()"
+      >
+        <ion-icon
+          name="close"
+        ></ion-icon>
       </button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-list class="theList">
-    <ion-item *ngIf="!list.length">
-      <i>{{ 'IDEA.LIST.NO_ELEMENTS_HINT' | translate }}</i>
+  <ion-list
+    class="theList"
+  >
+    <ion-item
+      *ngIf="!list.length"
+    >
+      <i>
+        {{ 'IDEA.LIST.NO_ELEMENTS_IN_LIST' | translate }}
+      </i>
     </ion-item>
-    <ion-item *ngFor="let element of list">
+    <ion-item
+      *ngFor="let element of list"
+    >
       {{ element }}
-      <button item-right ion-button clear icon-only color="danger"
-        title="{{ 'IDEA.LIST.DELETE' | translate }}"
+      <button
+        item-right ion-button clear icon-only
+        color="danger"
+        [title]="t.instant('IDEA.LIST.DELETE_ELEMENT')"
         (click)="removeElement(element)"
       >
-        <ion-icon name="trash"></ion-icon>
+        <ion-icon
+          name="trash"
+        ></ion-icon>
       </button>
     </ion-item>
   </ion-list>
 </ion-content>
-<ion-fab left bottom>
-  <button ion-fab mini color="danger" (click)="close()">
-    <ion-icon name="close"></ion-icon>
-  </button>
-</ion-fab>
-<ion-fab right bottom>
-  <button ion-fab color="primary" (click)="close(true)">
-    <ion-icon name="checkmark"></ion-icon>
-  </button>
-</ion-fab>
+<ion-footer>
+  <ion-toolbar
+    tappable
+    [title]="t.instant('IDEA.LIST.SAVE_AND_CLOSE')"
+    (click)="close(true)"
+  >
+    <ion-title
+      text-center
+    >
+      <ion-icon
+        name="checkmark"
+      ></ion-icon>
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>

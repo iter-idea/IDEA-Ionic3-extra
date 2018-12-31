@@ -134,6 +134,15 @@
       "REQUEST_FAILED": "Request failed; try again or delete it",
       "NO_ELEMENTS_TO_UPLOAD": "No elements to upload",
       "DELETION_IS_IRREVERSIBLE": "The deletion is irreversible"
+    },
+    "LIST": {
+      "LIST": "List",
+      "ELEMENT": "Element",
+      "NEW_ELEMENT": "New element",
+      "NO_ELEMENTS_IN_LIST": "No elements in the list",
+      "DELETE_ELEMENT": "Delete element",
+      "SAVE_AND_CLOSE": "Save and close",
+      "CANCEL_AND_CLOSE": "Cancel and close"
     }
   }
 }
