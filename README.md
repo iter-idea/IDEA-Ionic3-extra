@@ -1,5 +1,8 @@
-# IDEA Ionic extra
-IDEA's extra components and services built on Ionic.
+# IDEA Ionic 3 extra
+
+**The newest version, compatible with Ionic 4+, [is available here](https://github.com/uatisdeproblem/IDEA-Ionic-extra).**
+
+IDEA's extra components and services built on Ionic 3.
 
 ## Includes
 
